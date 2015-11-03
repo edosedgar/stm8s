@@ -1,0 +1,2261 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             18/May/2013  14:03:54 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\main #
+#                    .c                                                       #
+#    Command line =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\main #
+#                    .c -e -Ol --no_cse --no_unroll --no_inline               #
+#                    --no_code_motion --no_tbaa --no_cross_call --debug       #
+#                    --code_model medium --data_model medium -o               #
+#                    E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Debu #
+#                    g\Obj\ --dlib_config "D:\Program_Files\IAR Systems\IAR   #
+#                    for STM8\stm8\LIB\dlstm8mmn.h" -lC                       #
+#                    E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Debu #
+#                    g\List\ -lA E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Pr #
+#                    oject_2\Debug\List\ --vregs 16                           #
+#    List file    =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Debu #
+#                    g\List\main.lst                                          #
+#    Object file  =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Debu #
+#                    g\Obj\main.o                                             #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\main.c
+      1          #include "stm8s105c6.h"   //All registers and interrupts declared in "stm8s105c6.h"
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void EnableInterrupts()
+   \                     EnableInterrupts:
+   \   000000 9A                    RIM
+   \   000001 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DisableInterrupts()
+   \                     DisableInterrupts:
+   \   000000 9B                    SIM
+   \   000001 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer1(void)
+   \                     Timer1:
+   \                     _interrupt_13:
+   \   000000 72115255              BRES 0x5255,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer2(void)
+   \                     Timer2:
+   \                     _interrupt_15:
+   \   000000 72115302              BRES 0x5302,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer3(void)
+   \                     Timer3:
+   \                     _interrupt_17:
+   \   000000 72115322              BRES 0x5322,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer4(void)
+   \                     Timer4:
+   \                     _interrupt_25:
+   \   000000 72115342              BRES 0x5342,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void ADC(void)
+   \                     ADC:
+   \                     _interrupt_24:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void AWU(void)
+   \                     AWU:
+   \                     _interrupt_3:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI0(void)
+   \                     EXTI0:
+   \                     _interrupt_5:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI1(void)
+   \                     EXTI1:
+   \                     _interrupt_6:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI2(void)
+   \                     EXTI2:
+   \                     _interrupt_7:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI3(void)
+   \                     EXTI3:
+   \                     _interrupt_8:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI4(void)
+   \                     EXTI4:
+   \                     _interrupt_9:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void SPIEndTransfer(void)
+   \                     SPIEndTransfer:
+   \                     _interrupt_12:
+   \   000000 80                    IRET
+      2          #include "initperiphery.h"//File with initialization periphery
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void InitPortsIO()
+   \                     InitPortsIO:
+   \   000000 35005002              MOV       L:0x5002, #0x0
+   \   000004 35005003              MOV       L:0x5003, #0x0
+   \   000008 35005000              MOV       L:0x5000, #0x0
+   \   00000C 35005007              MOV       L:0x5007, #0x0
+   \   000010 35005008              MOV       L:0x5008, #0x0
+   \   000014 35005005              MOV       L:0x5005, #0x0
+   \   000018 3570500C              MOV       L:0x500c, #0x70
+   \   00001C 3570500D              MOV       L:0x500d, #0x70
+   \   000020 3500500A              MOV       L:0x500a, #0x0
+   \   000024 35015011              MOV       L:0x5011, #0x1
+   \   000028 35015012              MOV       L:0x5012, #0x1
+   \   00002C 3500500F              MOV       L:0x500f, #0x0
+   \   000030 35205016              MOV       L:0x5016, #0x20
+   \   000034 35205017              MOV       L:0x5017, #0x20
+   \   000038 35205014              MOV       L:0x5014, #0x20
+   \   00003C 35035020              MOV       L:0x5020, #0x3
+   \   000040 35035021              MOV       L:0x5021, #0x3
+   \   000044 3501501E              MOV       L:0x501e, #0x1
+   \   000048 87                    RETF
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void InitSystemClock()
+   \                     InitSystemClock:
+   \   000000 350150C1              MOV       L:0x50c1, #0x1
+   \   000004 350250C5              MOV       L:0x50c5, #0x2
+   \                     ??InitSystemClock_0:
+   \   000008 720350C1FB            BTJF      L:0x50c1, #0x1, L:??InitSystemClock_0
+   \   00000D 350050C6              MOV       L:0x50c6, #0x0
+   \   000011 35B450C4              MOV       L:0x50c4, #0xb4
+   \                     ??InitSystemClock_1:
+   \   000015 720750C5FB            BTJF      L:0x50c5, #0x3, L:??InitSystemClock_1
+   \   00001A 35FF50C7              MOV       L:0x50c7, #0xff
+   \   00001E 87                    RETF
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void InitSPI()
+   \                     InitSPI:
+   \   000000 35065200              MOV       L:0x5200, #0x6
+   \   000004 35035201              MOV       L:0x5201, #0x3
+   \   000008 721C5200              BSET      L:0x5200, #0x6
+   \   00000C 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitTimers()
+   \                     InitTimers:
+   \   000000 35005260              MOV       L:0x5260, #0x0
+   \   000004 35005261              MOV       L:0x5261, #0x0
+   \   000008 35FF5262              MOV       L:0x5262, #0xff
+   \   00000C 35FF5263              MOV       L:0x5263, #0xff
+   \   000010 35815250              MOV       L:0x5250, #0x81
+   \   000014 35015254              MOV       L:0x5254, #0x1
+   \   000018 3501530C              MOV       L:0x530c, #0x1
+   \   00001C 35FF530D              MOV       L:0x530d, #0xff
+   \   000020 35FF530E              MOV       L:0x530e, #0xff
+   \   000024 35815300              MOV       L:0x5300, #0x81
+   \   000028 35015301              MOV       L:0x5301, #0x1
+   \   00002C 3507532A              MOV       L:0x532a, #0x7
+   \   000030 35FF532B              MOV       L:0x532b, #0xff
+   \   000034 35FF532C              MOV       L:0x532c, #0xff
+   \   000038 35815320              MOV       L:0x5320, #0x81
+   \   00003C 35015321              MOV       L:0x5321, #0x1
+   \   000040 35015345              MOV       L:0x5345, #0x1
+   \   000044 35FF5346              MOV       L:0x5346, #0xff
+   \   000048 35815340              MOV       L:0x5340, #0x81
+   \   00004C 35015341              MOV       L:0x5341, #0x1
+   \   000050 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitADC()
+   \                     InitADC:
+   \   000000 35295400              MOV       L:0x5400, #0x29
+   \   000004 35425401              MOV       L:0x5401, #0x42
+   \   000008 35405402              MOV       L:0x5402, #0x40
+   \   00000C 35005403              MOV       L:0x5403, #0x0
+   \   000010 72105401              BSET      L:0x5401, #0x0
+   \   000014 87                    RETF
+      3          #include "functions.h"    //Default functions for normal working
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void Delay(unsigned long)
+   \                     Delay:
+   \   000000 2004                  JRA       L:??Delay_0
+   \                     ??Delay_1:
+   \   000002 8D000000              CALLF     L:?dec32_l0_l0
+   \                     ??Delay_0:
+   \   000006 BE00                  LDW       X, S:?w0
+   \   000008 A30000                CPW       X, #0x0
+   \   00000B 2605                  JRNE      L:??Delay_2
+   \   00000D BE00                  LDW       X, S:?w1
+   \   00000F A30000                CPW       X, #0x0
+   \                     ??Delay_2:
+   \   000012 26EE                  JRNE      L:??Delay_1
+   \   000014 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __monitor void SendSPI(char)
+   \                     SendSPI:
+   \   000000 8A                    PUSH      CC
+   \   000001 9B                    SIM
+   \   000002 C75204                LD        L:0x5204, A
+   \                     ??SendSPI_0:
+   \   000005 720E5203FB            BTJT      L:0x5203, #0x7, L:??SendSPI_0
+   \   00000A 86                    POP       CC
+   \   00000B 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func char DigitToChar(unsigned int)
+   \                     DigitToChar:
+   \   000000 1C0030                ADDW      X, #0x30
+   \   000003 9F                    LD        A, XL
+   \   000004 87                    RETF
+      4          #include "Nokia1616LCD.c"
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol1[35]
+   \                     Symbol1:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1
+   \   000017 010101000000          DC8 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol2[35]
+   \                     Symbol2:
+   \   000000 010101010001          DC8 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol3[35]
+   \                     Symbol3:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol4[35]
+   \                     Symbol4:
+   \   000000 010101010000          DC8 1, 1, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0
+   \   000017 000100010000          DC8 0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol5[35]
+   \                     Symbol5:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol6[35]
+   \                     Symbol6:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol7[35]
+   \                     Symbol7:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1
+   \   000017 010101000000          DC8 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol8[35]
+   \                     Symbol8:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol9[35]
+   \                     Symbol9:
+   \   000000 000101010000          DC8 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+   \   000017 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol10[35]
+   \                     Symbol10:
+   \   000000 000001010100          DC8 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0
+   \   000017 010001000001          DC8 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol11[35]
+   \                     Symbol11:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1
+   \   000017 000001000001          DC8 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol12[35]
+   \                     Symbol12:
+   \   000000 010000000001          DC8 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol13[35]
+   \                     Symbol13:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol14[35]
+   \                     Symbol14:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0
+   \   000017 010101000000          DC8 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol15[35]
+   \                     Symbol15:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol16[35]
+   \                     Symbol16:
+   \   000000 010101010001          DC8 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol17[35]
+   \                     Symbol17:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1
+   \   000017 000101000001          DC8 0, 1, 1, 0, 0, 1, 0, 0, 1, 1, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol18[35]
+   \                     Symbol18:
+   \   000000 010101010001          DC8 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1
+   \   000017 000001000001          DC8 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol19[35]
+   \                     Symbol19:
+   \   000000 000101010001          DC8 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol20[35]
+   \                     Symbol20:
+   \   000000 010101010100          DC8 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+   \   000017 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol21[35]
+   \                     Symbol21:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol22[35]
+   \                     Symbol22:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000100010001          DC8 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol23[35]
+   \                     Symbol23:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1
+   \   000017 000101000100          DC8 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol24[35]
+   \                     Symbol24:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0
+   \   000017 010001000000          DC8 1, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol25[35]
+   \                     Symbol25:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1
+   \   000017 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol26[35]
+   \                     Symbol26:
+   \   000000 010101010100          DC8 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol27[35]
+   \                     Symbol27:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+   \   000017 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol28[35]
+   \                     Symbol28:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+   \   000017 010101010101          DC8 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol29[35]
+   \                     Symbol29:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 1, 1
+   \   000017 010101000000          DC8 1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol30[35]
+   \                     Symbol30:
+   \   000000 010000000001          DC8 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol31[35]
+   \                     Symbol31:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol32[35]
+   \                     Symbol32:
+   \   000000 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol33[35]
+   \                     Symbol33:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1
+   \   000017 010101000000          DC8 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol34[35]
+   \                     Symbol34:
+   \   000000 000001010000          DC8 0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0
+   \   000017 000000010000          DC8 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol35[35]
+   \                     Symbol35:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1
+   \   000017 010100000000          DC8 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol36[35]
+   \                     Symbol36:
+   \   000000 010000000001          DC8 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol37[35]
+   \                     Symbol37:
+   \   000000 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+   \   000017 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol38[35]
+   \                     Symbol38:
+   \   000000 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0
+   \   000017 000100010000          DC8 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol39[35]
+   \                     Symbol39:
+   \   000000 010000000001          DC8 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1, 0
+   \   000017 000001000100          DC8 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol40[35]
+   \                     Symbol40:
+   \   000000 000101000000          DC8 0, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+   \   000017 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol41[35]
+   \                     Symbol41:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol42[35]
+   \                     Symbol42:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol43[35]
+   \                     Symbol43:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol44[35]
+   \                     Symbol44:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 1, 1, 1, 1
+   \   000017 010001000000          DC8 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol45[35]
+   \                     Symbol45:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1
+   \   000017 010100000000          DC8 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol46[35]
+   \                     Symbol46:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol47[35]
+   \                     Symbol47:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 1, 1
+   \   000017 010000000000          DC8 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol48[35]
+   \                     Symbol48:
+   \   000000 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0
+   \   000017 000000010000          DC8 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol49[35]
+   \                     Symbol49:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000101000001          DC8 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol50[35]
+   \                     Symbol50:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000100010001          DC8 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol51[35]
+   \                     Symbol51:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 1
+   \   000017 000101000100          DC8 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol52[35]
+   \                     Symbol52:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1
+   \   000017 000000010001          DC8 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol53[35]
+   \                     Symbol53:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1, 1
+   \   000017 010100000000          DC8 1, 1, 0, 0, 0, 0, 1, 0, 1, 1, 1, 0
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol54[35]
+   \                     Symbol54:
+   \   000000 000000000000          DC8 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1
+   \   000017 000000010000          DC8 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol55[35]
+   \                     Symbol55:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol56[35]
+   \                     Symbol56:
+   \   000000 000000000100          DC8 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol57[35]
+   \                     Symbol57:
+   \   000000 010101010100          DC8 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0
+   \   000017 000001000000          DC8 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol58[35]
+   \                     Symbol58:
+   \   000000 010101010100          DC8 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol59[35]
+   \                     Symbol59:
+   \   000000 010000000101          DC8 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol60[35]
+   \                     Symbol60:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol61[35]
+   \                     Symbol61:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol62[35]
+   \                     Symbol62:
+   \   000000 010101010100          DC8 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol63[35]
+   \                     Symbol63:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0
+   \   000017 000101000000          DC8 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .near.rodata, align 1
+   \   char const Symbol64[35]
+   \                     Symbol64:
+   \   000000 010101010101          DC8 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0
+   \   000017 000100000000          DC8 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void SendToLCD(unsigned long)
+   \                     SendToLCD:
+   \   000000 7213501E              BRES      L:0x501e, #0x1
+   \   000004 BE00                  LDW       X, S:?w1
+   \   000006 54                    SRLW      X
+   \   000007 9F                    LD        A, XL
+   \   000008 8D000000              CALLF     SendSPI
+   \   00000C B600                  LD        A, S:?b3
+   \   00000E A401                  AND       A, #0x1
+   \   000010 A100                  CP        A, #0x0
+   \   000012 2706                  JREQ      L:??SendToLCD_0
+   \   000014 35805204              MOV       L:0x5204, #0x80
+   \   000018 2004                  JRA       L:??SendToLCD_1
+   \                     ??SendToLCD_0:
+   \   00001A 35005204              MOV       L:0x5204, #0x0
+   \                     ??SendToLCD_1:
+   \   00001E 720E5203FB            BTJT      L:0x5203, #0x7, L:??SendToLCD_1
+   \   000023 7212501E              BSET      L:0x501e, #0x1
+   \   000027 87                    RETF
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void InitLCD()
+   \                     InitLCD:
+   \   000000 5F                    CLRW      X
+   \   000001 BF00                  LDW       S:?w0, X
+   \   000003 5C                    INCW      X
+   \   000004 BF00                  LDW       S:?w1, X
+   \   000006 8D000000              CALLF     SendToLCD
+   \   00000A AE0011                LDW       X, #0x11
+   \   00000D BF00                  LDW       S:?w1, X
+   \   00000F 5F                    CLRW      X
+   \   000010 BF00                  LDW       S:?w0, X
+   \   000012 8D000000              CALLF     SendToLCD
+   \   000016 AE0013                LDW       X, #0x13
+   \   000019 BF00                  LDW       S:?w1, X
+   \   00001B 5F                    CLRW      X
+   \   00001C BF00                  LDW       S:?w0, X
+   \   00001E 8D000000              CALLF     SendToLCD
+   \   000022 AE0036                LDW       X, #0x36
+   \   000025 BF00                  LDW       S:?w1, X
+   \   000027 5F                    CLRW      X
+   \   000028 BF00                  LDW       S:?w0, X
+   \   00002A 8D000000              CALLF     SendToLCD
+   \   00002E AE01C0                LDW       X, #0x1c0
+   \   000031 BF00                  LDW       S:?w1, X
+   \   000033 5F                    CLRW      X
+   \   000034 BF00                  LDW       S:?w0, X
+   \   000036 8D000000              CALLF     SendToLCD
+   \   00003A AE0038                LDW       X, #0x38
+   \   00003D BF00                  LDW       S:?w1, X
+   \   00003F 5F                    CLRW      X
+   \   000040 BF00                  LDW       S:?w0, X
+   \   000042 8D000000              CALLF     SendToLCD
+   \   000046 AE003A                LDW       X, #0x3a
+   \   000049 BF00                  LDW       S:?w1, X
+   \   00004B 5F                    CLRW      X
+   \   00004C BF00                  LDW       S:?w0, X
+   \   00004E 8D000000              CALLF     SendToLCD
+   \   000052 AE0105                LDW       X, #0x105
+   \   000055 BF00                  LDW       S:?w1, X
+   \   000057 5F                    CLRW      X
+   \   000058 BF00                  LDW       S:?w0, X
+   \   00005A 8D000000              CALLF     SendToLCD
+   \   00005E AE0029                LDW       X, #0x29
+   \   000061 BF00                  LDW       S:?w1, X
+   \   000063 5F                    CLRW      X
+   \   000064 BF00                  LDW       S:?w0, X
+   \   000066 AC000000              JPF       SendToLCD
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+   \   __far_func void DrawFillRectangle(char, char, char, char, unsigned long)
+   \                     DrawFillRectangle:
+   \   000000 8D000000              CALLF     L:?push_l2
+   \   000004 B700                  LD        S:?b10, A
+   \   000006 450000                MOV       S:?b8, S:?b0
+   \   000009 450000                MOV       S:?b9, S:?b1
+   \   00000C 450000                MOV       S:?b11, S:?b2
+   \   00000F AE002A                LDW       X, #0x2a
+   \   000012 BF00                  LDW       S:?w1, X
+   \   000014 5F                    CLRW      X
+   \   000015 BF00                  LDW       S:?w0, X
+   \   000017 8D000000              CALLF     SendToLCD
+   \   00001B 5F                    CLRW      X
+   \   00001C 41                    EXG       A, XL
+   \   00001D B600                  LD        A, S:?b10
+   \   00001F 41                    EXG       A, XL
+   \   000020 1C0100                ADDW      X, #0x100
+   \   000023 8D000000              CALLF     L:?sext32_l0_x
+   \   000027 8D000000              CALLF     SendToLCD
+   \   00002B 905F                  CLRW      Y
+   \   00002D 61                    EXG       A, YL
+   \   00002E B600                  LD        A, S:?b9
+   \   000030 61                    EXG       A, YL
+   \   000031 5F                    CLRW      X
+   \   000032 41                    EXG       A, XL
+   \   000033 B600                  LD        A, S:?b10
+   \   000035 41                    EXG       A, XL
+   \   000036 90BF00                LDW       S:?w0, Y
+   \   000039 72BB0000              ADDW      X, S:?w0
+   \   00003D 1C00FF                ADDW      X, #0xff
+   \   000040 8D000000              CALLF     L:?sext32_l0_x
+   \   000044 8D000000              CALLF     SendToLCD
+   \   000048 AE002B                LDW       X, #0x2b
+   \   00004B BF00                  LDW       S:?w1, X
+   \   00004D 5F                    CLRW      X
+   \   00004E BF00                  LDW       S:?w0, X
+   \   000050 8D000000              CALLF     SendToLCD
+   \   000054 5F                    CLRW      X
+   \   000055 41                    EXG       A, XL
+   \   000056 B600                  LD        A, S:?b8
+   \   000058 41                    EXG       A, XL
+   \   000059 1C0100                ADDW      X, #0x100
+   \   00005C 8D000000              CALLF     L:?sext32_l0_x
+   \   000060 8D000000              CALLF     SendToLCD
+   \   000064 905F                  CLRW      Y
+   \   000066 61                    EXG       A, YL
+   \   000067 B600                  LD        A, S:?b11
+   \   000069 61                    EXG       A, YL
+   \   00006A 5F                    CLRW      X
+   \   00006B 41                    EXG       A, XL
+   \   00006C B600                  LD        A, S:?b8
+   \   00006E 41                    EXG       A, XL
+   \   00006F 90BF00                LDW       S:?w0, Y
+   \   000072 72BB0000              ADDW      X, S:?w0
+   \   000076 1C00FF                ADDW      X, #0xff
+   \   000079 8D000000              CALLF     L:?sext32_l0_x
+   \   00007D 8D000000              CALLF     SendToLCD
+   \   000081 BE00                  LDW       X, S:?w3
+   \   000083 4F                    CLR       A
+   \   000084 01                    RRWA      X, A
+   \   000085 41                    EXG       A, XL
+   \   000086 B700                  LD        S:?b8, A
+   \   000088 41                    EXG       A, XL
+   \   000089 8D000000              CALLF     L:?mov_l0_l1
+   \   00008D A610                  LD        A, #0x10
+   \   00008F 8D000000              CALLF     L:?srl32_l0_l0_a
+   \   000093 450000                MOV       S:?b5, S:?b3
+   \   000096 AE002C                LDW       X, #0x2c
+   \   000099 BF00                  LDW       S:?w1, X
+   \   00009B 5F                    CLRW      X
+   \   00009C BF00                  LDW       S:?w0, X
+   \   00009E 8D000000              CALLF     SendToLCD
+   \   0000A2 41                    EXG       A, XL
+   \   0000A3 B600                  LD        A, S:?b9
+   \   0000A5 41                    EXG       A, XL
+   \   0000A6 B600                  LD        A, S:?b11
+   \   0000A8 42                    MUL       X, A
+   \   0000A9 BF00                  LDW       S:?w5, X
+   \   0000AB 5F                    CLRW      X
+   \   0000AC 5C                    INCW      X
+   \   0000AD 9093                  LDW       Y, X
+   \   0000AF 205A                  JRA       L:??DrawFillRectangle_0
+   \                     ??DrawFillRectangle_1:
+   \   0000B1 B600                  LD        A, S:?b8
+   \   0000B3 4E                    SWAP      A
+   \   0000B4 A40F                  AND       A, #0xf
+   \   0000B6 44                    SRL       A
+   \   0000B7 5F                    CLRW      X
+   \   0000B8 97                    LD        XL, A
+   \   0000B9 BF00                  LDW       S:?w0, X
+   \   0000BB 5F                    CLRW      X
+   \   0000BC 41                    EXG       A, XL
+   \   0000BD B600                  LD        A, S:?b5
+   \   0000BF 41                    EXG       A, XL
+   \   0000C0 02                    RLWA      X, A
+   \   0000C1 A400                  AND       A, #0x0
+   \   0000C3 02                    RLWA      X, A
+   \   0000C4 A4F8                  AND       A, #0xf8
+   \   0000C6 02                    RLWA      X, A
+   \   0000C7 01                    RRWA      X, A
+   \   0000C8 BA00                  OR        A, S:?b1
+   \   0000CA 01                    RRWA      X, A
+   \   0000CB BA00                  OR        A, S:?b0
+   \   0000CD 01                    RRWA      X, A
+   \   0000CE 1C0100                ADDW      X, #0x100
+   \   0000D1 8D000000              CALLF     L:?sext32_l0_x
+   \   0000D5 8D000000              CALLF     SendToLCD
+   \   0000D9 5F                    CLRW      X
+   \   0000DA 41                    EXG       A, XL
+   \   0000DB B600                  LD        A, S:?b8
+   \   0000DD 41                    EXG       A, XL
+   \   0000DE 58                    SLLW      X
+   \   0000DF 58                    SLLW      X
+   \   0000E0 58                    SLLW      X
+   \   0000E1 02                    RLWA      X, A
+   \   0000E2 A400                  AND       A, #0x0
+   \   0000E4 02                    RLWA      X, A
+   \   0000E5 A4E0                  AND       A, #0xe0
+   \   0000E7 02                    RLWA      X, A
+   \   0000E8 BF00                  LDW       S:?w0, X
+   \   0000EA B600                  LD        A, S:?b7
+   \   0000EC 44                    SRL       A
+   \   0000ED 44                    SRL       A
+   \   0000EE 44                    SRL       A
+   \   0000EF 5F                    CLRW      X
+   \   0000F0 97                    LD        XL, A
+   \   0000F1 BF00                  LDW       S:?w1, X
+   \   0000F3 BE00                  LDW       X, S:?w0
+   \   0000F5 01                    RRWA      X, A
+   \   0000F6 BA00                  OR        A, S:?b3
+   \   0000F8 01                    RRWA      X, A
+   \   0000F9 BA00                  OR        A, S:?b2
+   \   0000FB 01                    RRWA      X, A
+   \   0000FC 1C0100                ADDW      X, #0x100
+   \   0000FF 8D000000              CALLF     L:?sext32_l0_x
+   \   000103 8D000000              CALLF     SendToLCD
+   \   000107 93                    LDW       X, Y
+   \   000108 5C                    INCW      X
+   \   000109 9093                  LDW       Y, X
+   \                     ??DrawFillRectangle_0:
+   \   00010B 90BF00                LDW       S:?w0, Y
+   \   00010E BE00                  LDW       X, S:?w5
+   \   000110 B300                  CPW       X, S:?w0
+   \   000112 249D                  JRNC      L:??DrawFillRectangle_1
+   \   000114 AC000000              JPF       L:?epilogue_l2
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DrawRectangle(char, char, char, char, unsigned long, char)
+   \                     DrawRectangle:
+   \   000000 8D000000              CALLF     L:?push_l2
+   \   000004 8D000000              CALLF     L:?push_l3
+   \   000008 3B0000                PUSH      S:?b1
+   \   00000B B700                  LD        S:?b14, A
+   \   00000D 450000                MOV       S:?b13, S:?b0
+   \   000010 450000                MOV       S:?b15, S:?b2
+   \   000013 8D000000              CALLF     L:?mov_l2_l1
+   \   000017 450000                MOV       S:?b12, S:?b3
+   \   00001A 8D000000              CALLF     L:?mov_l1_l2
+   \   00001E 450000                MOV       S:?b2, S:?b12
+   \   000021 7B01                  LD        A, (0x1,SP)
+   \   000023 B700                  LD        S:?b1, A
+   \   000025 450000                MOV       S:?b0, S:?b13
+   \   000028 B600                  LD        A, S:?b14
+   \   00002A 8D000000              CALLF     DrawFillRectangle
+   \   00002E 8D000000              CALLF     L:?mov_l1_l2
+   \   000032 450000                MOV       S:?b2, S:?b15
+   \   000035 450000                MOV       S:?b1, S:?b12
+   \   000038 450000                MOV       S:?b0, S:?b13
+   \   00003B 7B01                  LD        A, (0x1,SP)
+   \   00003D BB00                  ADD       A, S:?b14
+   \   00003F B000                  SUB       A, S:?b12
+   \   000041 8D000000              CALLF     DrawFillRectangle
+   \   000045 8D000000              CALLF     L:?mov_l1_l2
+   \   000049 450000                MOV       S:?b2, S:?b12
+   \   00004C 7B01                  LD        A, (0x1,SP)
+   \   00004E B700                  LD        S:?b1, A
+   \   000050 B600                  LD        A, S:?b15
+   \   000052 BB00                  ADD       A, S:?b13
+   \   000054 B000                  SUB       A, S:?b12
+   \   000056 B700                  LD        S:?b0, A
+   \   000058 B600                  LD        A, S:?b14
+   \   00005A 8D000000              CALLF     DrawFillRectangle
+   \   00005E 8D000000              CALLF     L:?mov_l1_l2
+   \   000062 450000                MOV       S:?b2, S:?b15
+   \   000065 450000                MOV       S:?b1, S:?b12
+   \   000068 450000                MOV       S:?b0, S:?b13
+   \   00006B B600                  LD        A, S:?b14
+   \   00006D 8D000000              CALLF     DrawFillRectangle
+   \   000071 5B01                  ADD       SP, #0x1
+   \   000073 AC000000              JPF       L:?epilogue_l2_l3
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DrawPoint(char, char, unsigned long)
+   \                     DrawPoint:
+   \   000000 35010000              MOV       S:?b2, #0x1
+   \   000004 35010000              MOV       S:?b1, #0x1
+   \   000008 AC000000              JPF       DrawFillRectangle
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DrawLine(int, int, int, int, unsigned long)
+   \                     DrawLine:
+   \   000000 8D000000              CALLF     L:?push_l2
+   \   000004 8D000000              CALLF     L:?push_l3
+   \   000008 9089                  PUSHW     Y
+   \   00000A 8D000000              CALLF     L:?push_w0
+   \   00000E 8D000000              CALLF     L:?push_w1
+   \   000012 5208                  SUB       SP, #0x8
+   \   000014 BF00                  LDW       S:?w5, X
+   \   000016 8D000000              CALLF     L:?mov_l3_l1
+
+      const int deltaX = abs(x2 - x1);
+                         ^
+"E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Nokia1616LCD.c",90  Warning[Pe223]: 
+          function "abs" declared implicitly
+   \   00001A 1E0B                  LDW       X, (0xb,SP)
+   \   00001C 72B00000              SUBW      X, S:?w5
+   \   000020 8D000000              CALLF     abs
+   \   000024 1F03                  LDW       (0x3,SP), X
+   \   000026 1E09                  LDW       X, (0x9,SP)
+   \   000028 72F00D                SUBW      X, (0xd,SP)
+   \   00002B 8D000000              CALLF     abs
+   \   00002F 1F01                  LDW       (0x1,SP), X
+   \   000031 BE00                  LDW       X, S:?w5
+   \   000033 130B                  CPW       X, (0xb,SP)
+   \   000035 2E06                  JRSGE     L:??DrawLine_0
+   \   000037 5F                    CLRW      X
+   \   000038 5C                    INCW      X
+   \   000039 1F07                  LDW       (0x7,SP), X
+   \   00003B 2004                  JRA       L:??DrawLine_1
+   \                     ??DrawLine_0:
+   \   00003D 5F                    CLRW      X
+   \   00003E 5A                    DECW      X
+   \   00003F 1F07                  LDW       (0x7,SP), X
+   \                     ??DrawLine_1:
+   \   000041 1E0D                  LDW       X, (0xd,SP)
+   \   000043 1309                  CPW       X, (0x9,SP)
+   \   000045 2E06                  JRSGE     L:??DrawLine_2
+   \   000047 5F                    CLRW      X
+   \   000048 5C                    INCW      X
+   \   000049 1F05                  LDW       (0x5,SP), X
+   \   00004B 2004                  JRA       L:??DrawLine_3
+   \                     ??DrawLine_2:
+   \   00004D 5F                    CLRW      X
+   \   00004E 5A                    DECW      X
+   \   00004F 1F05                  LDW       (0x5,SP), X
+   \                     ??DrawLine_3:
+   \   000051 1E03                  LDW       X, (0x3,SP)
+   \   000053 72F001                SUBW      X, (0x1,SP)
+   \   000056 BF00                  LDW       S:?w4, X
+   \   000058 8D000000              CALLF     L:?mov_l1_l3
+   \   00005C 7B0A                  LD        A, (0xa,SP)
+   \   00005E B700                  LD        S:?b0, A
+   \   000060 7B0C                  LD        A, (0xc,SP)
+   \   000062 8D000000              CALLF     DrawPoint
+   \   000066 203F                  JRA       L:??DrawLine_4
+   \                     ??DrawLine_5:
+   \   000068 8D000000              CALLF     L:?mov_l1_l3
+   \   00006C 7B0E                  LD        A, (0xe,SP)
+   \   00006E B700                  LD        S:?b0, A
+   \   000070 B600                  LD        A, S:?b11
+   \   000072 8D000000              CALLF     DrawPoint
+   \   000076 BE00                  LDW       X, S:?w4
+   \   000078 58                    SLLW      X
+   \   000079 BF00                  LDW       S:?w0, X
+   \   00007B 1E01                  LDW       X, (0x1,SP)
+   \   00007D 9093                  LDW       Y, X
+   \   00007F 93                    LDW       X, Y
+   \   000080 50                    NEGW      X
+   \   000081 B300                  CPW       X, S:?w0
+   \   000083 2E0E                  JRSGE     L:??DrawLine_6
+   \   000085 BE00                  LDW       X, S:?w4
+   \   000087 72F001                SUBW      X, (0x1,SP)
+   \   00008A BF00                  LDW       S:?w4, X
+   \   00008C BE00                  LDW       X, S:?w5
+   \   00008E 72FB07                ADDW      X, (0x7,SP)
+   \   000091 BF00                  LDW       S:?w5, X
+   \                     ??DrawLine_6:
+   \   000093 BE00                  LDW       X, S:?w0
+   \   000095 1303                  CPW       X, (0x3,SP)
+   \   000097 2E0E                  JRSGE     L:??DrawLine_4
+   \   000099 BE00                  LDW       X, S:?w4
+   \   00009B 72FB03                ADDW      X, (0x3,SP)
+   \   00009E BF00                  LDW       S:?w4, X
+   \   0000A0 1E05                  LDW       X, (0x5,SP)
+   \   0000A2 72FB0D                ADDW      X, (0xd,SP)
+   \   0000A5 1F0D                  LDW       (0xd,SP), X
+   \                     ??DrawLine_4:
+   \   0000A7 BE00                  LDW       X, S:?w5
+   \   0000A9 130B                  CPW       X, (0xb,SP)
+   \   0000AB 26BB                  JRNE      L:??DrawLine_5
+   \   0000AD 1E0D                  LDW       X, (0xd,SP)
+   \   0000AF 1309                  CPW       X, (0x9,SP)
+   \   0000B1 26B5                  JRNE      L:??DrawLine_5
+   \   0000B3 5B0E                  ADD       SP, #0xe
+   \   0000B5 AC000000              JPF       L:?epilogue_l2_l3
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DrawCircle(int, int, int, unsigned long)
+   \                     DrawCircle:
+   \   000000 8D000000              CALLF     L:?push_l2
+   \   000004 8D000000              CALLF     L:?push_l3
+   \   000008 89                    PUSHW     X
+   \   000009 9089                  PUSHW     Y
+   \   00000B 5202                  SUB       SP, #0x2
+   \   00000D BE00                  LDW       X, S:?w0
+   \   00000F 8D000000              CALLF     L:?mov_l2_l1
+   \   000013 905F                  CLRW      Y
+   \   000015 1701                  LDW       (0x1,SP), Y
+   \   000017 BF00                  LDW       S:?w6, X
+   \   000019 58                    SLLW      X
+   \   00001A BF00                  LDW       S:?w0, X
+   \   00001C AE0002                LDW       X, #0x2
+   \   00001F 72B00000              SUBW      X, S:?w0
+   \   000023 BF00                  LDW       S:?w7, X
+   \   000025 905F                  CLRW      Y
+   \   000027 200F                  JRA       L:??DrawCircle_0
+   \                     ??DrawCircle_1:
+   \   000029 1E01                  LDW       X, (0x1,SP)
+   \   00002B 5C                    INCW      X
+   \   00002C 1F01                  LDW       (0x1,SP), X
+   \   00002E 1E01                  LDW       X, (0x1,SP)
+   \   000030 58                    SLLW      X
+   \   000031 5C                    INCW      X
+   \   000032 72BB0000              ADDW      X, S:?w7
+   \   000036 BF00                  LDW       S:?w7, X
+   \                     ??DrawCircle_0:
+   \   000038 BE00                  LDW       X, S:?w6
+   \   00003A A30000                CPW       X, #0x0
+   \   00003D 2E03                  JRSGE     ??lb_64
+   \   00003F CC0000                JP        L:??DrawCircle_2
+   \                     ??lb_64:
+   \   000042 8D000000              CALLF     L:?mov_l1_l2
+   \   000046 7B04                  LD        A, (0x4,SP)
+   \   000048 BB00                  ADD       A, S:?b13
+   \   00004A B700                  LD        S:?b0, A
+   \   00004C 7B02                  LD        A, (0x2,SP)
+   \   00004E 88                    PUSH      A
+   \   00004F 7B07                  LD        A, (0x7,SP)
+   \   000051 B700                  LD        S:?b2, A
+   \   000053 84                    POP       A
+   \   000054 BB00                  ADD       A, S:?b2
+   \   000056 8D000000              CALLF     DrawPoint
+   \   00005A 8D000000              CALLF     L:?mov_l1_l2
+   \   00005E 7B04                  LD        A, (0x4,SP)
+   \   000060 B000                  SUB       A, S:?b13
+   \   000062 B700                  LD        S:?b0, A
+   \   000064 7B02                  LD        A, (0x2,SP)
+   \   000066 88                    PUSH      A
+   \   000067 7B07                  LD        A, (0x7,SP)
+   \   000069 B700                  LD        S:?b2, A
+   \   00006B 84                    POP       A
+   \   00006C BB00                  ADD       A, S:?b2
+   \   00006E 8D000000              CALLF     DrawPoint
+   \   000072 8D000000              CALLF     L:?mov_l1_l2
+   \   000076 7B04                  LD        A, (0x4,SP)
+   \   000078 BB00                  ADD       A, S:?b13
+   \   00007A B700                  LD        S:?b0, A
+   \   00007C 7B02                  LD        A, (0x2,SP)
+   \   00007E B700                  LD        S:?b1, A
+   \   000080 7B06                  LD        A, (0x6,SP)
+   \   000082 B000                  SUB       A, S:?b1
+   \   000084 8D000000              CALLF     DrawPoint
+   \   000088 8D000000              CALLF     L:?mov_l1_l2
+   \   00008C 7B04                  LD        A, (0x4,SP)
+   \   00008E B000                  SUB       A, S:?b13
+   \   000090 B700                  LD        S:?b0, A
+   \   000092 7B02                  LD        A, (0x2,SP)
+   \   000094 B700                  LD        S:?b1, A
+   \   000096 7B06                  LD        A, (0x6,SP)
+   \   000098 B000                  SUB       A, S:?b1
+   \   00009A 8D000000              CALLF     DrawPoint
+   \   00009E BE00                  LDW       X, S:?w6
+   \   0000A0 72BB0000              ADDW      X, S:?w7
+   \   0000A4 58                    SLLW      X
+   \   0000A5 5A                    DECW      X
+   \   0000A6 9093                  LDW       Y, X
+   \   0000A8 BE00                  LDW       X, S:?w7
+   \   0000AA A30000                CPW       X, #0x0
+   \   0000AD 2E09                  JRSGE     L:??DrawCircle_3
+   \   0000AF 93                    LDW       X, Y
+   \   0000B0 A30001                CPW       X, #0x1
+   \   0000B3 2E03                  JRSGE     ??lb_65
+   \   0000B5 CC0000                JP        L:??DrawCircle_1
+   \                     ??lb_65:
+   \                     ??DrawCircle_3:
+   \   0000B8 BE00                  LDW       X, S:?w7
+   \   0000BA 72F001                SUBW      X, (0x1,SP)
+   \   0000BD 58                    SLLW      X
+   \   0000BE 5A                    DECW      X
+   \   0000BF 9093                  LDW       Y, X
+   \   0000C1 BE00                  LDW       X, S:?w7
+   \   0000C3 A30001                CPW       X, #0x1
+   \   0000C6 2F1C                  JRSLT     L:??DrawCircle_4
+   \   0000C8 93                    LDW       X, Y
+   \   0000C9 A30001                CPW       X, #0x1
+   \   0000CC 2F16                  JRSLT     L:??DrawCircle_4
+   \   0000CE BE00                  LDW       X, S:?w6
+   \   0000D0 5A                    DECW      X
+   \   0000D1 BF00                  LDW       S:?w6, X
+   \   0000D3 BE00                  LDW       X, S:?w6
+   \   0000D5 58                    SLLW      X
+   \   0000D6 BF00                  LDW       S:?w0, X
+   \   0000D8 BE00                  LDW       X, S:?w7
+   \   0000DA 5C                    INCW      X
+   \   0000DB 72B00000              SUBW      X, S:?w0
+   \   0000DF BF00                  LDW       S:?w7, X
+   \   0000E1 CC0000                JP        L:??DrawCircle_0
+   \                     ??DrawCircle_4:
+   \   0000E4 1E01                  LDW       X, (0x1,SP)
+   \   0000E6 5C                    INCW      X
+   \   0000E7 1F01                  LDW       (0x1,SP), X
+   \   0000E9 1E01                  LDW       X, (0x1,SP)
+   \   0000EB 72B00000              SUBW      X, S:?w6
+   \   0000EF 58                    SLLW      X
+   \   0000F0 72BB0000              ADDW      X, S:?w7
+   \   0000F4 BF00                  LDW       S:?w7, X
+   \   0000F6 BE00                  LDW       X, S:?w6
+   \   0000F8 5A                    DECW      X
+   \   0000F9 BF00                  LDW       S:?w6, X
+   \   0000FB CC0000                JP        L:??DrawCircle_0
+   \                     ??DrawCircle_2:
+   \   0000FE 5B06                  ADD       SP, #0x6
+   \   000100 AC000000              JPF       L:?epilogue_l2_l3
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DrawLine2(int, int, int, int, unsigned long)
+   \                     DrawLine2:
+   \   000000 8D000000              CALLF     L:?push_l2
+   \   000004 8D000000              CALLF     L:?push_l3
+   \   000008 9089                  PUSHW     Y
+   \   00000A 5208                  SUB       SP, #0x8
+   \   00000C BF00                  LDW       S:?w6, X
+   \   00000E 8D000000              CALLF     L:?mov_l2_l1
+
+    int xr = abs(tx-sx);
+             ^
+"E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\Nokia1616LCD.c",144  Warning[Pe223]: 
+          function "abs" declared implicitly
+   \   000012 BE00                  LDW       X, S:?w0
+   \   000014 72B00000              SUBW      X, S:?w6
+   \   000018 8D000000              CALLF     abs
+   \   00001C BF00                  LDW       S:?w7, X
+   \   00001E BE00                  LDW       X, S:?w1
+   \   000020 72F009                SUBW      X, (0x9,SP)
+   \   000023 8D000000              CALLF     abs
+   \   000027 B300                  CPW       X, S:?w7
+   \   000029 2F02                  JRSLT     L:??DrawLine2_0
+   \   00002B BF00                  LDW       S:?w7, X
+   \                     ??DrawLine2_0:
+   \   00002D BE00                  LDW       X, S:?w6
+   \   00002F 8D000000              CALLF     L:?sll16_x_x_12
+   \   000033 1C0800                ADDW      X, #0x800
+   \   000036 1F01                  LDW       (0x1,SP), X
+   \   000038 1E09                  LDW       X, (0x9,SP)
+   \   00003A 8D000000              CALLF     L:?sll16_x_x_12
+   \   00003E 1C0800                ADDW      X, #0x800
+   \   000041 BF00                  LDW       S:?w6, X
+   \   000043 BE00                  LDW       X, S:?w0
+   \   000045 8D000000              CALLF     L:?sll16_x_x_12
+   \   000049 1C0800                ADDW      X, #0x800
+   \   00004C 9093                  LDW       Y, X
+   \   00004E BE00                  LDW       X, S:?w1
+   \   000050 8D000000              CALLF     L:?sll16_x_x_12
+   \   000054 1C0800                ADDW      X, #0x800
+   \   000057 BF00                  LDW       S:?w0, X
+   \   000059 BE00                  LDW       X, S:?w7
+   \   00005B 5D                    TNZW      X
+   \   00005C 271E                  JREQ      L:??DrawLine2_1
+   \   00005E 93                    LDW       X, Y
+   \   00005F 72F001                SUBW      X, (0x1,SP)
+   \   000062 90BE00                LDW       Y, S:?w7
+   \   000065 8D000000              CALLF     L:?sdiv16_x_x_y
+   \   000069 1F07                  LDW       (0x7,SP), X
+   \   00006B BE00                  LDW       X, S:?w0
+   \   00006D 72B00000              SUBW      X, S:?w6
+   \   000071 90BE00                LDW       Y, S:?w7
+   \   000074 8D000000              CALLF     L:?sdiv16_x_x_y
+   \   000078 1F05                  LDW       (0x5,SP), X
+   \   00007A 2006                  JRA       L:??DrawLine2_2
+   \                     ??DrawLine2_1:
+   \   00007C 5F                    CLRW      X
+   \   00007D 1F07                  LDW       (0x7,SP), X
+   \   00007F 5F                    CLRW      X
+   \   000080 1F05                  LDW       (0x5,SP), X
+   \                     ??DrawLine2_2:
+   \   000082 5F                    CLRW      X
+   \   000083 1F03                  LDW       (0x3,SP), X
+   \   000085 202C                  JRA       L:??DrawLine2_3
+   \                     ??DrawLine2_4:
+   \   000087 8D000000              CALLF     L:?mov_l1_l2
+   \   00008B BE00                  LDW       X, S:?w6
+   \   00008D 8D000000              CALLF     L:?sra16_x_x_12
+   \   000091 41                    EXG       A, XL
+   \   000092 B700                  LD        S:?b0, A
+   \   000094 41                    EXG       A, XL
+   \   000095 1E01                  LDW       X, (0x1,SP)
+   \   000097 8D000000              CALLF     L:?sra16_x_x_12
+   \   00009B 9F                    LD        A, XL
+   \   00009C 8D000000              CALLF     DrawPoint
+   \   0000A0 1E07                  LDW       X, (0x7,SP)
+   \   0000A2 72FB01                ADDW      X, (0x1,SP)
+   \   0000A5 1F01                  LDW       (0x1,SP), X
+   \   0000A7 BE00                  LDW       X, S:?w6
+   \   0000A9 72FB05                ADDW      X, (0x5,SP)
+   \   0000AC BF00                  LDW       S:?w6, X
+   \   0000AE 1E03                  LDW       X, (0x3,SP)
+   \   0000B0 5C                    INCW      X
+   \   0000B1 1F03                  LDW       (0x3,SP), X
+   \                     ??DrawLine2_3:
+   \   0000B3 BE00                  LDW       X, S:?w7
+   \   0000B5 1303                  CPW       X, (0x3,SP)
+   \   0000B7 2ECE                  JRSGE     L:??DrawLine2_4
+   \   0000B9 5B0A                  ADD       SP, #0xa
+   \   0000BB AC000000              JPF       L:?epilogue_l2_l3
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __monitor void DrawPicture(char, char, char, char, char const *)
+   \                     DrawPicture:
+   \   000000 8A                    PUSH      CC
+   \   000001 8D000000              CALLF     L:?push_l2
+   \   000005 8D000000              CALLF     L:?push_w6
+   \   000009 3B0000                PUSH      S:?b14
+   \   00000C 9B                    SIM
+   \   00000D 89                    PUSHW     X
+   \   00000E B700                  LD        S:?b14, A
+   \   000010 450000                MOV       S:?b13, S:?b0
+   \   000013 450000                MOV       S:?b11, S:?b1
+   \   000016 450000                MOV       S:?b12, S:?b2
+   \   000019 3F00                  CLR       S:?b9
+   \   00001B 3F00                  CLR       S:?b10
+   \   00001D 2054                  JRA       L:??DrawPicture_0
+   \                     ??DrawPicture_1:
+   \   00001F 5F                    CLRW      X
+   \   000020 41                    EXG       A, XL
+   \   000021 B600                  LD        A, S:?b9
+   \   000023 41                    EXG       A, XL
+   \   000024 72FB01                ADDW      X, (0x1,SP)
+   \   000027 F6                    LD        A, (X)
+   \   000028 5F                    CLRW      X
+   \   000029 97                    LD        XL, A
+   \   00002A BF00                  LDW       S:?w1, X
+   \   00002C 5F                    CLRW      X
+   \   00002D BF00                  LDW       S:?w0, X
+   \   00002F 5F                    CLRW      X
+   \   000030 5A                    DECW      X
+   \   000031 BF00                  LDW       S:?w3, X
+   \   000033 AE00FF                LDW       X, #0xff
+   \   000036 BF00                  LDW       S:?w2, X
+   \   000038 8D000000              CALLF     L:?mul32_l0_l0_l1
+   \   00003C 8D000000              CALLF     L:?mov_l1_l0
+   \   000040 B600                  LD        A, S:?b10
+   \   000042 BB00                  ADD       A, S:?b13
+   \   000044 B700                  LD        S:?b0, A
+   \   000046 B600                  LD        A, S:?b8
+   \   000048 BB00                  ADD       A, S:?b14
+   \   00004A 8D000000              CALLF     DrawPoint
+   \   00004E B600                  LD        A, S:?b9
+   \   000050 AB01                  ADD       A, #0x1
+   \   000052 B700                  LD        S:?b9, A
+   \   000054 B600                  LD        A, S:?b8
+   \   000056 AB01                  ADD       A, #0x1
+   \   000058 B700                  LD        S:?b8, A
+   \                     ??DrawPicture_2:
+   \   00005A 5F                    CLRW      X
+   \   00005B 41                    EXG       A, XL
+   \   00005C B600                  LD        A, S:?b11
+   \   00005E 41                    EXG       A, XL
+   \   00005F 5A                    DECW      X
+   \   000060 905F                  CLRW      Y
+   \   000062 61                    EXG       A, YL
+   \   000063 B600                  LD        A, S:?b8
+   \   000065 61                    EXG       A, YL
+   \   000066 90BF00                LDW       S:?w0, Y
+   \   000069 B300                  CPW       X, S:?w0
+   \   00006B 2EB2                  JRSGE     L:??DrawPicture_1
+   \   00006D B600                  LD        A, S:?b10
+   \   00006F AB01                  ADD       A, #0x1
+   \   000071 B700                  LD        S:?b10, A
+   \                     ??DrawPicture_0:
+   \   000073 5F                    CLRW      X
+   \   000074 41                    EXG       A, XL
+   \   000075 B600                  LD        A, S:?b12
+   \   000077 41                    EXG       A, XL
+   \   000078 5A                    DECW      X
+   \   000079 905F                  CLRW      Y
+   \   00007B 61                    EXG       A, YL
+   \   00007C B600                  LD        A, S:?b10
+   \   00007E 61                    EXG       A, YL
+   \   00007F 90BF00                LDW       S:?w0, Y
+   \   000082 B300                  CPW       X, S:?w0
+   \   000084 2F04                  JRSLT     L:??DrawPicture_3
+   \   000086 3F00                  CLR       S:?b8
+   \   000088 20D0                  JRA       L:??DrawPicture_2
+   \                     ??DrawPicture_3:
+   \   00008A 5B02                  ADD       SP, #0x2
+   \   00008C 320000                POP       S:?b14
+   \   00008F 8D000000              CALLF     L:?pop_w6
+   \   000093 8D000000              CALLF     L:?pop_l2
+   \   000097 86                    POP       CC
+   \   000098 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __monitor void DrawSymbol(char, char, char)
+   \                     DrawSymbol:
+   \   000000 8A                    PUSH      CC
+   \   000001 9B                    SIM
+   \   000002 B700                  LD        S:?b3, A
+   \   000004 B600                  LD        A, S:?b1
+   \   000006 4D                    TNZ       A
+   \   000007 2603                  JRNE      ??lb_0
+   \   000009 CC0000                JP        L:??DrawSymbol_0
+   \                     ??lb_0:
+   \   00000C A020                  SUB       A, #0x20
+   \   00000E 2603                  JRNE      ??lb_1
+   \   000010 CC0000                JP        L:??DrawSymbol_1
+   \                     ??lb_1:
+   \   000013 A010                  SUB       A, #0x10
+   \   000015 2603                  JRNE      ??lb_2
+   \   000017 CC0000                JP        L:??DrawSymbol_2
+   \                     ??lb_2:
+   \   00001A 4A                    DEC       A
+   \   00001B 2603                  JRNE      ??lb_3
+   \   00001D CC0000                JP        L:??DrawSymbol_3
+   \                     ??lb_3:
+   \   000020 4A                    DEC       A
+   \   000021 2603                  JRNE      ??lb_4
+   \   000023 CC0000                JP        L:??DrawSymbol_4
+   \                     ??lb_4:
+   \   000026 4A                    DEC       A
+   \   000027 2603                  JRNE      ??lb_5
+   \   000029 CC0000                JP        L:??DrawSymbol_5
+   \                     ??lb_5:
+   \   00002C 4A                    DEC       A
+   \   00002D 2603                  JRNE      ??lb_6
+   \   00002F CC0000                JP        L:??DrawSymbol_6
+   \                     ??lb_6:
+   \   000032 4A                    DEC       A
+   \   000033 2603                  JRNE      ??lb_7
+   \   000035 CC0000                JP        L:??DrawSymbol_7
+   \                     ??lb_7:
+   \   000038 4A                    DEC       A
+   \   000039 2603                  JRNE      ??lb_8
+   \   00003B CC0000                JP        L:??DrawSymbol_8
+   \                     ??lb_8:
+   \   00003E 4A                    DEC       A
+   \   00003F 2603                  JRNE      ??lb_9
+   \   000041 CC0000                JP        L:??DrawSymbol_9
+   \                     ??lb_9:
+   \   000044 4A                    DEC       A
+   \   000045 2603                  JRNE      ??lb_10
+   \   000047 CC0000                JP        L:??DrawSymbol_10
+   \                     ??lb_10:
+   \   00004A 4A                    DEC       A
+   \   00004B 2603                  JRNE      ??lb_11
+   \   00004D CC0000                JP        L:??DrawSymbol_11
+   \                     ??lb_11:
+   \   000050 A008                  SUB       A, #0x8
+   \   000052 2603                  JRNE      ??lb_12
+   \   000054 CC0000                JP        L:??DrawSymbol_12
+   \                     ??lb_12:
+   \   000057 4A                    DEC       A
+   \   000058 2603                  JRNE      ??lb_13
+   \   00005A CC0000                JP        L:??DrawSymbol_13
+   \                     ??lb_13:
+   \   00005D 4A                    DEC       A
+   \   00005E 2603                  JRNE      ??lb_14
+   \   000060 CC0000                JP        L:??DrawSymbol_14
+   \                     ??lb_14:
+   \   000063 4A                    DEC       A
+   \   000064 2603                  JRNE      ??lb_15
+   \   000066 CC0000                JP        L:??DrawSymbol_15
+   \                     ??lb_15:
+   \   000069 4A                    DEC       A
+   \   00006A 2603                  JRNE      ??lb_16
+   \   00006C CC0000                JP        L:??DrawSymbol_16
+   \                     ??lb_16:
+   \   00006F 4A                    DEC       A
+   \   000070 2603                  JRNE      ??lb_17
+   \   000072 CC0000                JP        L:??DrawSymbol_17
+   \                     ??lb_17:
+   \   000075 4A                    DEC       A
+   \   000076 2603                  JRNE      ??lb_18
+   \   000078 CC0000                JP        L:??DrawSymbol_18
+   \                     ??lb_18:
+   \   00007B 4A                    DEC       A
+   \   00007C 2603                  JRNE      ??lb_19
+   \   00007E CC0000                JP        L:??DrawSymbol_19
+   \                     ??lb_19:
+   \   000081 4A                    DEC       A
+   \   000082 2603                  JRNE      ??lb_20
+   \   000084 CC0000                JP        L:??DrawSymbol_20
+   \                     ??lb_20:
+   \   000087 4A                    DEC       A
+   \   000088 2603                  JRNE      ??lb_21
+   \   00008A CC0000                JP        L:??DrawSymbol_21
+   \                     ??lb_21:
+   \   00008D 4A                    DEC       A
+   \   00008E 2603                  JRNE      ??lb_22
+   \   000090 CC0000                JP        L:??DrawSymbol_22
+   \                     ??lb_22:
+   \   000093 4A                    DEC       A
+   \   000094 2603                  JRNE      ??lb_23
+   \   000096 CC0000                JP        L:??DrawSymbol_23
+   \                     ??lb_23:
+   \   000099 4A                    DEC       A
+   \   00009A 2603                  JRNE      ??lb_24
+   \   00009C CC0000                JP        L:??DrawSymbol_24
+   \                     ??lb_24:
+   \   00009F 4A                    DEC       A
+   \   0000A0 2603                  JRNE      ??lb_25
+   \   0000A2 CC0000                JP        L:??DrawSymbol_25
+   \                     ??lb_25:
+   \   0000A5 4A                    DEC       A
+   \   0000A6 2603                  JRNE      ??lb_26
+   \   0000A8 CC0000                JP        L:??DrawSymbol_26
+   \                     ??lb_26:
+   \   0000AB 4A                    DEC       A
+   \   0000AC 2603                  JRNE      ??lb_27
+   \   0000AE CC0000                JP        L:??DrawSymbol_27
+   \                     ??lb_27:
+   \   0000B1 4A                    DEC       A
+   \   0000B2 2603                  JRNE      ??lb_28
+   \   0000B4 CC0000                JP        L:??DrawSymbol_28
+   \                     ??lb_28:
+   \   0000B7 4A                    DEC       A
+   \   0000B8 2603                  JRNE      ??lb_29
+   \   0000BA CC0000                JP        L:??DrawSymbol_29
+   \                     ??lb_29:
+   \   0000BD 4A                    DEC       A
+   \   0000BE 2603                  JRNE      ??lb_30
+   \   0000C0 CC0000                JP        L:??DrawSymbol_30
+   \                     ??lb_30:
+   \   0000C3 4A                    DEC       A
+   \   0000C4 2603                  JRNE      ??lb_31
+   \   0000C6 CC0000                JP        L:??DrawSymbol_31
+   \                     ??lb_31:
+   \   0000C9 4A                    DEC       A
+   \   0000CA 2603                  JRNE      ??lb_32
+   \   0000CC CC0000                JP        L:??DrawSymbol_32
+   \                     ??lb_32:
+   \   0000CF 4A                    DEC       A
+   \   0000D0 2603                  JRNE      ??lb_33
+   \   0000D2 CC0000                JP        L:??DrawSymbol_33
+   \                     ??lb_33:
+   \   0000D5 4A                    DEC       A
+   \   0000D6 2603                  JRNE      ??lb_34
+   \   0000D8 CC0000                JP        L:??DrawSymbol_34
+   \                     ??lb_34:
+   \   0000DB 4A                    DEC       A
+   \   0000DC 2603                  JRNE      ??lb_35
+   \   0000DE CC0000                JP        L:??DrawSymbol_35
+   \                     ??lb_35:
+   \   0000E1 4A                    DEC       A
+   \   0000E2 2603                  JRNE      ??lb_36
+   \   0000E4 CC0000                JP        L:??DrawSymbol_36
+   \                     ??lb_36:
+   \   0000E7 4A                    DEC       A
+   \   0000E8 2603                  JRNE      ??lb_37
+   \   0000EA CC0000                JP        L:??DrawSymbol_37
+   \                     ??lb_37:
+   \   0000ED A007                  SUB       A, #0x7
+   \   0000EF 2603                  JRNE      ??lb_38
+   \   0000F1 CC0000                JP        L:??DrawSymbol_38
+   \                     ??lb_38:
+   \   0000F4 4A                    DEC       A
+   \   0000F5 2603                  JRNE      ??lb_39
+   \   0000F7 CC0000                JP        L:??DrawSymbol_39
+   \                     ??lb_39:
+   \   0000FA 4A                    DEC       A
+   \   0000FB 2603                  JRNE      ??lb_40
+   \   0000FD CC0000                JP        L:??DrawSymbol_40
+   \                     ??lb_40:
+   \   000100 4A                    DEC       A
+   \   000101 2603                  JRNE      ??lb_41
+   \   000103 CC0000                JP        L:??DrawSymbol_41
+   \                     ??lb_41:
+   \   000106 4A                    DEC       A
+   \   000107 2603                  JRNE      ??lb_42
+   \   000109 CC0000                JP        L:??DrawSymbol_42
+   \                     ??lb_42:
+   \   00010C 4A                    DEC       A
+   \   00010D 2603                  JRNE      ??lb_43
+   \   00010F CC0000                JP        L:??DrawSymbol_43
+   \                     ??lb_43:
+   \   000112 4A                    DEC       A
+   \   000113 2603                  JRNE      ??lb_44
+   \   000115 CC0000                JP        L:??DrawSymbol_44
+   \                     ??lb_44:
+   \   000118 4A                    DEC       A
+   \   000119 2603                  JRNE      ??lb_45
+   \   00011B CC0000                JP        L:??DrawSymbol_45
+   \                     ??lb_45:
+   \   00011E 4A                    DEC       A
+   \   00011F 2603                  JRNE      ??lb_46
+   \   000121 CC0000                JP        L:??DrawSymbol_46
+   \                     ??lb_46:
+   \   000124 4A                    DEC       A
+   \   000125 2603                  JRNE      ??lb_47
+   \   000127 CC0000                JP        L:??DrawSymbol_47
+   \                     ??lb_47:
+   \   00012A 4A                    DEC       A
+   \   00012B 2603                  JRNE      ??lb_48
+   \   00012D CC0000                JP        L:??DrawSymbol_48
+   \                     ??lb_48:
+   \   000130 4A                    DEC       A
+   \   000131 2603                  JRNE      ??lb_49
+   \   000133 CC0000                JP        L:??DrawSymbol_49
+   \                     ??lb_49:
+   \   000136 4A                    DEC       A
+   \   000137 2603                  JRNE      ??lb_50
+   \   000139 CC0000                JP        L:??DrawSymbol_50
+   \                     ??lb_50:
+   \   00013C 4A                    DEC       A
+   \   00013D 2603                  JRNE      ??lb_51
+   \   00013F CC0000                JP        L:??DrawSymbol_51
+   \                     ??lb_51:
+   \   000142 4A                    DEC       A
+   \   000143 2603                  JRNE      ??lb_52
+   \   000145 CC0000                JP        L:??DrawSymbol_52
+   \                     ??lb_52:
+   \   000148 4A                    DEC       A
+   \   000149 2603                  JRNE      ??lb_53
+   \   00014B CC0000                JP        L:??DrawSymbol_53
+   \                     ??lb_53:
+   \   00014E 4A                    DEC       A
+   \   00014F 2603                  JRNE      ??lb_54
+   \   000151 CC0000                JP        L:??DrawSymbol_54
+   \                     ??lb_54:
+   \   000154 4A                    DEC       A
+   \   000155 2603                  JRNE      ??lb_55
+   \   000157 CC0000                JP        L:??DrawSymbol_55
+   \                     ??lb_55:
+   \   00015A 4A                    DEC       A
+   \   00015B 2603                  JRNE      ??lb_56
+   \   00015D CC0000                JP        L:??DrawSymbol_56
+   \                     ??lb_56:
+   \   000160 4A                    DEC       A
+   \   000161 2603                  JRNE      ??lb_57
+   \   000163 CC0000                JP        L:??DrawSymbol_57
+   \                     ??lb_57:
+   \   000166 4A                    DEC       A
+   \   000167 2603                  JRNE      ??lb_58
+   \   000169 CC0000                JP        L:??DrawSymbol_58
+   \                     ??lb_58:
+   \   00016C 4A                    DEC       A
+   \   00016D 2603                  JRNE      ??lb_59
+   \   00016F CC0000                JP        L:??DrawSymbol_59
+   \                     ??lb_59:
+   \   000172 4A                    DEC       A
+   \   000173 2603                  JRNE      ??lb_60
+   \   000175 CC0000                JP        L:??DrawSymbol_60
+   \                     ??lb_60:
+   \   000178 4A                    DEC       A
+   \   000179 2603                  JRNE      ??lb_61
+   \   00017B CC0000                JP        L:??DrawSymbol_61
+   \                     ??lb_61:
+   \   00017E 4A                    DEC       A
+   \   00017F 2603                  JRNE      ??lb_62
+   \   000181 CC0000                JP        L:??DrawSymbol_62
+   \                     ??lb_62:
+   \   000184 4A                    DEC       A
+   \   000185 2603                  JRNE      ??lb_63
+   \   000187 CC0000                JP        L:??DrawSymbol_63
+   \                     ??lb_63:
+   \   00018A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_12:
+   \   00018D AE0000                LDW       X, #Symbol1
+   \   000190 35070000              MOV       S:?b2, #0x7
+   \   000194 35050000              MOV       S:?b1, #0x5
+   \   000198 B600                  LD        A, S:?b3
+   \   00019A 8D000000              CALLF     DrawPicture
+   \   00019E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_13:
+   \   0001A1 AE0000                LDW       X, #Symbol2
+   \   0001A4 35070000              MOV       S:?b2, #0x7
+   \   0001A8 35050000              MOV       S:?b1, #0x5
+   \   0001AC B600                  LD        A, S:?b3
+   \   0001AE 8D000000              CALLF     DrawPicture
+   \   0001B2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_14:
+   \   0001B5 AE0000                LDW       X, #Symbol3
+   \   0001B8 35070000              MOV       S:?b2, #0x7
+   \   0001BC 35050000              MOV       S:?b1, #0x5
+   \   0001C0 B600                  LD        A, S:?b3
+   \   0001C2 8D000000              CALLF     DrawPicture
+   \   0001C6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_15:
+   \   0001C9 AE0000                LDW       X, #Symbol4
+   \   0001CC 35070000              MOV       S:?b2, #0x7
+   \   0001D0 35050000              MOV       S:?b1, #0x5
+   \   0001D4 B600                  LD        A, S:?b3
+   \   0001D6 8D000000              CALLF     DrawPicture
+   \   0001DA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_16:
+   \   0001DD AE0000                LDW       X, #Symbol5
+   \   0001E0 35070000              MOV       S:?b2, #0x7
+   \   0001E4 35050000              MOV       S:?b1, #0x5
+   \   0001E8 B600                  LD        A, S:?b3
+   \   0001EA 8D000000              CALLF     DrawPicture
+   \   0001EE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_17:
+   \   0001F1 AE0000                LDW       X, #Symbol6
+   \   0001F4 35070000              MOV       S:?b2, #0x7
+   \   0001F8 35050000              MOV       S:?b1, #0x5
+   \   0001FC B600                  LD        A, S:?b3
+   \   0001FE 8D000000              CALLF     DrawPicture
+   \   000202 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_18:
+   \   000205 AE0000                LDW       X, #Symbol7
+   \   000208 35070000              MOV       S:?b2, #0x7
+   \   00020C 35050000              MOV       S:?b1, #0x5
+   \   000210 B600                  LD        A, S:?b3
+   \   000212 8D000000              CALLF     DrawPicture
+   \   000216 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_19:
+   \   000219 AE0000                LDW       X, #Symbol8
+   \   00021C 35070000              MOV       S:?b2, #0x7
+   \   000220 35050000              MOV       S:?b1, #0x5
+   \   000224 B600                  LD        A, S:?b3
+   \   000226 8D000000              CALLF     DrawPicture
+   \   00022A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_20:
+   \   00022D AE0000                LDW       X, #Symbol9
+   \   000230 35070000              MOV       S:?b2, #0x7
+   \   000234 35050000              MOV       S:?b1, #0x5
+   \   000238 B600                  LD        A, S:?b3
+   \   00023A 8D000000              CALLF     DrawPicture
+   \   00023E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_21:
+   \   000241 AE0000                LDW       X, #Symbol10
+   \   000244 35070000              MOV       S:?b2, #0x7
+   \   000248 35050000              MOV       S:?b1, #0x5
+   \   00024C B600                  LD        A, S:?b3
+   \   00024E 8D000000              CALLF     DrawPicture
+   \   000252 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_22:
+   \   000255 AE0000                LDW       X, #Symbol11
+   \   000258 35070000              MOV       S:?b2, #0x7
+   \   00025C 35050000              MOV       S:?b1, #0x5
+   \   000260 B600                  LD        A, S:?b3
+   \   000262 8D000000              CALLF     DrawPicture
+   \   000266 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_23:
+   \   000269 AE0000                LDW       X, #Symbol12
+   \   00026C 35070000              MOV       S:?b2, #0x7
+   \   000270 35050000              MOV       S:?b1, #0x5
+   \   000274 B600                  LD        A, S:?b3
+   \   000276 8D000000              CALLF     DrawPicture
+   \   00027A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_24:
+   \   00027D AE0000                LDW       X, #Symbol13
+   \   000280 35070000              MOV       S:?b2, #0x7
+   \   000284 35050000              MOV       S:?b1, #0x5
+   \   000288 B600                  LD        A, S:?b3
+   \   00028A 8D000000              CALLF     DrawPicture
+   \   00028E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_25:
+   \   000291 AE0000                LDW       X, #Symbol14
+   \   000294 35070000              MOV       S:?b2, #0x7
+   \   000298 35050000              MOV       S:?b1, #0x5
+   \   00029C B600                  LD        A, S:?b3
+   \   00029E 8D000000              CALLF     DrawPicture
+   \   0002A2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_26:
+   \   0002A5 AE0000                LDW       X, #Symbol15
+   \   0002A8 35070000              MOV       S:?b2, #0x7
+   \   0002AC 35050000              MOV       S:?b1, #0x5
+   \   0002B0 B600                  LD        A, S:?b3
+   \   0002B2 8D000000              CALLF     DrawPicture
+   \   0002B6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_27:
+   \   0002B9 AE0000                LDW       X, #Symbol16
+   \   0002BC 35070000              MOV       S:?b2, #0x7
+   \   0002C0 35050000              MOV       S:?b1, #0x5
+   \   0002C4 B600                  LD        A, S:?b3
+   \   0002C6 8D000000              CALLF     DrawPicture
+   \   0002CA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_28:
+   \   0002CD AE0000                LDW       X, #Symbol17
+   \   0002D0 35070000              MOV       S:?b2, #0x7
+   \   0002D4 35050000              MOV       S:?b1, #0x5
+   \   0002D8 B600                  LD        A, S:?b3
+   \   0002DA 8D000000              CALLF     DrawPicture
+   \   0002DE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_29:
+   \   0002E1 AE0000                LDW       X, #Symbol18
+   \   0002E4 35070000              MOV       S:?b2, #0x7
+   \   0002E8 35050000              MOV       S:?b1, #0x5
+   \   0002EC B600                  LD        A, S:?b3
+   \   0002EE 8D000000              CALLF     DrawPicture
+   \   0002F2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_30:
+   \   0002F5 AE0000                LDW       X, #Symbol19
+   \   0002F8 35070000              MOV       S:?b2, #0x7
+   \   0002FC 35050000              MOV       S:?b1, #0x5
+   \   000300 B600                  LD        A, S:?b3
+   \   000302 8D000000              CALLF     DrawPicture
+   \   000306 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_31:
+   \   000309 AE0000                LDW       X, #Symbol20
+   \   00030C 35070000              MOV       S:?b2, #0x7
+   \   000310 35050000              MOV       S:?b1, #0x5
+   \   000314 B600                  LD        A, S:?b3
+   \   000316 8D000000              CALLF     DrawPicture
+   \   00031A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_32:
+   \   00031D AE0000                LDW       X, #Symbol21
+   \   000320 35070000              MOV       S:?b2, #0x7
+   \   000324 35050000              MOV       S:?b1, #0x5
+   \   000328 B600                  LD        A, S:?b3
+   \   00032A 8D000000              CALLF     DrawPicture
+   \   00032E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_33:
+   \   000331 AE0000                LDW       X, #Symbol22
+   \   000334 35070000              MOV       S:?b2, #0x7
+   \   000338 35050000              MOV       S:?b1, #0x5
+   \   00033C B600                  LD        A, S:?b3
+   \   00033E 8D000000              CALLF     DrawPicture
+   \   000342 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_34:
+   \   000345 AE0000                LDW       X, #Symbol23
+   \   000348 35070000              MOV       S:?b2, #0x7
+   \   00034C 35050000              MOV       S:?b1, #0x5
+   \   000350 B600                  LD        A, S:?b3
+   \   000352 8D000000              CALLF     DrawPicture
+   \   000356 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_35:
+   \   000359 AE0000                LDW       X, #Symbol24
+   \   00035C 35070000              MOV       S:?b2, #0x7
+   \   000360 35050000              MOV       S:?b1, #0x5
+   \   000364 B600                  LD        A, S:?b3
+   \   000366 8D000000              CALLF     DrawPicture
+   \   00036A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_36:
+   \   00036D AE0000                LDW       X, #Symbol25
+   \   000370 35070000              MOV       S:?b2, #0x7
+   \   000374 35050000              MOV       S:?b1, #0x5
+   \   000378 B600                  LD        A, S:?b3
+   \   00037A 8D000000              CALLF     DrawPicture
+   \   00037E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_37:
+   \   000381 AE0000                LDW       X, #Symbol26
+   \   000384 35070000              MOV       S:?b2, #0x7
+   \   000388 35050000              MOV       S:?b1, #0x5
+   \   00038C B600                  LD        A, S:?b3
+   \   00038E 8D000000              CALLF     DrawPicture
+   \   000392 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_1:
+   \   000395 AE0000                LDW       X, #Symbol27
+   \   000398 35070000              MOV       S:?b2, #0x7
+   \   00039C 35050000              MOV       S:?b1, #0x5
+   \   0003A0 B600                  LD        A, S:?b3
+   \   0003A2 8D000000              CALLF     DrawPicture
+   \   0003A6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_0:
+   \   0003A9 AE0000                LDW       X, #Symbol28
+   \   0003AC 35070000              MOV       S:?b2, #0x7
+   \   0003B0 35050000              MOV       S:?b1, #0x5
+   \   0003B4 B600                  LD        A, S:?b3
+   \   0003B6 8D000000              CALLF     DrawPicture
+   \   0003BA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_38:
+   \   0003BD AE0000                LDW       X, #Symbol29
+   \   0003C0 35070000              MOV       S:?b2, #0x7
+   \   0003C4 35050000              MOV       S:?b1, #0x5
+   \   0003C8 B600                  LD        A, S:?b3
+   \   0003CA 8D000000              CALLF     DrawPicture
+   \   0003CE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_39:
+   \   0003D1 AE0000                LDW       X, #Symbol30
+   \   0003D4 35070000              MOV       S:?b2, #0x7
+   \   0003D8 35050000              MOV       S:?b1, #0x5
+   \   0003DC B600                  LD        A, S:?b3
+   \   0003DE 8D000000              CALLF     DrawPicture
+   \   0003E2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_40:
+   \   0003E5 AE0000                LDW       X, #Symbol31
+   \   0003E8 35070000              MOV       S:?b2, #0x7
+   \   0003EC 35050000              MOV       S:?b1, #0x5
+   \   0003F0 B600                  LD        A, S:?b3
+   \   0003F2 8D000000              CALLF     DrawPicture
+   \   0003F6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_41:
+   \   0003F9 AE0000                LDW       X, #Symbol32
+   \   0003FC 35070000              MOV       S:?b2, #0x7
+   \   000400 35050000              MOV       S:?b1, #0x5
+   \   000404 B600                  LD        A, S:?b3
+   \   000406 8D000000              CALLF     DrawPicture
+   \   00040A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_42:
+   \   00040D AE0000                LDW       X, #Symbol33
+   \   000410 35070000              MOV       S:?b2, #0x7
+   \   000414 35050000              MOV       S:?b1, #0x5
+   \   000418 B600                  LD        A, S:?b3
+   \   00041A 8D000000              CALLF     DrawPicture
+   \   00041E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_43:
+   \   000421 AE0000                LDW       X, #Symbol34
+   \   000424 35070000              MOV       S:?b2, #0x7
+   \   000428 35050000              MOV       S:?b1, #0x5
+   \   00042C B600                  LD        A, S:?b3
+   \   00042E 8D000000              CALLF     DrawPicture
+   \   000432 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_44:
+   \   000435 AE0000                LDW       X, #Symbol35
+   \   000438 35070000              MOV       S:?b2, #0x7
+   \   00043C 35050000              MOV       S:?b1, #0x5
+   \   000440 B600                  LD        A, S:?b3
+   \   000442 8D000000              CALLF     DrawPicture
+   \   000446 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_45:
+   \   000449 AE0000                LDW       X, #Symbol36
+   \   00044C 35070000              MOV       S:?b2, #0x7
+   \   000450 35050000              MOV       S:?b1, #0x5
+   \   000454 B600                  LD        A, S:?b3
+   \   000456 8D000000              CALLF     DrawPicture
+   \   00045A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_46:
+   \   00045D AE0000                LDW       X, #Symbol37
+   \   000460 35070000              MOV       S:?b2, #0x7
+   \   000464 35050000              MOV       S:?b1, #0x5
+   \   000468 B600                  LD        A, S:?b3
+   \   00046A 8D000000              CALLF     DrawPicture
+   \   00046E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_47:
+   \   000471 AE0000                LDW       X, #Symbol38
+   \   000474 35070000              MOV       S:?b2, #0x7
+   \   000478 35050000              MOV       S:?b1, #0x5
+   \   00047C B600                  LD        A, S:?b3
+   \   00047E 8D000000              CALLF     DrawPicture
+   \   000482 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_48:
+   \   000485 AE0000                LDW       X, #Symbol39
+   \   000488 35070000              MOV       S:?b2, #0x7
+   \   00048C 35050000              MOV       S:?b1, #0x5
+   \   000490 B600                  LD        A, S:?b3
+   \   000492 8D000000              CALLF     DrawPicture
+   \   000496 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_49:
+   \   000499 AE0000                LDW       X, #Symbol40
+   \   00049C 35070000              MOV       S:?b2, #0x7
+   \   0004A0 35050000              MOV       S:?b1, #0x5
+   \   0004A4 B600                  LD        A, S:?b3
+   \   0004A6 8D000000              CALLF     DrawPicture
+   \   0004AA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_50:
+   \   0004AD AE0000                LDW       X, #Symbol41
+   \   0004B0 35070000              MOV       S:?b2, #0x7
+   \   0004B4 35050000              MOV       S:?b1, #0x5
+   \   0004B8 B600                  LD        A, S:?b3
+   \   0004BA 8D000000              CALLF     DrawPicture
+   \   0004BE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_51:
+   \   0004C1 AE0000                LDW       X, #Symbol42
+   \   0004C4 35070000              MOV       S:?b2, #0x7
+   \   0004C8 35050000              MOV       S:?b1, #0x5
+   \   0004CC B600                  LD        A, S:?b3
+   \   0004CE 8D000000              CALLF     DrawPicture
+   \   0004D2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_52:
+   \   0004D5 AE0000                LDW       X, #Symbol43
+   \   0004D8 35070000              MOV       S:?b2, #0x7
+   \   0004DC 35050000              MOV       S:?b1, #0x5
+   \   0004E0 B600                  LD        A, S:?b3
+   \   0004E2 8D000000              CALLF     DrawPicture
+   \   0004E6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_53:
+   \   0004E9 AE0000                LDW       X, #Symbol44
+   \   0004EC 35070000              MOV       S:?b2, #0x7
+   \   0004F0 35050000              MOV       S:?b1, #0x5
+   \   0004F4 B600                  LD        A, S:?b3
+   \   0004F6 8D000000              CALLF     DrawPicture
+   \   0004FA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_54:
+   \   0004FD AE0000                LDW       X, #Symbol45
+   \   000500 35070000              MOV       S:?b2, #0x7
+   \   000504 35050000              MOV       S:?b1, #0x5
+   \   000508 B600                  LD        A, S:?b3
+   \   00050A 8D000000              CALLF     DrawPicture
+   \   00050E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_55:
+   \   000511 AE0000                LDW       X, #Symbol46
+   \   000514 35070000              MOV       S:?b2, #0x7
+   \   000518 35050000              MOV       S:?b1, #0x5
+   \   00051C B600                  LD        A, S:?b3
+   \   00051E 8D000000              CALLF     DrawPicture
+   \   000522 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_56:
+   \   000525 AE0000                LDW       X, #Symbol47
+   \   000528 35070000              MOV       S:?b2, #0x7
+   \   00052C 35050000              MOV       S:?b1, #0x5
+   \   000530 B600                  LD        A, S:?b3
+   \   000532 8D000000              CALLF     DrawPicture
+   \   000536 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_57:
+   \   000539 AE0000                LDW       X, #Symbol48
+   \   00053C 35070000              MOV       S:?b2, #0x7
+   \   000540 35050000              MOV       S:?b1, #0x5
+   \   000544 B600                  LD        A, S:?b3
+   \   000546 8D000000              CALLF     DrawPicture
+   \   00054A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_58:
+   \   00054D AE0000                LDW       X, #Symbol49
+   \   000550 35070000              MOV       S:?b2, #0x7
+   \   000554 35050000              MOV       S:?b1, #0x5
+   \   000558 B600                  LD        A, S:?b3
+   \   00055A 8D000000              CALLF     DrawPicture
+   \   00055E CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_59:
+   \   000561 AE0000                LDW       X, #Symbol50
+   \   000564 35070000              MOV       S:?b2, #0x7
+   \   000568 35050000              MOV       S:?b1, #0x5
+   \   00056C B600                  LD        A, S:?b3
+   \   00056E 8D000000              CALLF     DrawPicture
+   \   000572 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_60:
+   \   000575 AE0000                LDW       X, #Symbol51
+   \   000578 35070000              MOV       S:?b2, #0x7
+   \   00057C 35050000              MOV       S:?b1, #0x5
+   \   000580 B600                  LD        A, S:?b3
+   \   000582 8D000000              CALLF     DrawPicture
+   \   000586 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_61:
+   \   000589 AE0000                LDW       X, #Symbol52
+   \   00058C 35070000              MOV       S:?b2, #0x7
+   \   000590 35050000              MOV       S:?b1, #0x5
+   \   000594 B600                  LD        A, S:?b3
+   \   000596 8D000000              CALLF     DrawPicture
+   \   00059A CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_62:
+   \   00059D AE0000                LDW       X, #Symbol53
+   \   0005A0 35070000              MOV       S:?b2, #0x7
+   \   0005A4 35050000              MOV       S:?b1, #0x5
+   \   0005A8 B600                  LD        A, S:?b3
+   \   0005AA 8D000000              CALLF     DrawPicture
+   \   0005AE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_63:
+   \   0005B1 AE0000                LDW       X, #Symbol54
+   \   0005B4 35070000              MOV       S:?b2, #0x7
+   \   0005B8 35050000              MOV       S:?b1, #0x5
+   \   0005BC B600                  LD        A, S:?b3
+   \   0005BE 8D000000              CALLF     DrawPicture
+   \   0005C2 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_2:
+   \   0005C5 AE0000                LDW       X, #Symbol55
+   \   0005C8 35070000              MOV       S:?b2, #0x7
+   \   0005CC 35050000              MOV       S:?b1, #0x5
+   \   0005D0 B600                  LD        A, S:?b3
+   \   0005D2 8D000000              CALLF     DrawPicture
+   \   0005D6 CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_3:
+   \   0005D9 AE0000                LDW       X, #Symbol56
+   \   0005DC 35070000              MOV       S:?b2, #0x7
+   \   0005E0 35050000              MOV       S:?b1, #0x5
+   \   0005E4 B600                  LD        A, S:?b3
+   \   0005E6 8D000000              CALLF     DrawPicture
+   \   0005EA CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_4:
+   \   0005ED AE0000                LDW       X, #Symbol57
+   \   0005F0 35070000              MOV       S:?b2, #0x7
+   \   0005F4 35050000              MOV       S:?b1, #0x5
+   \   0005F8 B600                  LD        A, S:?b3
+   \   0005FA 8D000000              CALLF     DrawPicture
+   \   0005FE CC0000                JP        L:??DrawSymbol_64
+   \                     ??DrawSymbol_5:
+   \   000601 AE0000                LDW       X, #Symbol58
+   \   000604 35070000              MOV       S:?b2, #0x7
+   \   000608 35050000              MOV       S:?b1, #0x5
+   \   00060C B600                  LD        A, S:?b3
+   \   00060E 8D000000              CALLF     DrawPicture
+   \   000612 2070                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_6:
+   \   000614 AE0000                LDW       X, #Symbol59
+   \   000617 35070000              MOV       S:?b2, #0x7
+   \   00061B 35050000              MOV       S:?b1, #0x5
+   \   00061F B600                  LD        A, S:?b3
+   \   000621 8D000000              CALLF     DrawPicture
+   \   000625 205D                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_7:
+   \   000627 AE0000                LDW       X, #Symbol60
+   \   00062A 35070000              MOV       S:?b2, #0x7
+   \   00062E 35050000              MOV       S:?b1, #0x5
+   \   000632 B600                  LD        A, S:?b3
+   \   000634 8D000000              CALLF     DrawPicture
+   \   000638 204A                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_8:
+   \   00063A AE0000                LDW       X, #Symbol61
+   \   00063D 35070000              MOV       S:?b2, #0x7
+   \   000641 35050000              MOV       S:?b1, #0x5
+   \   000645 B600                  LD        A, S:?b3
+   \   000647 8D000000              CALLF     DrawPicture
+   \   00064B 2037                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_9:
+   \   00064D AE0000                LDW       X, #Symbol62
+   \   000650 35070000              MOV       S:?b2, #0x7
+   \   000654 35050000              MOV       S:?b1, #0x5
+   \   000658 B600                  LD        A, S:?b3
+   \   00065A 8D000000              CALLF     DrawPicture
+   \   00065E 2024                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_10:
+   \   000660 AE0000                LDW       X, #Symbol63
+   \   000663 35070000              MOV       S:?b2, #0x7
+   \   000667 35050000              MOV       S:?b1, #0x5
+   \   00066B B600                  LD        A, S:?b3
+   \   00066D 8D000000              CALLF     DrawPicture
+   \   000671 2011                  JRA       L:??DrawSymbol_64
+   \                     ??DrawSymbol_11:
+   \   000673 AE0000                LDW       X, #Symbol64
+   \   000676 35070000              MOV       S:?b2, #0x7
+   \   00067A 35050000              MOV       S:?b1, #0x5
+   \   00067E B600                  LD        A, S:?b3
+   \   000680 8D000000              CALLF     DrawPicture
+   \                     ??DrawSymbol_64:
+   \   000684 86                    POP       CC
+   \   000685 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __monitor void DrawText(char, char, char *, char)
+   \                     DrawText:
+   \   000000 8A                    PUSH      CC
+   \   000001 8D000000              CALLF     L:?push_l2
+   \   000005 8D000000              CALLF     L:?push_l3
+   \   000009 9B                    SIM
+   \   00000A 450000                MOV       S:?b14, S:?b0
+   \   00000D BF00                  LDW       S:?w6, X
+   \   00000F 450000                MOV       S:?b15, S:?b1
+   \   000012 9B                    sim
+   \   000013 5F                    CLRW      X
+   \   000014 97                    LD        XL, A
+   \   000015 BF00                  LDW       S:?w5, X
+   \   000017 3F00                  CLR       S:?b9
+   \   000019 3F00                  CLR       S:?b8
+   \   00001B 2025                  JRA       L:??DrawText_0
+   \                     ??DrawText_1:
+   \   00001D BE00                  LDW       X, S:?w4
+   \   00001F 72BB0000              ADDW      X, S:?w6
+   \   000023 F6                    LD        A, (X)
+   \   000024 B700                  LD        S:?b1, A
+   \   000026 450000                MOV       S:?b0, S:?b14
+   \   000029 B600                  LD        A, S:?b11
+   \   00002B 8D000000              CALLF     DrawSymbol
+   \   00002F 5F                    CLRW      X
+   \   000030 41                    EXG       A, XL
+   \   000031 B600                  LD        A, S:?b15
+   \   000033 41                    EXG       A, XL
+   \   000034 1C0005                ADDW      X, #0x5
+   \   000037 72BB0000              ADDW      X, S:?w5
+   \   00003B BF00                  LDW       S:?w5, X
+   \   00003D BE00                  LDW       X, S:?w4
+   \   00003F 5C                    INCW      X
+   \   000040 BF00                  LDW       S:?w4, X
+   \                     ??DrawText_0:
+   \   000042 BE00                  LDW       X, S:?w4
+   \   000044 72BB0000              ADDW      X, S:?w6
+   \   000048 F6                    LD        A, (X)
+   \   000049 A12F                  CP        A, #0x2f
+   \   00004B 26D0                  JRNE      L:??DrawText_1
+   \   00004D BE00                  LDW       X, S:?w4
+   \   00004F 72BB0000              ADDW      X, S:?w6
+   \   000053 5C                    INCW      X
+   \   000054 F6                    LD        A, (X)
+   \   000055 A140                  CP        A, #0x40
+   \   000057 26C4                  JRNE      L:??DrawText_1
+   \   000059 9A                    rim
+   \   00005A 8D000000              CALLF     L:?pop_l3
+   \   00005E 8D000000              CALLF     L:?pop_l2
+   \   000062 86                    POP       CC
+   \   000063 87                    RETF
+      5          #include "stdlib.h"
+
+   \                                 In section .far_func.text, align 1
+   \   __intrinsic __nounwind __far_func int abs(int)
+   \                     abs:
+   \   000000 A30000                CPW       X, #0x0
+   \   000003 2E05                  JRSGE     L:??abs_0
+   \   000005 9093                  LDW       Y, X
+   \   000007 9050                  NEGW      Y
+   \   000009 93                    LDW       X, Y
+   \                     ??abs_0:
+   \   00000A 87                    RETF
+      6          //----------------------------
+
+   \                                 In section .far_func.text, align 1, keep-with-next
+      7          void main()      
+      8          { 
+   \                     main:
+   \   000000 3B0000                PUSH      S:?b8
+      9            char ru;
+     10            InitSystemClock();
+   \   000003 8D000000              CALLF     InitSystemClock
+     11            InitPortsIO();   
+   \   000007 8D000000              CALLF     InitPortsIO
+     12            InitSPI();
+   \   00000B 8D000000              CALLF     InitSPI
+     13            //InitTimers();
+     14            //EnableInterrupts(); 
+     15            InitLCD();
+   \   00000F 8D000000              CALLF     InitLCD
+     16            DrawFillRectangle(1,1,130,130,0x000000);//Background
+   \   000013 5F                    CLRW      X
+   \   000014 BF00                  LDW       S:?w3, X
+   \   000016 BF00                  LDW       S:?w2, X
+   \   000018 35820000              MOV       S:?b2, #0x82
+   \   00001C 35820000              MOV       S:?b1, #0x82
+   \   000020 35010000              MOV       S:?b0, #0x1
+   \   000024 A601                  LD        A, #0x1
+   \   000026 8D000000              CALLF     DrawFillRectangle
+     17            ru=PIND;
+   \   00002A C65010                LD        A, L:0x5010
+     18            //DrawText(1,1,"Hello /@",1);
+     19            for (char i=1;i<=255;i+=2) {
+                                  ^
+Warning[Pa084]: pointless integer comparison, the result is always true
+
+    char ru;
+         ^
+"E:\STM_PROJECT\STM8S105C6T6\C++\Project_2\Project_2\main.c",9  Warning[Pe550]: 
+          variable "ru" was set but never used
+   \   00002D 35010000              MOV       S:?b8, #0x1
+   \   000031 2029                  JRA       L:??main_0
+     20             DrawFillRectangle(1,i/2,130,1,i);   
+   \                     ??main_1:
+   \   000033 5F                    CLRW      X
+   \   000034 41                    EXG       A, XL
+   \   000035 B600                  LD        A, S:?b8
+   \   000037 41                    EXG       A, XL
+   \   000038 BF00                  LDW       S:?w3, X
+   \   00003A 5F                    CLRW      X
+   \   00003B BF00                  LDW       S:?w2, X
+   \   00003D 35010000              MOV       S:?b2, #0x1
+   \   000041 35820000              MOV       S:?b1, #0x82
+   \   000045 A602                  LD        A, #0x2
+   \   000047 5F                    CLRW      X
+   \   000048 01                    RRWA      X, A
+   \   000049 B600                  LD        A, S:?b8
+   \   00004B 02                    RLWA      X, A
+   \   00004C 62                    DIV       X, A
+   \   00004D 9F                    LD        A, XL
+   \   00004E B700                  LD        S:?b0, A
+   \   000050 A601                  LD        A, #0x1
+   \   000052 8D000000              CALLF     DrawFillRectangle
+     21            };
+   \   000056 B600                  LD        A, S:?b8
+   \   000058 AB02                  ADD       A, #0x2
+   \   00005A B700                  LD        S:?b8, A
+   \                     ??main_0:
+   \   00005C 5F                    CLRW      X
+   \   00005D 41                    EXG       A, XL
+   \   00005E B600                  LD        A, S:?b8
+   \   000060 41                    EXG       A, XL
+   \   000061 A30100                CPW       X, #0x100
+   \   000064 2FCD                  JRSLT     L:??main_1
+     22            while (1)   
+   \                     ??main_2:
+   \   000066 20FE                  JRA       L:??main_2
+     23            {   
+     24              
+     25            }   
+     26          } 
+
+   Section sizes:
+
+     Function/Label    Bytes
+     --------------    -----
+     EnableInterrupts     2
+     DisableInterrupts    2
+     Timer1               5
+     Timer2               5
+     Timer3               5
+     Timer4               5
+     ADC                  1
+     AWU                  1
+     EXTI0                1
+     EXTI1                1
+     EXTI2                1
+     EXTI3                1
+     EXTI4                1
+     SPIEndTransfer       1
+     InitPortsIO         73
+     InitSystemClock     31
+     InitSPI             13
+     InitTimers          81
+     InitADC             21
+     Delay               21
+     SendSPI             12
+     DigitToChar          5
+     Symbol1             35
+     Symbol2             35
+     Symbol3             35
+     Symbol4             35
+     Symbol5             35
+     Symbol6             35
+     Symbol7             35
+     Symbol8             35
+     Symbol9             35
+     Symbol10            35
+     Symbol11            35
+     Symbol12            35
+     Symbol13            35
+     Symbol14            35
+     Symbol15            35
+     Symbol16            35
+     Symbol17            35
+     Symbol18            35
+     Symbol19            35
+     Symbol20            35
+     Symbol21            35
+     Symbol22            35
+     Symbol23            35
+     Symbol24            35
+     Symbol25            35
+     Symbol26            35
+     Symbol27            35
+     Symbol28            35
+     Symbol29            35
+     Symbol30            35
+     Symbol31            35
+     Symbol32            35
+     Symbol33            35
+     Symbol34            35
+     Symbol35            35
+     Symbol36            35
+     Symbol37            35
+     Symbol38            35
+     Symbol39            35
+     Symbol40            35
+     Symbol41            35
+     Symbol42            35
+     Symbol43            35
+     Symbol44            35
+     Symbol45            35
+     Symbol46            35
+     Symbol47            35
+     Symbol48            35
+     Symbol49            35
+     Symbol50            35
+     Symbol51            35
+     Symbol52            35
+     Symbol53            35
+     Symbol54            35
+     Symbol55            35
+     Symbol56            35
+     Symbol57            35
+     Symbol58            35
+     Symbol59            35
+     Symbol60            35
+     Symbol61            35
+     Symbol62            35
+     Symbol63            35
+     Symbol64            35
+     SendToLCD           40
+     InitLCD            106
+     DrawFillRectangle  280
+     DrawRectangle      119
+     DrawPoint           12
+     DrawLine           185
+     DrawCircle         260
+     DrawLine2          191
+     DrawPicture        153
+     DrawSymbol        1670
+     DrawText           100
+     abs                 11
+     main               104
+
+ 
+ 3 520 bytes in section .far_func.text
+ 2 240 bytes in section .near.rodata
+ 
+ 3 509 bytes of CODE  memory (+ 11 bytes shared)
+ 2 240 bytes of CONST memory
+
+Errors: none
+Warnings: 4

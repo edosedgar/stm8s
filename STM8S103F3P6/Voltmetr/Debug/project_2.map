@@ -1,0 +1,25 @@
+
+Segment List
+------------
+
+c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm[4]  219-  240      8080 -     8095                 'ROM'  [text] <c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm>
+c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm[6]   42-  366      8096 -     830A                 'ROM'  [text]
+c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm[5]    7-   41      8000 -     807F                 'INTERRUPT'  [text]
+
+
+Class List
+----------
+
+0 '      EEPROM'   byte from     4000 to     3FFF (lim     407F) =  0% V
+0 '         ROM'   byte from     8080 to     830A (lim     9FFF) =  8% C
+0 '   INTERRUPT'   byte from     8000 to     807F (lim     807F) =100% C
+
+
+
+External Label list
+-------------------
+
+Symbol Name                       Value     Scope  Def(line)
+
+
+0 labels

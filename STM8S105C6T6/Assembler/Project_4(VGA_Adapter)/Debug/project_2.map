@@ -1,0 +1,25 @@
+
+Segment List
+------------
+
+e:\stm_project\stm8s105c6t6\assembler\project_4(vga_adapter)\general.asm[4]  249-  281      8080 -     80A9                 'ROM'  [text] <e:\stm_project\stm8s105c6t6\assembler\project_4(vga_adapter)\stm8s105c6.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_4(vga_adapter)\general.asm[6]   41-  217      80AA -     81DA                 'ROM'  [text]
+e:\stm_project\stm8s105c6t6\assembler\project_4(vga_adapter)\general.asm[5]    7-   40      8000 -     807F                 'INTERRUPT'  [text]
+
+
+Class List
+----------
+
+0 '      EEPROM'   byte from     4000 to     3FFF (lim     43FF) =  0% V
+0 '         ROM'   byte from     8080 to     81DA (lim     FFFF) =  1% C
+0 '   INTERRUPT'   byte from     8000 to     807F (lim     807F) =100% C
+
+
+
+External Label list
+-------------------
+
+Symbol Name                       Value     Scope  Def(line)
+
+
+0 labels

@@ -1,0 +1,318 @@
+###############################################################################
+#                                                                             #
+# IAR C/C++ Compiler V1.30.1.50036 for STM8             05/Jun/2013  17:18:35 #
+# Copyright 2010-2011 IAR Systems AB.                                         #
+#                                                                             #
+#    Source file  =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\main.c         #
+#    Command line =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\main.c -e -On  #
+#                    --no_cse --no_unroll --no_inline --no_code_motion        #
+#                    --no_tbaa --no_cross_call --debug --code_model medium    #
+#                    --data_model medium -o E:\STM_PROJECT\STM8S105C6T6\C++\P #
+#                    roject_4\Debug\Obj\ --dlib_config "D:\Program_Files\IAR  #
+#                    Systems\IAR for STM8\stm8\LIB\dlstm8mmn.h" -lCN          #
+#                    E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\Debug\List\    #
+#                    -lA E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\Debug\List #
+#                    \ --vregs 16                                             #
+#    List file    =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\Debug\List\mai #
+#                    n.lst                                                    #
+#    Object file  =  E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\Debug\Obj\main #
+#                    .o                                                       #
+#                                                                             #
+#                                                                             #
+###############################################################################
+
+E:\STM_PROJECT\STM8S105C6T6\C++\Project_4\main.c
+      1          #include "stm8s105c6.h"
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void EnableInterrupts()
+   \                     EnableInterrupts:
+   \   000000 9A                    RIM
+   \   000001 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void DisableInterrupts()
+   \                     DisableInterrupts:
+   \   000000 9B                    SIM
+   \   000001 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer1(void)
+   \                     Timer1:
+   \                     _interrupt_13:
+   \   000000 72115255              BRES 0x5255,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer2(void)
+   \                     Timer2:
+   \                     _interrupt_15:
+   \   000000 72115302              BRES 0x5302,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer3(void)
+   \                     Timer3:
+   \                     _interrupt_17:
+   \   000000 72115322              BRES 0x5322,#0
+   \   000004 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void Timer4(void)
+   \                     Timer4:
+   \                     _interrupt_25:
+   \   000000 8A                    PUSH      CC
+   \   000001 84                    POP       A
+   \   000002 A4BF                  AND       A, #0xbf
+   \   000004 88                    PUSH      A
+   \   000005 86                    POP       CC
+   \   000006 72115342              BRES 0x5342,#0
+   \   00000A 8D000000              CALLF     HandlerTimer4
+   \   00000E 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void ADC(void)
+   \                     ADC:
+   \                     _interrupt_24:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void AWU(void)
+   \                     AWU:
+   \                     _interrupt_3:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI0(void)
+   \                     EXTI0:
+   \                     _interrupt_5:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI1(void)
+   \                     EXTI1:
+   \                     _interrupt_6:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI2(void)
+   \                     EXTI2:
+   \                     _interrupt_7:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI3(void)
+   \                     EXTI3:
+   \                     _interrupt_8:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void EXTI4(void)
+   \                     EXTI4:
+   \                     _interrupt_9:
+   \   000000 80                    IRET
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __interrupt void SPIEndTransfer(void)
+   \                     SPIEndTransfer:
+   \                     _interrupt_12:
+   \   000000 80                    IRET
+      2          #include "functions.h"
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void Delay(unsigned int)
+   \                     Delay:
+   \                     ??Delay_0:
+   \   000000 5D                    TNZW      X
+   \   000001 2703                  JREQ      L:??Delay_1
+   \   000003 5A                    DECW      X
+   \   000004 20FA                  JRA       L:??Delay_0
+   \                     ??Delay_1:
+   \   000006 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func __monitor void SendSPI(char)
+   \                     SendSPI:
+   \   000000 8A                    PUSH      CC
+   \   000001 9B                    SIM
+   \   000002 C75204                LD        L:0x5204, A
+   \                     ??SendSPI_0:
+   \   000005 720E5203FB            BTJT      L:0x5203, #0x7, L:??SendSPI_0
+   \   00000A 86                    POP       CC
+   \   00000B 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func char ByteToChar(unsigned int)
+   \                     ByteToChar:
+   \   000000 1C0030                ADDW      X, #0x30
+   \   000003 9F                    LD        A, XL
+   \   000004 87                    RETF
+      3          #include "initperiphery.h"
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitPortsIO()
+   \                     InitPortsIO:
+   \   000000 35005002              MOV       L:0x5002, #0x0
+   \   000004 35005003              MOV       L:0x5003, #0x0
+   \   000008 35005000              MOV       L:0x5000, #0x0
+   \   00000C 35005007              MOV       L:0x5007, #0x0
+   \   000010 35805008              MOV       L:0x5008, #0x80
+   \   000014 35005005              MOV       L:0x5005, #0x0
+   \   000018 3564500C              MOV       L:0x500c, #0x64
+   \   00001C 3564500D              MOV       L:0x500d, #0x64
+   \   000020 3564500E              MOV       L:0x500e, #0x64
+   \   000024 3500500A              MOV       L:0x500a, #0x0
+   \   000028 35015011              MOV       L:0x5011, #0x1
+   \   00002C 35015012              MOV       L:0x5012, #0x1
+   \   000030 35015013              MOV       L:0x5013, #0x1
+   \   000034 3500500F              MOV       L:0x500f, #0x0
+   \   000038 35205016              MOV       L:0x5016, #0x20
+   \   00003C 35205017              MOV       L:0x5017, #0x20
+   \   000040 35205014              MOV       L:0x5014, #0x20
+   \   000044 35005020              MOV       L:0x5020, #0x0
+   \   000048 35005021              MOV       L:0x5021, #0x0
+   \   00004C 3500501E              MOV       L:0x501e, #0x0
+   \   000050 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitSystemClock()
+   \                     InitSystemClock:
+   \   000000 350150C1              MOV       L:0x50c1, #0x1
+   \   000004 350250C5              MOV       L:0x50c5, #0x2
+   \   000008 35FF50C7              MOV       L:0x50c7, #0xff
+   \                     ??InitSystemClock_0:
+   \   00000C 720350C1FB            BTJF      L:0x50c1, #0x1, L:??InitSystemClock_0
+   \   000011 350050C6              MOV       L:0x50c6, #0x0
+   \   000015 35B450C4              MOV       L:0x50c4, #0xb4
+   \                     ??InitSystemClock_1:
+   \   000019 720750C5FB            BTJF      L:0x50c5, #0x3, L:??InitSystemClock_1
+   \   00001E 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitSPI()
+   \                     InitSPI:
+   \   000000 35545200              MOV       L:0x5200, #0x54
+   \   000004 35035201              MOV       L:0x5201, #0x3
+   \   000008 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitTimers()
+   \                     InitTimers:
+   \   000000 35005260              MOV       L:0x5260, #0x0
+   \   000004 35055261              MOV       L:0x5261, #0x5
+   \   000008 35005262              MOV       L:0x5262, #0x0
+   \   00000C 35015263              MOV       L:0x5263, #0x1
+   \   000010 3580526D              MOV       L:0x526d, #0x80
+   \   000014 3510525C              MOV       L:0x525c, #0x10
+   \   000018 35305259              MOV       L:0x5259, #0x30
+   \   00001C 35815250              MOV       L:0x5250, #0x81
+   \   000020 3500530C              MOV       L:0x530c, #0x0
+   \   000024 35FF530D              MOV       L:0x530d, #0xff
+   \   000028 35FF530E              MOV       L:0x530e, #0xff
+   \   00002C 35815300              MOV       L:0x5300, #0x81
+   \   000030 35015301              MOV       L:0x5301, #0x1
+   \   000034 3500532A              MOV       L:0x532a, #0x0
+   \   000038 35FF532B              MOV       L:0x532b, #0xff
+   \   00003C 35FF532C              MOV       L:0x532c, #0xff
+   \   000040 35815320              MOV       L:0x5320, #0x81
+   \   000044 35015321              MOV       L:0x5321, #0x1
+   \   000048 35075345              MOV       L:0x5345, #0x7
+   \   00004C 35505346              MOV       L:0x5346, #0x50
+   \   000050 35815340              MOV       L:0x5340, #0x81
+   \   000054 35015341              MOV       L:0x5341, #0x1
+   \   000058 87                    RETF
+
+   \                                 In section .far_func.text, align 1
+   \   __far_func void InitADC()
+   \                     InitADC:
+   \   000000 35295400              MOV       L:0x5400, #0x29
+   \   000004 35425401              MOV       L:0x5401, #0x42
+   \   000008 35405402              MOV       L:0x5402, #0x40
+   \   00000C 35005403              MOV       L:0x5403, #0x0
+   \   000010 72105401              BSET      L:0x5401, #0x0
+   \   000014 87                    RETF
+      4          
+
+   \                                 In section .far_func.text, align 1
+      5          void main()
+      6          {
+      7            InitSystemClock();
+   \                     main:
+   \   000000 8D000000              CALLF     InitSystemClock
+      8            InitPortsIO();  
+   \   000004 8D000000              CALLF     InitPortsIO
+      9            InitTimers();
+   \   000008 8D000000              CALLF     InitTimers
+     10            EnableInterrupts();   
+   \   00000C 8D000000              CALLF     EnableInterrupts
+     11            while (1)
+     12            {
+     13              if ((PINB&0x80)==0x80) 
+   \                     ??main_0:
+   \   000010 720F500608            BTJF      L:0x5006, #0x7, L:??main_1
+     14              {
+     15                asm("BRES 0x5340,#0");
+   \   000015 72115340              BRES 0x5340,#0
+     16                asm("BSET 0x525C,#4"); 
+   \   000019 7218525C              BSET 0x525C,#4
+     17              };
+     18              if ((PINB&0x80)==0x00) 
+   \                     ??main_1:
+   \   00001D 720E5006EE            BTJT      L:0x5006, #0x7, L:??main_0
+     19              {
+     20                asm("BSET 0x5340,#0");
+   \   000022 72105340              BSET 0x5340,#0
+   \   000026 20E8                  JRA       L:??main_0
+     21              };
+     22              
+     23            }
+     24          }
+     25          
+
+   \                                 In section .far_func.text, align 1
+     26          void HandlerTimer4 (void)
+     27          {
+     28            asm("BCPL 0x525C,#4"); //TIM1_CCER1.CC2E=!TIM1_CCER1.CC2E 
+   \                     HandlerTimer4:
+   \   000000 9018525C              BCPL 0x525C,#4
+     29          };
+   \   000004 87                    RETF
+     30          
+     31          
+
+   Section sizes:
+
+     Function/Label    Bytes
+     --------------    -----
+     EnableInterrupts     2
+     DisableInterrupts    2
+     Timer1               5
+     Timer2               5
+     Timer3               5
+     Timer4              15
+     ADC                  1
+     AWU                  1
+     EXTI0                1
+     EXTI1                1
+     EXTI2                1
+     EXTI3                1
+     EXTI4                1
+     SPIEndTransfer       1
+     Delay                7
+     SendSPI             12
+     ByteToChar           5
+     InitPortsIO         81
+     InitSystemClock     31
+     InitSPI              9
+     InitTimers          89
+     InitADC             21
+     main                40
+     HandlerTimer4        5
+
+ 
+ 342 bytes in section .far_func.text
+ 
+ 342 bytes of CODE memory
+
+Errors: none
+Warnings: none

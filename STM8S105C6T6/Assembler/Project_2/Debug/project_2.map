@@ -1,0 +1,29 @@
+
+Segment List
+------------
+
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[4]  223-  254      8080 -     80A9                 'ROM'  [text] <e:\stm_project\stm8s105c6t6\assembler\project_2\stm8s105c6.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[5]    2-  144      80AA -     8776                 'ROM'  [textdata] <e:\stm_project\stm8s105c6t6\assembler\project_2\matrixkeyboard.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[6]    2-  261      8777 -     8968                 'ROM'  [textdata] <e:\stm_project\stm8s105c6t6\assembler\project_2\basicmath.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[7]    8-  670      8969 -     8EB4                 'ROM'  [text] <e:\stm_project\stm8s105c6t6\assembler\project_2\lcdnokia.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[8]    2-   90      8EB5 -     9120                 'ROM'  [textdata] <e:\stm_project\stm8s105c6t6\assembler\project_2\analogclock.asm>
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[10]   44-  225      9121 -     9462                 'ROM'  [textdata]
+e:\stm_project\stm8s105c6t6\assembler\project_2\general.asm[9]   10-   43      8000 -     807F                 'INTERRUPT'  [text]
+
+
+Class List
+----------
+
+0 '      EEPROM'   byte from     4000 to     3FFF (lim     43FF) =  0% V
+0 '         ROM'   byte from     8080 to     9462 (lim     FFFF) = 15% CS
+0 '   INTERRUPT'   byte from     8000 to     807F (lim     807F) =100% C
+
+
+
+External Label list
+-------------------
+
+Symbol Name                       Value     Scope  Def(line)
+
+
+0 labels

@@ -1,0 +1,27 @@
+Timer2.w:
+	BRES TIM2_SR1,#UIF
+	LD A,Temp7
+	CP A,#1
+	JREQ IncLight
+	CP A,#0
+	JREQ DecLight	
+	IRET
+IncLight.w:
+	INC LvlLed
+	LD A,LvlLed
+	CP A,#254
+	JREQ ClrTemp7
+	IRET
+ClrTemp7.w:
+	CLR Temp7
+	IRET
+SetTemp7.w:
+	MOV Temp7,#$01
+	IRET
+DecLight.w:
+	DEC LvlLed
+	LD A,LvlLed
+	CP A,#1
+	JREQ SetTemp7
+	IRET
+;#######

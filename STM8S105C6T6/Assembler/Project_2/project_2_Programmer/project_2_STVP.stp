@@ -1,0 +1,20 @@
+[Last Settings]
+Hardware=ST-LINK
+PROTOCOL=SWIM
+Port=USB
+DEVICE=STM8S105x6
+Verify after programming=1
+Blank check before programming (when available)=0
+Erase device memory before programming (when available)=1
+Unlock protection before a programming cycle=0
+[DATA MEMORY]
+Count=0
+ProgramEvenIfBlank=0
+[PROGRAM MEMORY]
+Count=1
+File0=E:\STM_PROJECT\STM8S105C6T6\Assembler\Project_2\Debug\project_2.s19
+ProgramEvenIfBlank=0
+[OPTION BYTE]
+Count=1
+File0=E:\STM_PROJECT\STM8S105C6T6\Assembler\Project_2\project_2_Programmer\project_2_STVP_OPTION BYTE.hex
+ProgramEvenIfBlank=0

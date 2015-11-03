@@ -1,0 +1,20 @@
+;==============================
+Main.W:	
+	BRES PORTD,#0
+	mov Temp,LvlLed
+	call Delay
+	
+	BSET PORTD,#0
+	CPL Temp
+	call Delay
+	JP Main
+;==============================
+Delay.w:
+	mov Temp2,Temp
+Label.w
+	DEC Temp2
+	LD A,Temp2
+	CP A,#0
+	JRNE Label
+	RET
+;==============================

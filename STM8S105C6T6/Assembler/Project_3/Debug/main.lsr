@@ -1,0 +1,1284 @@
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 1  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+   1                         STM8/     
+   2  000000                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   3                                   segment  byte at 4000-43FF 'EEPROM'
+   4                         
+   5  004000                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   6                                   segment  byte at 8080-FFFF 'ROM'
+   7                         
+   8  008080                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   9                                   segment  byte at 8000-807F 'INTERRUPT'
+  10                         ;Stm8s105c6+LC7981(WG240128) with help ATmega8A
+  11                         ;=======Register==============================
+  12  005000                       PORTA     EQU      $5000
+  13  005001                       PINA      EQU      $5001
+  14  005002                       DDRA      EQU      $5002
+  15  005003                       CR1A      EQU      $5003
+  16  005004                       CR2A      EQU      $5004
+  17                         
+  18  005005                       PORTB     EQU      $5005
+  19  005006                       PINB      EQU      $5006
+  20  005007                       DDRB      EQU      $5007
+  21  005008                       CR1B      EQU      $5008
+  22  005009                       CR2B      EQU      $5009
+  23                         
+  24  00500A                       PORTC     EQU      $500A
+  25  00500B                       PINC      EQU      $500B
+  26  00500C                       DDRC      EQU      $500C
+  27  00500D                       CR1C      EQU      $500D
+  28  00500E                       CR2C      EQU      $500E
+  29                         
+  30  00500F                       PORTD     EQU      $500F
+  31  005010                       PIND      EQU      $5010
+  32  005011                       DDRD      EQU      $5011
+  33  005012                       CR1D      EQU      $5012
+  34  005013                       CR2D      EQU      $5013
+  35                         
+  36  005014                       PORTE     EQU      $5014
+  37  005015                       PINE      EQU      $5015
+  38  005016                       DDRE      EQU      $5016
+  39  005017                       CR1E      EQU      $5017
+  40  005018                       CR2E      EQU      $5018
+  41                         
+  42  00501E                       PORTG     EQU      $501E
+  43  00501F                       PING      EQU      $501F
+  44  005020                       DDRG      EQU      $5020
+  45  005021                       CR1G      EQU      $5021
+  46  005022                       CR2G      EQU      $5022
+  47                         
+  48                         ;==========================
+  49  0050A0                       EXTI_CR1  EQU      $50A0         ; External interrupt control 
+                                                                ;register 1 0x00
+  50  0050A1                       EXTI_CR2  EQU      $50A1         ; External interrupt control 
+                                                                ;register 2 0x00
+  51  0050B3                       RST_SR    EQU      $50B3         ; Reset status register 0xXX
+  52                         ;==========================
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 2  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+  53  0050C0                       CLK_ICKR  EQU      $50C0         ; Internal clock control 
+                                                                ;register         0x01
+  54  0050C1                       CLK_ECKR  EQU      $50C1         ; External clock control 
+                                                                ;register         0x00
+  55  0050C3                       CLK_CMSR  EQU      $50C3         ; Clock master status register  
+                                                                ;          0xE1
+  56  0050C4                       CLK_SWR   EQU      $50C4         ; Clock master switch register  
+                                                                ;          0xE1
+  57  0050C5                       CLK_SWCR  EQU      $50C5         ; Clock switch control register 
+                                                                ;          0xXX
+  58  0050C6                       CLK_CKDIVR  EQU      $50C6         ; Clock divider register        
+                                                                ;          0x18
+  59  0050C7                       CLK_PCKENR1  EQU      $50C7         ; Peripheral clock gating 
+                                                                ;register 1      0xFF
+  60  0050C8                       CLK_CSSR  EQU      $50C8         ; Clock security system register
+                                                                ;          0x00
+  61  0050C9                       CLK_CCOR  EQU      $50C9         ; Configurable clock control 
+                                                                ;register     0x00
+  62  0050CA                       CLK_PCKENR2  EQU      $50CA         ; Peripheral clock gating 
+                                                                ;register 2      0xFF
+  63  0050CB                       CLK_CANCCR  EQU      $50CB         ; CAN clock control register    
+                                                                ;          0x00
+  64  0050CC                       CLK_HSITRIMR  EQU      $50CC         ; HSI clock calibration trimming
+                                                                ; register 0x00
+  65  0050CD                       CLK_SWIMCCR  EQU      $50CD         ; SWIM clock control register   
+                                                                ;          0bXXXX XXX0
+  66                         ;==========================
+  67  005230                       UART1_SR  EQU      $5230         ; UART1 status register       
+                                                                ;0xC0
+  68  005231                       UART1_DR  EQU      $5231         ; UART1 data register         
+                                                                ;0xXX
+  69  005232                       UART1_BRR1  EQU      $5232         ; UART1 baud rate register    
+                                                                ;0x00
+  70  005233                       UART1_BRR2  EQU      $5233         ; UART1 baud rate register    
+                                                                ;0x00
+  71  005234                       UART1_CR1  EQU      $5234         ; UART1 control register 1    
+                                                                ;0x00
+  72  005235                       UART1_CR2  EQU      $5235         ; UART1 control register 2    
+                                                                ;0x00
+  73  005236                       UART1_CR3  EQU      $5236         ; UART1 control register 3    
+                                                                ;0x00
+  74  005237                       UART1_CR4  EQU      $5237         ; UART1 control register 4    
+                                                                ;0x00
+  75  005238                       UART1_CR5  EQU      $5238         ; UART1 control register 5    
+                                                                ;0x00
+  76  005239                       UART1_GTR  EQU      $5239         ; UART1 guard time register   
+                                                                ;0x00
+  77  00523A                       UART1_PSCR  EQU      $523A         ; UART1 prescaler register    
+                                                                ;0x00
+  78                         
+  79  000000                       SBK       EQU      0             ; Send break
+  80  000001                       RWU       EQU      1             ; Receiver wakeup
+  81  000002                       REN       EQU      2             ; Receiver enable
+  82  000003                       TEN       EQU      3             ; Transmitter enable
+  83  000004                       ILIEN     EQU      4             ; IDLE Line interrupt enable
+  84  000005                       RIEN      EQU      5             ; Receiver interrupt enable
+  85  000006                       TCIEN     EQU      6             ; Transmission complete 
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 3  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+                                                                ;interrupt enable
+  86  000007                       TIEN      EQU      7             ; Transmitter interrupt enable
+  87                         
+  88  000006                       TC        EQU      6             ; Transmission complete
+  89                         ;==========================
+  90  005200                       SPI_CR1   EQU      $5200         ; SPI control register 1        
+                                                                ;  0x00
+  91  005201                       SPI_CR2   EQU      $5201         ; SPI control register 2        
+                                                                ;  0x00
+  92  005202                       SPI_ICR   EQU      $5202         ; SPI interrupt control register
+                                                                ;  0x00
+  93  005203                       SPI_SR    EQU      $5203         ; SPI status register           
+                                                                ;  0x02
+  94  005204                       SPI_DR    EQU      $5204         ; SPI data register             
+                                                                ;  0x00
+  95  005205                       SPI_CRCPR  EQU      $5205         ; SPI CRC polynomial register   
+                                                                ;  0x07
+  96  005206                       SPI_RXCRCR  EQU      $5206         ; SPI Rx CRC register           
+                                                                ;  0xFF
+  97  005207                       SPI_TXCRCR  EQU      $5207         ; SPI Tx CRC register           
+                                                                ;  0xFF
+  98                         ;==========================
+  99  00505A                       FLASH_CR1  EQU      $505A         ; Flash control register 1      
+                                                                ;                   0x00
+ 100  00505B                       FLASH_CR2  EQU      $505B         ; Flash control register 2      
+                                                                ;                   0x00
+ 101  00505C                       FLASH_NCR2  EQU      $505C         ; Flash complementary control 
+                                                                ;register 2           0xFF
+ 102  00505D                       FLASH_FPR  EQU      $505D         ; Flash protection register     
+                                                                ;                   0x00
+ 103  00505E                       FLASH_NFPR  EQU      $505E         ; Flash complementary protection
+                                                                ; register          0xFF
+ 104  00505F                       FLASH_IAPSR  EQU      $505F         ; Flash in-application 
+                                                                ;programming status register 
+                                                                ;0x00
+ 105  005062                       FLASH_PUKR  EQU      $5062         ; Flash program memory 
+                                                                ;unprotection register       
+                                                                ;0x00
+ 106  005064                       FLASH_DUKR  EQU      $5064         ; Data EEPROM unprotection 
+                                                                ;register                0x00
+ 107                         ;==========================
+ 108  0050D1                       WWDG_CR   EQU      $50D1         ; WWDG control register         
+                                                                ;             0x7F
+ 109  0050D2                       WWDG_WR   EQU      $50D2         ; WWDR window register          
+                                                                ;             0x7F
+ 110  0050E0                       IWDG_KR   EQU      $50E0         ; IWDG key register             
+                                                                ;             0xXX
+ 111  0050E1                       IWDG_PR   EQU      $50E1         ; IWDG prescaler register       
+                                                                ;             0x00
+ 112  0050E2                       IWDG_RLR  EQU      $50E2         ; IWDG reload register          
+                                                                ;             0xFF
+ 113  0050F0                       AWU_CSR1  EQU      $50F0         ; AWU control/status register 1 
+                                                                ;             0x00
+ 114  0050F1                       AWU_APR   EQU      $50F1         ; AWU asynchronous prescaler 
+                                                                ;buffer register 0x3F
+ 115  0050F2                       AWU_TBR   EQU      $50F2         ; AWU timebase selection 
+                                                                ;register            0x00
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 4  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 116  0050F3                       BEEP_CSR  EQU      $50F3         ; BEEP control/status register  
+                                                                ;             0x1F
+ 117                         ;==========================
+ 118  005250                       TIM1_CR1  EQU      $5250         ; TIM1 control register 1       
+                                                                ;         0x00
+ 119  005251                       TIM1_CR2  EQU      $5251         ; TIM1 control register 2       
+                                                                ;         0x00
+ 120  005252                       TIM1_SMCR  EQU      $5252         ; TIM1 slave mode control 
+                                                                ;register       0x00
+ 121  005253                       TIM1_ETR  EQU      $5253         ; TIM1 external trigger register
+                                                                ;         0x00
+ 122  005254                       TIM1_IER  EQU      $5254         ; TIM1 interrupt enable register
+                                                                ;         0x00
+ 123  005255                       TIM1_SR1  EQU      $5255         ; TIM1 status register 1        
+                                                                ;         0x00
+ 124  005256                       TIM1_SR2  EQU      $5256         ; TIM1 status register 2        
+                                                                ;         0x00
+ 125  005257                       TIM1_EGR  EQU      $5257         ; TIM1 event generation register
+                                                                ;         0x00
+ 126  005258                       TIM1_CCMR1  EQU      $5258         ; TIM1 capture/compare mode 
+                                                                ;register 1   0x00
+ 127  005259                       TIM1_CCMR2  EQU      $5259         ; TIM1 capture/compare mode 
+                                                                ;register 2   0x00
+ 128  00525A                       TIM1_CCMR3  EQU      $525A         ; TIM1 capture/compare mode 
+                                                                ;register 3   0x00
+ 129  00525B                       TIM1_CCMR4  EQU      $525B         ; TIM1 capture/compare mode 
+                                                                ;register 4   0x00
+ 130  00525C                       TIM1_CCER1  EQU      $525C         ; TIM1 capture/compare enable 
+                                                                ;register 1 0x00
+ 131  00525D                       TIM1_CCER2  EQU      $525D         ; TIM1 capture/compare enable 
+                                                                ;register 2 0x00
+ 132  00525E                       TIM1_CNTRH  EQU      $525E         ; TIM1 counter high             
+                                                                ;         0x00
+ 133  00525F                       TIM1_CNTRL  EQU      $525F         ; TIM1 counter low              
+                                                                ;         0x00
+ 134  005260                       TIM1_PSCRH  EQU      $5260         ; TIM1 prescaler register high  
+                                                                ;         0x00
+ 135  005261                       TIM1_PSCRL  EQU      $5261         ; TIM1 prescaler register low   
+                                                                ;         0x00
+ 136  005262                       TIM1_ARRH  EQU      $5262         ; TIM1 auto-reload register high
+                                                                ;         0xFF
+ 137  005263                       TIM1_ARRL  EQU      $5263         ; TIM1 auto-reload register low 
+                                                                ;         0xFF
+ 138  005264                       TIM1_RCR  EQU      $5264         ; TIM1 repetition counter 
+                                                                ;register       0x00
+ 139  005265                       TIM1_CCR1H  EQU      $5265         ; TIM1 capture/compare register 
+                                                                ;1 high   0x00
+ 140  005266                       TIM1_CCR1L  EQU      $5266         ; TIM1 capture/compare register 
+                                                                ;1 low    0x00
+ 141  005267                       TIM1_CCR2H  EQU      $5267         ; TIM1 capture/compare register 
+                                                                ;2 high   0x00
+ 142  005268                       TIM1_CCR2L  EQU      $5268         ; TIM1 capture/compare register 
+                                                                ;2 low    0x00
+ 143  005269                       TIM1_CCR3H  EQU      $5269         ; TIM1 capture/compare register 
+                                                                ;3 high   0x00
+ 144  00526A                       TIM1_CCR3L  EQU      $526A         ; TIM1 capture/compare register 
+                                                                ;3 low    0x00
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 5  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 145  00526B                       TIM1_CCR4H  EQU      $526B         ; TIM1 capture/compare register 
+                                                                ;4 high   0x00
+ 146  00526C                       TIM1_CCR4L  EQU      $526C         ; TIM1 capture/compare register 
+                                                                ;4 low    0x00
+ 147  00526D                       TIM1_BKR  EQU      $526D         ; TIM1 break register           
+                                                                ;         0x00
+ 148  00526E                       TIM1_DTR  EQU      $526E         ; TIM1 dead-time register       
+                                                                ;         0x00
+ 149  00526F                       TIM1_OISR  EQU      $526F         ; TIM1 output idle state 
+                                                                ;register        0x00
+ 150                         ;==========================
+ 151  005300                       TIM2_CR1  EQU      $5300         ; TIM2 control register 1       
+                                                                ;          0x00
+ 152  005301                       TIM2_IER  EQU      $5301         ; TIM2 Interrupt enable register
+                                                                ;          0x00
+ 153  005302                       TIM2_SR1  EQU      $5302         ; TIM2 status register 1        
+                                                                ;          0x00
+ 154  005303                       TIM2_SR2  EQU      $5303         ; TIM2 status register 2        
+                                                                ;          0x00
+ 155  005304                       TIM2_EGR  EQU      $5304         ; TIM2 event generation register
+                                                                ;          0x00
+ 156  005305                       TIM2_CCMR1  EQU      $5305         ; TIM2 capture/compare mode 
+                                                                ;register 1    0x00
+ 157  005306                       TIM2_CCMR2  EQU      $5306         ; TIM2 capture/compare mode 
+                                                                ;register 2    0x00
+ 158  005307                       TIM2_CCMR3  EQU      $5307         ; TIM2 capture/compare mode 
+                                                                ;register 3    0x00
+ 159  005308                       TIM2_CCER1  EQU      $5308         ; TIM2 capture/compare enable 
+                                                                ;register 1  0x00
+ 160  005309                       TIM2_CCER2  EQU      $5309         ; TIM2 capture/compare enable 
+                                                                ;register 2  0x00
+ 161  00530A                       TIM2_CNTRH  EQU      $530A         ; TIM2 counter high             
+                                                                ;          0x00
+ 162  00530B                       TIM2_CNTRL  EQU      $530B         ; TIM2 counter low              
+                                                                ;          0x00
+ 163  00530C                       TIM2_PSCR  EQU      $530C         ; TIM2 prescaler register       
+                                                                ;          0x00
+ 164  00530D                       TIM2_ARRH  EQU      $530D         ; TIM2 auto-reload register high
+                                                                ;          0xFF
+ 165  00530E                       TIM2_ARRL  EQU      $530E         ; TIM2 auto-reload register low 
+                                                                ;          0xFF
+ 166  00530F                       TIM2_CCR1H  EQU      $530F         ; TIM2 capture/compare register 
+                                                                ;1 high    0x00
+ 167  005310                       TIM2_CCR1L  EQU      $5310         ; TIM2 capture/compare register 
+                                                                ;1 low     0x00
+ 168  005311                       TIM2_CCR2H  EQU      $5311         ; TIM2 capture/compare reg. 2 
+                                                                ;high        0x00
+ 169  005312                       TIM2_CCR2L  EQU      $5312         ; TIM2 capture/compare register 
+                                                                ;2 low     0x00
+ 170  005313                       TIM2_CCR3H  EQU      $5313         ; TIM2 capture/compare register 
+                                                                ;3 high    0x00
+ 171  005314                       TIM2_CCR3L  EQU      $5314         ; TIM2 capture/compare register 
+                                                                ;3 low     0x00
+ 172                         ;==========================
+ 173  005320                       TIM3_CR1  EQU      $5320         ;TIM3 control register 1 
+ 174  005321                       TIM3_IER  EQU      $5321         ;TIM3 interrupt enable register
+ 175  005322                       TIM3_SR1  EQU      $5322         ;TIM3 status register 1 
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 6  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 176  005323                       TIM3_SR2  EQU      $5323         ;TIM3 status register 2 
+ 177  005324                       TIM3_EGR  EQU      $5324         ;TIM3 event generation register 
+                                                                ;
+ 178  005325                       TIM3_CCMR1  EQU      $5325         ;TIM3 capture/ compare mode 
+                                                                ;register 1 
+ 179  005326                       TIM3_CCMR2  EQU      $5326         ;TIM3 capture/ compare mode 
+                                                                ;register 2
+ 180  005327                       TIM3_CCER1  EQU      $5327         ;TIM3 capture/ compare enable 
+                                                                ;register 1
+ 181  005328                       TIM3_CNTRH  EQU      $5328         ;TIM3 counter high
+ 182  005329                       TIM3_CNTRL  EQU      $5329         ;TIM3 counter low
+ 183  00532A                       TIM3_PSCR  EQU      $532A         ;TIM3 prescaler register 
+ 184  00532B                       TIM3_ARRH  EQU      $532B         ;TIM3 auto-reload register high
+ 185  00532C                       TIM3_ARRL  EQU      $532C         ;TIM3 auto-reload register low
+ 186  00532D                       TIM3_CCR1H  EQU      $532D         ;TIM3 capture/ compare register 
+                                                                ;1 high
+ 187  00532E                       TIM3_CCR1L  EQU      $532E         ;TIM3 capture/ compare register 
+                                                                ;1 low 
+ 188  00532F                       TIM3_CCR2H  EQU      $532F         ;TIM3 capture/ compare register 
+                                                                ;2 high
+ 189  005330                       TIM3_CCR2L  EQU      $5330         ;TIM3 capture/ compare register 
+                                                                ;2 low
+ 190                         ;==========================
+ 191  005340                       TIM4_CR1  EQU      $5340         ; TIM4 control register 1       
+                                                                ;  0x00
+ 192  005341                       TIM4_IER  EQU      $5341         ; TIM4 interrupt enable register
+                                                                ;  0x00
+ 193  005342                       TIM4_SR   EQU      $5342         ; TIM4 status register          
+                                                                ;  0x00
+ 194  005343                       TIM4_EGR  EQU      $5343         ; TIM4 event generation register
+                                                                ;  0x00
+ 195  005344                       TIM4_CNTR  EQU      $5344         ; TIM4 counter                  
+                                                                ;  0x00
+ 196  005345                       TIM4_PSCR  EQU      $5345         ; TIM4 prescaler register       
+                                                                ;  0x00
+ 197  005346                       TIM4_ARR  EQU      $5346         ; TIM4 auto-reload register     
+                                                                ;  0xFF
+ 198                         
+ 199  000000                       CEN       EQU      0             ; Counter enable
+ 200  000001                       UDIS      EQU      1             ; Update disable
+ 201  000002                       URS       EQU      2             ; Update request source
+ 202  000003                       OPM       EQU      3             ; One pulse mode
+ 203  000007                       ARPE      EQU      7             ; Auto-reload preload enable
+ 204                         
+ 205  000000                       UIE       EQU      0             ; Update interrupt enable
+ 206  000006                       TIE       EQU      6             ; Trigger interrupt enable
+ 207                         
+ 208  000000                       UIF       EQU      0             ; Update interrupt flag
+ 209  000006                       TIF       EQU      6             ; Trigger interrupt flag TIM4 
+                                                                ;this bit is reserved
+ 210                         
+ 211  000000                       UG        EQU      0             ; Update generation
+ 212  000006                       TG        EQU      6             ; Trigger generation
+ 213                         ;==========================
+ 214                         ;ADC_DBxR    $53E0-$53F3     ; ADC data buffer registers    
+                               ;0x00
+ 215  005400                       ADC_CSR   EQU      $5400         ; ADC control/status register   
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 7  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+                                                                ;             0x00
+ 216  005401                       ADC_CR1   EQU      $5401         ; ADC configuration register 1  
+                                                                ;             0x00
+ 217  005402                       ADC_CR2   EQU      $5402         ; ADC configuration register 2  
+                                                                ;             0x00
+ 218  005403                       ADC_CR3   EQU      $5403         ; ADC configuration register 3  
+                                                                ;             0x00
+ 219  005404                       ADC_DRH   EQU      $5404         ; ADC data register high        
+                                                                ;             0xXX
+ 220  005405                       ADC_DRL   EQU      $5405         ; ADC data register low         
+                                                                ;             0xXX
+ 221  005406                       ADC_TDRH  EQU      $5406         ; ADC Schmitt trigger disable 
+                                                                ;register high  0x00
+ 222  005407                       ADC_TDRL  EQU      $5407         ; ADC Schmitt trigger disable 
+                                                                ;register low   0x00
+ 223  005408                       ADC_HTRH  EQU      $5408         ; ADC high threshold register 
+                                                                ;high           0x03
+ 224  005409                       ADC_HTRL  EQU      $5409         ; ADC high threshold register 
+                                                                ;low            0xFF
+ 225  00540A                       ADC_LTRH  EQU      $540A         ; ADC low threshold register 
+                                                                ;high            0x00
+ 226  00540B                       ADC_LTRL  EQU      $540B         ; ADC low threshold register low
+                                                                ;             0x00
+ 227  00540C                       ADC_AWSRH  EQU      $540C         ; ADC analog watchdog status 
+                                                                ;register high   0x00
+ 228  00540D                       ADC_AWSRL  EQU      $540D         ; ADC analog watchdog status 
+                                                                ;register low    0x00
+ 229  00540E                       ADC_AWCRH  EQU      $540E         ; ADC analog watchdog control 
+                                                                ;register high  0x00
+ 230  00540F                       ADC_AWCRL  EQU      $540F         ; ADC analog watchdog control 
+                                                                ;register low   0x00
+ 231                         ;==========================
+ 232  007F60                       CFG_GCR   EQU      $7F60         ; Global configuration register 
+                                                                ;          0x00
+ 233  007F70                       ITC_SPR1  EQU      $7F70         ; Interrupt software priority 
+                                                                ;register 1  0xFF
+ 234  007F71                       ITC_SPR2  EQU      $7F71         ; Interrupt software priority 
+                                                                ;register 2  0xFF
+ 235  007F72                       ITC_SPR3  EQU      $7F72         ; Interrupt software priority 
+                                                                ;register 3  0xFF
+ 236  007F73                       ITC_SPR4  EQU      $7F73         ; Interrupt software priority 
+                                                                ;register 4  0xFF
+ 237  007F74                       ITC_SPR5  EQU      $7F74         ; Interrupt software priority 
+                                                                ;register 5  0xFF
+ 238  007F75                       ITC_SPR6  EQU      $7F75         ; Interrupt software priority 
+                                                                ;register 6  0xFF
+ 239  007F76                       ITC_SPR7  EQU      $7F76         ; Interrupt software priority 
+                                                                ;register 7  0xFF
+ 240  007F77                       ITC_SPR8  EQU      $7F77         ; Interrupt software priority 
+                                                                ;register 8  0xFF
+ 241  007F80                       SWIM_CSR  EQU      $7F80         ; SWIM control status register  
+                                                                ;          0x00
+ 242                         ;==========================
+ 243  007F0A                       CCR       EQU      $7F0A         ;
+ 244  007F05                       X_L       EQU      $7F05
+ 245  007F04                       X_H       EQU      $7F04
+ 246  007F07                       Y_L       EQU      $7F07
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 8  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 247  007F06                       Y_H       EQU      $7F06
+ 248  007F00                       ACC       EQU      $7F00
+ 249                         ;=======end;==================================================
+                               ;========
+ 250                         ;=======RAMMemory($0000-$07FF)================
+ 251  000000                       Temp      EQU      $0000
+ 252  000001                       Temp1     EQU      $0001
+ 253  000002                       Temp2     EQU      $0002
+ 254  000003                       Temp3     EQU      $0003
+ 255  000004                       Temp4     EQU      $0004
+ 256  000005                       Temp5     EQU      $0005
+ 257  000006                       Temp6     EQU      $0006
+ 258  000007                       LvlLed    EQU      $0007
+ 259  000008                       BEEPSEL   EQU      $0008
+ 260  000009                       BEEPDIV   EQU      $0009
+ 261  00000A                       GLCDData  EQU      $000A
+ 262  00000B                       GLCDCommand  EQU      $000B
+ 263  00000C                       Temp7     EQU      $000C
+ 264  00000D                       SPIBuffer  EQU      $000D
+ 265  00000E                       DelayCycle  EQU      $000E
+ 266  00000F                       GLCDX     EQU      $000F
+ 267  000010                       GLCDY     EQU      $0010
+ 268  000011                       GLCDColourPixel  EQU      $0011
+ 269  000012                       XRect     EQU      $0012
+ 270  000013                       YRect     EQU      $0013
+ 271  000014                       HRect     EQU      $0014
+ 272  000015                       WRect     EQU      $0015
+ 273  000016                       RectColour  EQU      $0016
+ 274  000017                       Temp8     EQU      $0017
+ 275  000018                       Temp9     EQU      $0018
+ 276  000019                       Temp10    EQU      $0019
+ 277  00001A                       Temp11    EQU      $001A
+ 278  00001B                       Temp12    EQU      $001B
+ 279  00001C                       BufferCycle  EQU      $001C
+ 280                         ;=============================================================
+                               ;=========
+ 281                                   SEGMENT  'INTERRUPT'
+ 282  000000 R 00000000                      DC.L     {$82000000+StartSystem}  ; $8000    RESET Reset
+ 283  000004 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8004    TRAP  Software 
+                                                                ;interrupt
+ 284  000008 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8008 0  TLI   External top 
+                                                                ;level interrupt
+ 285  00000C R 00000000                      DC.L     {$82000000+NO_INT}  ; $800C 1  AWU   Auto wake up 
+                                                                ;from HALT
+ 286  000010 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8010 2  CLK   Clock 
+                                                                ;controller
+ 287  000014 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8014 3  EXTI0 Port A external
+                                                                ; interrupts
+ 288  000018 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8018 4  EXTI1 Port B external
+                                                                ; interrupts
+ 289  00001C R 00000000                      DC.L     {$82000000+NO_INT}  ; $801C 5  EXTI2 Port C external
+                                                                ; interrupts
+ 290  000020 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8020 6  EXTI3 Port D external
+                                                                ; interrupts
+ 291  000024 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8024 7  EXTI4 Port E external
+                                                                ; interrupts
+ 292  000028 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8028 8  Reserved
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 9  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 293  00002C R 00000000                      DC.L     {$82000000+NO_INT}  ; $802C 9  Reserved
+ 294  000030 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8030 10 SPI  End of transfer
+ 295  000034 R 00000000                      DC.L     {$82000000+Timer1}  ; $8034 11 TIM1 TIM1 update/ 
+                                                                ;overflow/ underflow/trigger/ 
+                                                                ;break
+ 296  000038 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8038 12 TIM1 TIM1 capture/ 
+                                                                ;compare
+ 297  00003C R 00000000                      DC.L     {$82000000+Timer2}  ; $803C 13 TIM2 TIM2 update/ 
+                                                                ;overflow
+ 298  000040 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8040 14 TIM2 TIM2 capture/ 
+                                                                ;compare
+ 299  000044 R 00000000                      DC.L     {$82000000+Timer3}  ; $8044 15 TIM3 TIM3 update/ 
+                                                                ;overflow
+ 300  000048 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8048 16 TIM3 TIM3 capture/ 
+                                                                ;compare
+ 301  00004C R 00000000                      DC.L     {$82000000+NO_INT}  ; $8058 20 Reserved
+ 302  000050 R 00000000                      DC.L     {$82000000+NO_INT}  ; $805C 21 Reserved
+ 303  000054 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8054 19 I2C interrupt
+ 304  000058 R 00000000                      DC.L     {$82000000+NO_INT}  ; $804C 17 UART1 Tx complete
+ 305  00005C R 00000000                      DC.L     {$82000000+NO_INT}  ; $8050 18 UART1 Receive 
+                                                                ;register DATA FULL
+ 306  000060 R 00000000                      DC.L     {$82000000+NO_INT}   ; $8060 22 ADC1 ADC1 end of 
+                                                                ;conversion/ analog watchdog 
+                                                                ;interrupt
+ 307  000064 R 00000000                      DC.L     {$82000000+Timer4}   ; $8064 23 TIM4 TIM4 update/ 
+                                                                ;overflow
+ 308  000068 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8068 24 Flash EOP/WR_PG_DIS
+ 309  00006C R 00000000                      DC.L     {$82000000+NO_INT}  ; $806C 25 Reserved
+ 310  000070 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8070 26 Reserved
+ 311  000074 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8074 27 Reserved
+ 312  000078 R 00000000                      DC.L     {$82000000+NO_INT}  ; $8078 28 Reserved
+ 313  00007C R 00000000                      DC.L     {$82000000+NO_INT}  ; $807C 29 Reserved
+ 314                         ;=============================================================
+                               ;=========
+ 315                                   SEGMENT  'ROM'
+ 316                         NO_INT.w:  
+ 317  000000   80                            IRET     
+ 318                         StartSystem.w:  
+ 319                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 320                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 321                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 322                         ;Clear memory
+ 323  000001   AE07FF                        LDW      X,#$07FF        
+ 324  000004   94                            LDW      SP,X
+ 325  000005   AE0000                        LDW      X,#$0000
+ 326                         ClearRam0:  
+ 327  000008   7F                            CLR      (X)
+ 328  000009   5C                            INCW     X
+ 329  00000A   A300FF                        CPW      X,#$00FF    
+ 330  00000D R 23F9                          JRULE    ClearRam0
+ 331  00000F   AE0100                        LDW      X,#$0100
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 10  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 332                         ClearRam1:  
+ 333  000012   7F                            CLR      (X)
+ 334  000013   5C                            INCW     X
+ 335  000014   A301FF                        CPW      X,#$01FF    
+ 336  000017 R 23F9                          JRULE    ClearRam1
+ 337  000019   AE0200                        LDW      X,#$0200
+ 338                         ClearStack:  
+ 339  00001C   7F                            CLR      (X)
+ 340  00001D   5C                            INCW     X
+ 341  00001E   A303FF                        CPW      X,#$03FF
+ 342  000021 R 23F9                          JRULE    ClearStack
+ 343                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 344                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 345                         ;#############################################################
+                               ;#############################################################
+                               ;##############################
+ 346  000023 R CD0000                        call     InitSystemClock
+ 347  000026 R CD0000                        call     InitPortsIO
+ 348  000029 R CD0000                        call     InitTimers
+ 349  00002C R CD0000                        call     InitSPI
+ 350  00002F R CC0000                        JP       StartProgramm
+ 351                         ;*************************************************************
+                               ;*************************
+ 352  000032                       DelayUs   MACRO    Cycle
+ 353                                   MOV      DelayCycle,Cycle
+ 354                                   call     Loop
+ 355  000032                                 MEND     
+ 356                         Loop:     
+ 357  000032   3A0E                          DEC      DelayCycle
+ 358  000034 R 26FC                          JRNE     Loop
+ 359  000036   81                            RET      
+ 360                         ;*************************************************************
+                               ;*************************
+ 361                         ;***************************
+ 362                         InitPortsIO.w:                   ;*
+ 363                         ;==============*6543***    *
+ 364  000037   35005002                      MOV      DDRA, #%00000000  ;   *
+ 365  00003B   35005003                      MOV      CR1A, #%00000000  ;   *
+ 366  00003F   35005000                      MOV      PORTA,#%00000000  ;   *
+ 367                         ;==============76543210    *
+ 368  000043   35005007                      MOV      DDRB, #%00000000  ;   *
+ 369  000047   35005008                      MOV      CR1B, #%00000000  ;   *
+ 370  00004B   35005005                      MOV      PORTB,#%00000000  ;   *
+ 371                         ;==============7654321*    *
+ 372  00004F   3500500C                      MOV      DDRC, #%00000000  ;   *
+ 373  000053   3500500D                      MOV      CR1C, #%00000000  ;   *
+ 374  000057   3500500E                      MOV      CR2C, #%00000000  ;   *
+ 375  00005B   3500500A                      MOV      PORTC,#%00000000  ;   *
+ 376                         ;==============765432*0    *
+ 377  00005F   35015011                      MOV      DDRD, #%00000001  ;   *
+ 378  000063   35015012                      MOV      CR1D, #%00000001  ;   *
+ 379  000067   3500500F                      MOV      PORTD,#%00000000  ;   *
+ 380                         ;==============765*3210    *
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 11  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 381  00006B   35205016                      MOV      DDRE, #%00100000  ;   *
+ 382  00006F   35205017                      MOV      CR1E, #%00100000  ;   *
+ 383  000073   35005018                      MOV      CR2E, #%00000000  ;   *
+ 384  000077   35205014                      MOV      PORTE,#%00100000  ;   *
+ 385                         ;==============******10    *
+ 386  00007B   35005020                      MOV      DDRG, #%00000000  ;   *
+ 387  00007F   35005021                      MOV      CR1G, #%00000000  ;   *
+ 388  000083   35005022                      MOV      CR2G, #%00000000  ;   *
+ 389  000087   3500501E                      MOV      PORTG,#%00000000  ;   *
+ 390  00008B   81                            RET                    ;   *
+ 391                         ;***************************
+ 392                         ;*************************************************************
+                               ;*************************
+ 393                         InitTimers.w:  
+ 394                         ;**TIMER1******************
+ 395  00008C   35005260                      MOV      TIM1_PSCRH,#0
+ 396  000090   35FF5261                      MOV      TIM1_PSCRL,#255
+ 397  000094   35FF5262                      MOV      TIM1_ARRH, #255
+ 398  000098   35FF5263                      MOV      TIM1_ARRL, #255
+ 399  00009C   35815250                      MOV      TIM1_CR1,  #%10000001
+ 400  0000A0   35015254                      MOV      TIM1_IER,  #%00000001
+ 401                         ;**TIMER2******************
+ 402  0000A4   3503530C                      MOV      TIM2_PSCR, #3
+ 403  0000A8   35FF530D                      MOV      TIM2_ARRH, #255
+ 404  0000AC   35FF530E                      MOV      TIM2_ARRL, #255
+ 405  0000B0   35815300                      MOV      TIM2_CR1,  #%10000001
+ 406  0000B4   35015301                      MOV      TIM2_IER,  #%00000001
+ 407                         ;**TIMER3******************
+ 408  0000B8   3507532A                      MOV      TIM3_PSCR, #7
+ 409  0000BC   3505532B                      MOV      TIM3_ARRH, #5
+ 410  0000C0   35FF532C                      MOV      TIM3_ARRL, #255
+ 411  0000C4   35815320                      MOV      TIM3_CR1,  #%10000001
+ 412  0000C8   35015321                      MOV      TIM3_IER,  #%00000001
+ 413                         ;**TIMER4******************
+ 414  0000CC   35035345                      MOV      TIM4_PSCR, #3
+ 415  0000D0   35FF5346                      MOV      TIM4_ARR,  #255
+ 416  0000D4   35815340                      MOV      TIM4_CR1,  #%10000001
+ 417  0000D8   35015341                      MOV      TIM4_IER,  #%00000001
+ 418  0000DC   81                            RET      
+ 419                         ;*************************************************************
+                               ;*************************
+ 420                         InitSystemClock.w:  
+ 421                                                          ;Включаем HSE
+ 422  0000DD   350150C1                      MOV      CLK_ECKR,#$01 
+ 423                                                          ;Разрешаем переключение 
+                                                                ;источника тактовой частоты
+ 424  0000E1   350250C5                      MOV      CLK_SWCR,#$02 
+ 425                                                          ;Разрешаем тактирование 
+                                                                ;переферии
+ 426  0000E5   35FF50C7                      MOV      CLK_PCKENR1,#$FF
+ 427                                                          ;Ждем готовности источника 
+                                                                ;тактирования
+ 428                         Looped:   
+ 429  0000E9 R 720350C1FB                    BTJF     CLK_ECKR,#1,Looped 
+ 430                                                          ;Предделитель равен нулю
+ 431  0000EE   350050C6                      MOV      CLK_CKDIVR,#$00 
+ 432                                                          ;Выбираем HSE источником 
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 12  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+                                                                ;тактовой частоты
+ 433  0000F2   35B450C4                      MOV      CLK_SWR,#$B4
+ 434                                                          ;Ждем готовности переключения
+ 435                         Looped2:  
+ 436  0000F6 R 720750C5FB                    BTJF     CLK_SWCR,#3,Looped2      
+ 437  0000FB   81                            RET      
+ 438                         ;*************************************************************
+                               ;*************************
+ 439                         InitSPI.w:  
+ 440  0000FC   35645200                      MOV      SPI_CR1,#%01100100
+ 441  000100   35035201                      MOV      SPI_CR2,#%00000011
+ 442  000104   35005204                      MOV      SPI_DR, #%00000000
+ 443  000108   81                            RET      
+ 444                         ;*************************************************************
+                               ;*************************
+ 445                         ;Send command then send data
+ 446  000109                       SendPacketGLCD  MACRO    Command,Data
+ 447                                   MOV      GLCDCommand,Command
+ 448                                   MOV      GLCDData,Data
+ 449                                   call     SendOnePacket
+ 450  000109                                 MEND     
+ 451                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 452                         SendOnePacket:  
+ 453                                                          ;Start transfer
+ 454  000109   721C500A                      BSET     PORTC,#6
+ 455  00010D   721D500A                      BRES     PORTC,#6
+ 456                                                          ;Send special command
+ 457  000111   35225204                      MOV      SPI_DR,#$22
+ 458  000115 R CD0000                        call     WaitTransfer
+ 459                                                          ;Send Command to ATmega8(GLCD)
+ 460  000118   55000B5204                    MOV      SPI_DR,GLCDCommand
+ 461  00011D R CD0000                        call     WaitTransfer
+ 462                                                          ;Send Data to ATmega8(GLCD)	
+ 463  000120   55000A5204                    MOV      SPI_DR,GLCDData
+ 464  000125 R CD0000                        call     WaitTransfer
+ 465                                                          ;Waiting while ATmega8 will 
+                                                                ;free
+ 466  000128 R CD0000                        call     WaitEndPaintATmega8
+ 467  00012B   81                            RET      
+ 468                         ;*************************************************************
+                               ;*************************
+ 469                         ;Paint one pixel on GLCD
+ 470  00012C                       DrawPixel  MACRO    Xcoord,Ycoord,colour
+ 471                                   MOV      GLCDX,Xcoord
+ 472                                   MOV      GLCDY,Ycoord
+ 473                                   MOV      GLCDColourPixel,colour
+ 474                                   call     DrawPix
+ 475  00012C                                 MEND     
+ 476                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 477                         DrawPix:  
+ 478                                                          ;Start transfer
+ 479  00012C   721C500A                      BSET     PORTC,#6
+ 480  000130   721D500A                      BRES     PORTC,#6
+ 481                                                          ;Send special command
+ 482  000134   35335204                      MOV      SPI_DR,#$33
+ 483  000138 R CD0000                        call     WaitTransfer
+ 484                                                          ;Send X
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 13  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 485  00013B   55000F5204                    MOV      SPI_DR,GLCDX
+ 486  000140 R CD0000                        call     WaitTransfer
+ 487                                                          ;Send Y
+ 488  000143   5500105204                    MOV      SPI_DR,GLCDY
+ 489  000148 R CD0000                        call     WaitTransfer
+ 490                                                          ;Send Colour
+ 491  00014B   5500115204                    MOV      SPI_DR,GLCDColourPixel
+ 492  000150 R CD0000                        call     WaitTransfer
+ 493                                                          ;Waiting while ATmega8 will 
+                                                                ;free	
+ 494  000153 R CD0000                        call     WaitEndPaintATmega8
+ 495  000156   81                            RET      
+ 496                         ;*************************************************************
+                               ;*************************
+ 497                         ;Paint rectangle on GLCD
+ 498  000157                       DrawRectangle  MACRO    XR,YR,Width,Height,col
+ 499                                   MOV      XRect,XR
+ 500                                   MOV      YRect,YR
+ 501                                   MOV      WRect,Width
+ 502                                   MOV      HRect,Height
+ 503                                   MOV      RectColour,col
+ 504                                   call     DrawRect
+ 505  000157                                 MEND     
+ 506                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 507                         DrawRect:  
+ 508                                                          ;Start transfer
+ 509  000157   721C500A                      BSET     PORTC,#6
+ 510  00015B   721D500A                      BRES     PORTC,#6
+ 511                                                          ;Send special command	
+ 512  00015F   35445204                      MOV      SPI_DR,#$44
+ 513  000163 R CD0000                        call     WaitTransfer
+ 514                                                          ;Send X
+ 515  000166   5500125204                    MOV      SPI_DR,XRect
+ 516  00016B R CD0000                        call     WaitTransfer
+ 517                                                          ;Send y
+ 518  00016E   5500135204                    MOV      SPI_DR,YRect
+ 519  000173 R CD0000                        call     WaitTransfer
+ 520                                                          ;Send Width
+ 521  000176   5500155204                    MOV      SPI_DR,WRect
+ 522  00017B R CD0000                        call     WaitTransfer
+ 523                                                          ;Send Height
+ 524  00017E   5500145204                    MOV      SPI_DR,HRect
+ 525  000183 R CD0000                        call     WaitTransfer
+ 526                                                          ;Send Colour
+ 527  000186   5500165204                    MOV      SPI_DR,RectColour
+ 528  00018B R CD0000                        call     WaitTransfer
+ 529                                                          ;Waiting while ATmega8 will 
+                                                                ;free	
+ 530  00018E R CD0000                        call     WaitEndPaintATmega8
+ 531  000191   81                            RET      
+ 532                         ;*************************************************************
+                               ;*************************
+ 533                         ;Paint fill rectangle on GLCD
+ 534  000192                       DrawFillRectangle  MACRO    XR,YR,Width,Height,col
+ 535                                   MOV      XRect,XR
+ 536                                   MOV      YRect,YR
+ 537                                   MOV      WRect,Width
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 14  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 538                                   MOV      HRect,Height
+ 539                                   MOV      RectColour,col
+ 540                                   call     DrawFillRect
+ 541  000192                                 MEND     
+ 542                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 543                         DrawFillRect:  
+ 544                                                          ;Start transfer
+ 545  000192   721C500A                      BSET     PORTC,#6
+ 546  000196   721D500A                      BRES     PORTC,#6
+ 547                                                          ;Send special command	
+ 548  00019A   35555204                      MOV      SPI_DR,#$55
+ 549  00019E R CD0000                        call     WaitTransfer
+ 550                                                          ;Send X
+ 551  0001A1   5500125204                    MOV      SPI_DR,XRect
+ 552  0001A6 R CD0000                        call     WaitTransfer
+ 553                                                          ;Send Y
+ 554  0001A9   5500135204                    MOV      SPI_DR,YRect
+ 555  0001AE R CD0000                        call     WaitTransfer
+ 556                                                          ;Send Width
+ 557  0001B1   5500155204                    MOV      SPI_DR,WRect
+ 558  0001B6 R CD0000                        call     WaitTransfer
+ 559                                                          ;Send Height
+ 560  0001B9   5500145204                    MOV      SPI_DR,HRect
+ 561  0001BE R CD0000                        call     WaitTransfer
+ 562                                                          ;Send Colour
+ 563  0001C1   5500165204                    MOV      SPI_DR,RectColour
+ 564  0001C6 R CD0000                        call     WaitTransfer
+ 565                                                          ;Waiting while ATmega8 will 
+                                                                ;free	
+ 566  0001C9 R CD0000                        call     WaitEndPaintATmega8
+ 567  0001CC   81                            RET      
+ 568                         ;*************************************************************
+                               ;*************************
+ 569                         ;Clear display
+ 570  0001CD                       ClearDisplay  MACRO    
+ 571                                   call     ClrDisp
+ 572  0001CD                                 MEND     
+ 573                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 574                         ClrDisp:  
+ 575                                                          ;Start transfer
+ 576  0001CD   721C500A                      BSET     PORTC,#6
+ 577  0001D1   721D500A                      BRES     PORTC,#6
+ 578                                                          ;Send special command	
+ 579  0001D5   35665204                      MOV      SPI_DR,#$66
+ 580  0001D9 R CD0000                        call     WaitTransfer
+ 581                                                          ;Waiting while ATmega8 will 
+                                                                ;free	
+ 582  0001DC R CD0000                        call     WaitEndPaintATmega8
+ 583  0001DF   81                            RET      
+ 584                         ;*************************************************************
+                               ;*************************
+ 585                         ;Refresh Display
+ 586  0001E0                       RefreshDisplay  MACRO    
+ 587                                   call     RefreshLcd
+ 588  0001E0                                 MEND     
+ 589                         ;~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 590                         RefreshLcd:  
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 15  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 591                                                          ;Start transfer
+ 592  0001E0   721C500A                      BSET     PORTC,#6
+ 593  0001E4   721D500A                      BRES     PORTC,#6
+ 594                                                          ;Send special command	
+ 595  0001E8   35775204                      MOV      SPI_DR,#$77
+ 596  0001EC R CD0000                        call     WaitTransfer
+ 597                                                          ;Waiting while ATmega8 will 
+                                                                ;free	
+ 598  0001EF R CD0000                        call     WaitEndPaintATmega8
+ 599  0001F2   81                            RET      
+ 600                         ;*************************************************************
+                               ;*************************	
+ 601                         ;Waiting while SPI will send byte 
+ 602                         WaitTransfer:  
+ 603  0001F3 R 720E5203FB                    BTJT     SPI_SR,#7,WaitTransfer
+ 604  0001F8   81                            RET      
+ 605                         ;*************************************************************
+                               ;*************************
+ 606                         ;Waiting while ATmega8 complete paint
+ 607                         WaitEndPaintATmega8:  
+ 608  0001F9   721D500C                      BRES     DDRC,#6
+ 609  0001FD   721D500A                      BRES     PORTC,#6
+ 610                                   DelayUs  #$15
+ 610  000201   3515000E                      MOV      DelayCycle,#$15
+ 610  000205 R CD0000                        call     Loop
+ 611  000208                       Waiting:  
+ 612  000208 R 720C500BFB                    BTJT     PINC,#6,Waiting
+ 613  00020D   721C500C                      BSET     DDRC,#6
+ 614  000211   81                            RET      
+ 615                         ;*************************************************************
+                               ;*************************
+ 616                         ;*************************************************************
+                               ;*************************
+ 617                         ;*************************************************************
+                               ;*************************
+ 618                         ;*************************************************************
+                               ;*************************
+ 619                         ;*************************************************************
+                               ;*************************
+ 620                         ;*************************************************************
+                               ;*************************
+ 621                         ;*************************************************************
+                               ;*************************
+ 622                         Timer1.w:  
+ 623  000212   72115255                      BRES     TIM1_SR1,#UIF
+ 624                         
+ 625  000216   80                            IRET     
+ 626                         ;#######
+ 627                         Timer2.w:  
+ 628  000217   72115302                      BRES     TIM2_SR1,#UIF
+ 629                         
+ 630  00021B   80                            IRET     
+ 631                         ;#######
+ 632                         Timer3.w:  
+ 633  00021C   72115322                      BRES     TIM3_SR1,#UIF
+ 634  000220   9010500F                      BCPL     PORTD,#0
+ 635  000224   80                            IRET     
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 16  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ 636                         ;#######
+ 637                         Timer4.w:  
+ 638  000225   72115342                      BRES     TIM4_SR,#UIF
+ 639                         
+ 640  000229   80                            IRET     
+ 641                         ;*************************************************************
+                               ;*************************
+ 642                         StartProgramm:  
+ 643                                   ClearDisplay 
+ 643  00022A R CD0000                        call     ClrDisp
+ 644  00022D                                 DrawRectangle #1,#1,#240,#30,#1
+ 644  00022D   35010012                      MOV      XRect,#1
+ 644  000231   35010013                      MOV      YRect,#1
+ 644  000235   35F00015                      MOV      WRect,#240
+ 644  000239   351E0014                      MOV      HRect,#30
+ 644  00023D   35010016                      MOV      RectColour,#1
+ 644  000241 R CD0000                        call     DrawRect
+ 645  000244                                 DrawPixel #2,#2,#1
+ 645  000244   3502000F                      MOV      GLCDX,#2
+ 645  000248   35020010                      MOV      GLCDY,#2
+ 645  00024C   35010011                      MOV      GLCDColourPixel,#1
+ 645  000250 R CD0000                        call     DrawPix
+ 646  000253                                 DrawPixel #239,#2,#1
+ 646  000253   35EF000F                      MOV      GLCDX,#239
+ 646  000257   35020010                      MOV      GLCDY,#2
+ 646  00025B   35010011                      MOV      GLCDColourPixel,#1
+ 646  00025F R CD0000                        call     DrawPix
+ 647  000262                                 DrawPixel #2,#29,#1
+ 647  000262   3502000F                      MOV      GLCDX,#2
+ 647  000266   351D0010                      MOV      GLCDY,#29
+ 647  00026A   35010011                      MOV      GLCDColourPixel,#1
+ 647  00026E R CD0000                        call     DrawPix
+ 648  000271                                 DrawPixel #239,#29,#1
+ 648  000271   35EF000F                      MOV      GLCDX,#239
+ 648  000275   351D0010                      MOV      GLCDY,#29
+ 648  000279   35010011                      MOV      GLCDColourPixel,#1
+ 648  00027D R CD0000                        call     DrawPix
+ 649  000280                                 RefreshDisplay 
+ 649  000280 R CD0000                        call     RefreshLcd
+ 650  000283   9A                            RIM      
+ 651                         ;*************************************************************
+                               ;*************************
+ 652                         Main.W:   
+ 653                                   
+ 654  000284 R CC0000                        JP       Main
+ 655                         ;*************************************************************
+                               ;*************************
+ 656  000287                                 END      
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 17  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+Symbol Name                       Value     Call       Type  Scope      Rel.  Line  Privacy  Segment   Size  Bytes File
+
+AWU_CSR1                              50F0         no  WORD  Internal   ABS    113  private  undef        0     0  -
+AWU_APR                               50F1         no  WORD  Internal   ABS    114  private  undef        0     0  -
+AWU_TBR                               50F2         no  WORD  Internal   ABS    115  private  undef        0     0  -
+ARPE                                  0007         no  WORD  Internal   ABS    203  private  undef        0     0  -
+ADC_CSR                               5400         no  WORD  Internal   ABS    215  private  undef        0     0  -
+ADC_CR1                               5401         no  WORD  Internal   ABS    216  private  undef        0     0  -
+ADC_CR2                               5402         no  WORD  Internal   ABS    217  private  undef        0     0  -
+ADC_CR3                               5403         no  WORD  Internal   ABS    218  private  undef        0     0  -
+ADC_DRH                               5404         no  WORD  Internal   ABS    219  private  undef        0     0  -
+ADC_DRL                               5405         no  WORD  Internal   ABS    220  private  undef        0     0  -
+ADC_TDRH                              5406         no  WORD  Internal   ABS    221  private  undef        0     0  -
+ADC_TDRL                              5407         no  WORD  Internal   ABS    222  private  undef        0     0  -
+ADC_HTRH                              5408         no  WORD  Internal   ABS    223  private  undef        0     0  -
+ADC_HTRL                              5409         no  WORD  Internal   ABS    224  private  undef        0     0  -
+ADC_LTRH                              540A         no  WORD  Internal   ABS    225  private  undef        0     0  -
+ADC_LTRL                              540B         no  WORD  Internal   ABS    226  private  undef        0     0  -
+ADC_AWSRH                             540C         no  WORD  Internal   ABS    227  private  undef        0     0  -
+ADC_AWSRL                             540D         no  WORD  Internal   ABS    228  private  undef        0     0  -
+ADC_AWCRH                             540E         no  WORD  Internal   ABS    229  private  undef        0     0  -
+ADC_AWCRL                             540F         no  WORD  Internal   ABS    230  private  undef        0     0  -
+ACC                                   7F00         no  WORD  Internal   ABS    248  private  undef        0     0  -
+
+BEEP_CSR                              50F3         no  WORD  Internal   ABS    116  private  undef        0     0  -
+BEEPSEL                               0008         no  WORD  Internal   ABS    259  private  undef        0     0  -
+BEEPDIV                               0009         no  WORD  Internal   ABS    260  private  undef        0     0  -
+BufferCycle                           001C         no  WORD  Internal   ABS    279  private  undef        0     0  -
+
+CR1A                                  5003         no  WORD  Internal   ABS     15  private  undef        0     0  -
+CR2A                                  5004         no  WORD  Internal   ABS     16  private  undef        0     0  -
+CR1B                                  5008         no  WORD  Internal   ABS     21  private  undef        0     0  -
+CR2B                                  5009         no  WORD  Internal   ABS     22  private  undef        0     0  -
+CR1C                                  500D         no  WORD  Internal   ABS     27  private  undef        0     0  -
+CR2C                                  500E         no  WORD  Internal   ABS     28  private  undef        0     0  -
+CR1D                                  5012         no  WORD  Internal   ABS     33  private  undef        0     0  -
+CR2D                                  5013         no  WORD  Internal   ABS     34  private  undef        0     0  -
+CR1E                                  5017         no  WORD  Internal   ABS     39  private  undef        0     0  -
+CR2E                                  5018         no  WORD  Internal   ABS     40  private  undef        0     0  -
+CR1G                                  5021         no  WORD  Internal   ABS     45  private  undef        0     0  -
+CR2G                                  5022         no  WORD  Internal   ABS     46  private  undef        0     0  -
+CLK_ICKR                              50C0         no  WORD  Internal   ABS     53  private  undef        0     0  -
+CLK_ECKR                              50C1         no  WORD  Internal   ABS     54  private  undef        0     0  -
+CLK_CMSR                              50C3         no  WORD  Internal   ABS     55  private  undef        0     0  -
+CLK_SWR                               50C4         no  WORD  Internal   ABS     56  private  undef        0     0  -
+CLK_SWCR                              50C5         no  WORD  Internal   ABS     57  private  undef        0     0  -
+CLK_CKDIVR                            50C6         no  WORD  Internal   ABS     58  private  undef        0     0  -
+CLK_PCKENR1                           50C7         no  WORD  Internal   ABS     59  private  undef        0     0  -
+CLK_CSSR                              50C8         no  WORD  Internal   ABS     60  private  undef        0     0  -
+CLK_CCOR                              50C9         no  WORD  Internal   ABS     61  private  undef        0     0  -
+CLK_PCKENR2                           50CA         no  WORD  Internal   ABS     62  private  undef        0     0  -
+CLK_CANCCR                            50CB         no  WORD  Internal   ABS     63  private  undef        0     0  -
+CLK_HSITRIMR                          50CC         no  WORD  Internal   ABS     64  private  undef        0     0  -
+CLK_SWIMCCR                           50CD         no  WORD  Internal   ABS     65  private  undef        0     0  -
+CEN                                   0000         no  WORD  Internal   ABS    199  private  undef        0     0  -
+CFG_GCR                               7F60         no  WORD  Internal   ABS    232  private  undef        0     0  -
+CCR                                   7F0A         no  WORD  Internal   ABS    243  private  undef        0     0  -
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 18  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+ClearRam0                             0008         no  WORD  Internal   rel    326  private  text        10     0  -
+ClearRam1                             0012         no  WORD  Internal   rel    332  private  text        10     0  -
+ClearStack                            001C         no  WORD  Internal   rel    338  private  text        22     0  -
+ClrDisp                               01CD         no  WORD  Internal   rel    574  private  text        19     0  -
+
+DDRA                                  5002         no  WORD  Internal   ABS     14  private  undef        0     0  -
+DDRB                                  5007         no  WORD  Internal   ABS     20  private  undef        0     0  -
+DDRC                                  500C         no  WORD  Internal   ABS     26  private  undef        0     0  -
+DDRD                                  5011         no  WORD  Internal   ABS     32  private  undef        0     0  -
+DDRE                                  5016         no  WORD  Internal   ABS     38  private  undef        0     0  -
+DDRG                                  5020         no  WORD  Internal   ABS     44  private  undef        0     0  -
+DelayCycle                            000E         no  WORD  Internal   ABS    265  private  undef        0     0  -
+DrawPix                               012C         no  WORD  Internal   rel    477  private  text        43     0  -
+DrawRect                              0157         no  WORD  Internal   rel    507  private  text        59     0  -
+DrawFillRect                          0192         no  WORD  Internal   rel    543  private  text        59     0  -
+
+EXTI_CR1                              50A0         no  WORD  Internal   ABS     49  private  undef        0     0  -
+EXTI_CR2                              50A1         no  WORD  Internal   ABS     50  private  undef        0     0  -
+
+FLASH_CR1                             505A         no  WORD  Internal   ABS     99  private  undef        0     0  -
+FLASH_CR2                             505B         no  WORD  Internal   ABS    100  private  undef        0     0  -
+FLASH_NCR2                            505C         no  WORD  Internal   ABS    101  private  undef        0     0  -
+FLASH_FPR                             505D         no  WORD  Internal   ABS    102  private  undef        0     0  -
+FLASH_NFPR                            505E         no  WORD  Internal   ABS    103  private  undef        0     0  -
+FLASH_IAPSR                           505F         no  WORD  Internal   ABS    104  private  undef        0     0  -
+FLASH_PUKR                            5062         no  WORD  Internal   ABS    105  private  undef        0     0  -
+FLASH_DUKR                            5064         no  WORD  Internal   ABS    106  private  undef        0     0  -
+
+GLCDData                              000A         no  WORD  Internal   ABS    261  private  undef        0     0  -
+GLCDCommand                           000B         no  WORD  Internal   ABS    262  private  undef        0     0  -
+GLCDX                                 000F         no  WORD  Internal   ABS    266  private  undef        0     0  -
+GLCDY                                 0010         no  WORD  Internal   ABS    267  private  undef        0     0  -
+GLCDColourPixel                       0011         no  WORD  Internal   ABS    268  private  undef        0     0  -
+
+HRect                                 0014         no  WORD  Internal   ABS    271  private  undef        0     0  -
+
+ILIEN                                 0004         no  WORD  Internal   ABS     83  private  undef        0     0  -
+IWDG_KR                               50E0         no  WORD  Internal   ABS    110  private  undef        0     0  -
+IWDG_PR                               50E1         no  WORD  Internal   ABS    111  private  undef        0     0  -
+IWDG_RLR                              50E2         no  WORD  Internal   ABS    112  private  undef        0     0  -
+ITC_SPR1                              7F70         no  WORD  Internal   ABS    233  private  undef        0     0  -
+ITC_SPR2                              7F71         no  WORD  Internal   ABS    234  private  undef        0     0  -
+ITC_SPR3                              7F72         no  WORD  Internal   ABS    235  private  undef        0     0  -
+ITC_SPR4                              7F73         no  WORD  Internal   ABS    236  private  undef        0     0  -
+ITC_SPR5                              7F74         no  WORD  Internal   ABS    237  private  undef        0     0  -
+ITC_SPR6                              7F75         no  WORD  Internal   ABS    238  private  undef        0     0  -
+ITC_SPR7                              7F76         no  WORD  Internal   ABS    239  private  undef        0     0  -
+ITC_SPR8                              7F77         no  WORD  Internal   ABS    240  private  undef        0     0  -
+InitPortsIO                           0037         no  WORD  Internal   rel    362  private  text        85     0  -
+InitTimers                            008C         no  WORD  Internal   rel    393  private  text        81     0  -
+InitSystemClock                       00DD         no  WORD  Internal   rel    420  private  text        12     0  -
+InitSPI                               00FC         no  WORD  Internal   rel    439  private  text        13     0  -
+
+LvlLed                                0007         no  WORD  Internal   ABS    258  private  undef        0     0  -
+Loop                                  0032         no  WORD  Internal   rel    356  private  text         5     0  -
+Looped                                00E9         no  WORD  Internal   rel    428  private  text        13     0  -
+Looped2                               00F6         no  WORD  Internal   rel    435  private  text         6     0  -
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 19  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+
+Main                                  0284         no  WORD  Internal   rel    652  private  text         3     0  -
+
+NO_INT                                0000         no  WORD  Internal   rel    316  private  text         1     0  -
+
+OPM                                   0003         no  WORD  Internal   ABS    202  private  undef        0     0  -
+
+PORTA                                 5000         no  WORD  Internal   ABS     12  private  undef        0     0  -
+PINA                                  5001         no  WORD  Internal   ABS     13  private  undef        0     0  -
+PORTB                                 5005         no  WORD  Internal   ABS     18  private  undef        0     0  -
+PINB                                  5006         no  WORD  Internal   ABS     19  private  undef        0     0  -
+PORTC                                 500A         no  WORD  Internal   ABS     24  private  undef        0     0  -
+PINC                                  500B         no  WORD  Internal   ABS     25  private  undef        0     0  -
+PORTD                                 500F         no  WORD  Internal   ABS     30  private  undef        0     0  -
+PIND                                  5010         no  WORD  Internal   ABS     31  private  undef        0     0  -
+PORTE                                 5014         no  WORD  Internal   ABS     36  private  undef        0     0  -
+PINE                                  5015         no  WORD  Internal   ABS     37  private  undef        0     0  -
+PORTG                                 501E         no  WORD  Internal   ABS     42  private  undef        0     0  -
+PING                                  501F         no  WORD  Internal   ABS     43  private  undef        0     0  -
+
+RST_SR                                50B3         no  WORD  Internal   ABS     51  private  undef        0     0  -
+RWU                                   0001         no  WORD  Internal   ABS     80  private  undef        0     0  -
+REN                                   0002         no  WORD  Internal   ABS     81  private  undef        0     0  -
+RIEN                                  0005         no  WORD  Internal   ABS     84  private  undef        0     0  -
+RectColour                            0016         no  WORD  Internal   ABS    273  private  undef        0     0  -
+RefreshLcd                            01E0         no  WORD  Internal   rel    590  private  text        19     0  -
+
+SBK                                   0000         no  WORD  Internal   ABS     79  private  undef        0     0  -
+SPI_CR1                               5200         no  WORD  Internal   ABS     90  private  undef        0     0  -
+SPI_CR2                               5201         no  WORD  Internal   ABS     91  private  undef        0     0  -
+SPI_ICR                               5202         no  WORD  Internal   ABS     92  private  undef        0     0  -
+SPI_SR                                5203         no  WORD  Internal   ABS     93  private  undef        0     0  -
+SPI_DR                                5204         no  WORD  Internal   ABS     94  private  undef        0     0  -
+SPI_CRCPR                             5205         no  WORD  Internal   ABS     95  private  undef        0     0  -
+SPI_RXCRCR                            5206         no  WORD  Internal   ABS     96  private  undef        0     0  -
+SPI_TXCRCR                            5207         no  WORD  Internal   ABS     97  private  undef        0     0  -
+SWIM_CSR                              7F80         no  WORD  Internal   ABS    241  private  undef        0     0  -
+SPIBuffer                             000D         no  WORD  Internal   ABS    264  private  undef        0     0  -
+StartSystem                           0001         no  WORD  Internal   rel    318  private  text         7     0  -
+SendOnePacket                         0109         no  WORD  Internal   rel    452  private  text        35     0  -
+StartProgramm                         022A         no  WORD  Internal   rel    642  private  text        90     0  -
+
+TEN                                   0003         no  WORD  Internal   ABS     82  private  undef        0     0  -
+TCIEN                                 0006         no  WORD  Internal   ABS     85  private  undef        0     0  -
+TIEN                                  0007         no  WORD  Internal   ABS     86  private  undef        0     0  -
+TC                                    0006         no  WORD  Internal   ABS     88  private  undef        0     0  -
+TIM1_CR1                              5250         no  WORD  Internal   ABS    118  private  undef        0     0  -
+TIM1_CR2                              5251         no  WORD  Internal   ABS    119  private  undef        0     0  -
+TIM1_SMCR                             5252         no  WORD  Internal   ABS    120  private  undef        0     0  -
+TIM1_ETR                              5253         no  WORD  Internal   ABS    121  private  undef        0     0  -
+TIM1_IER                              5254         no  WORD  Internal   ABS    122  private  undef        0     0  -
+TIM1_SR1                              5255         no  WORD  Internal   ABS    123  private  undef        0     0  -
+TIM1_SR2                              5256         no  WORD  Internal   ABS    124  private  undef        0     0  -
+TIM1_EGR                              5257         no  WORD  Internal   ABS    125  private  undef        0     0  -
+TIM1_CCMR1                            5258         no  WORD  Internal   ABS    126  private  undef        0     0  -
+TIM1_CCMR2                            5259         no  WORD  Internal   ABS    127  private  undef        0     0  -
+TIM1_CCMR3                            525A         no  WORD  Internal   ABS    128  private  undef        0     0  -
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 20  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+TIM1_CCMR4                            525B         no  WORD  Internal   ABS    129  private  undef        0     0  -
+TIM1_CCER1                            525C         no  WORD  Internal   ABS    130  private  undef        0     0  -
+TIM1_CCER2                            525D         no  WORD  Internal   ABS    131  private  undef        0     0  -
+TIM1_CNTRH                            525E         no  WORD  Internal   ABS    132  private  undef        0     0  -
+TIM1_CNTRL                            525F         no  WORD  Internal   ABS    133  private  undef        0     0  -
+TIM1_PSCRH                            5260         no  WORD  Internal   ABS    134  private  undef        0     0  -
+TIM1_PSCRL                            5261         no  WORD  Internal   ABS    135  private  undef        0     0  -
+TIM1_ARRH                             5262         no  WORD  Internal   ABS    136  private  undef        0     0  -
+TIM1_ARRL                             5263         no  WORD  Internal   ABS    137  private  undef        0     0  -
+TIM1_RCR                              5264         no  WORD  Internal   ABS    138  private  undef        0     0  -
+TIM1_CCR1H                            5265         no  WORD  Internal   ABS    139  private  undef        0     0  -
+TIM1_CCR1L                            5266         no  WORD  Internal   ABS    140  private  undef        0     0  -
+TIM1_CCR2H                            5267         no  WORD  Internal   ABS    141  private  undef        0     0  -
+TIM1_CCR2L                            5268         no  WORD  Internal   ABS    142  private  undef        0     0  -
+TIM1_CCR3H                            5269         no  WORD  Internal   ABS    143  private  undef        0     0  -
+TIM1_CCR3L                            526A         no  WORD  Internal   ABS    144  private  undef        0     0  -
+TIM1_CCR4H                            526B         no  WORD  Internal   ABS    145  private  undef        0     0  -
+TIM1_CCR4L                            526C         no  WORD  Internal   ABS    146  private  undef        0     0  -
+TIM1_BKR                              526D         no  WORD  Internal   ABS    147  private  undef        0     0  -
+TIM1_DTR                              526E         no  WORD  Internal   ABS    148  private  undef        0     0  -
+TIM1_OISR                             526F         no  WORD  Internal   ABS    149  private  undef        0     0  -
+TIM2_CR1                              5300         no  WORD  Internal   ABS    151  private  undef        0     0  -
+TIM2_IER                              5301         no  WORD  Internal   ABS    152  private  undef        0     0  -
+TIM2_SR1                              5302         no  WORD  Internal   ABS    153  private  undef        0     0  -
+TIM2_SR2                              5303         no  WORD  Internal   ABS    154  private  undef        0     0  -
+TIM2_EGR                              5304         no  WORD  Internal   ABS    155  private  undef        0     0  -
+TIM2_CCMR1                            5305         no  WORD  Internal   ABS    156  private  undef        0     0  -
+TIM2_CCMR2                            5306         no  WORD  Internal   ABS    157  private  undef        0     0  -
+TIM2_CCMR3                            5307         no  WORD  Internal   ABS    158  private  undef        0     0  -
+TIM2_CCER1                            5308         no  WORD  Internal   ABS    159  private  undef        0     0  -
+TIM2_CCER2                            5309         no  WORD  Internal   ABS    160  private  undef        0     0  -
+TIM2_CNTRH                            530A         no  WORD  Internal   ABS    161  private  undef        0     0  -
+TIM2_CNTRL                            530B         no  WORD  Internal   ABS    162  private  undef        0     0  -
+TIM2_PSCR                             530C         no  WORD  Internal   ABS    163  private  undef        0     0  -
+TIM2_ARRH                             530D         no  WORD  Internal   ABS    164  private  undef        0     0  -
+TIM2_ARRL                             530E         no  WORD  Internal   ABS    165  private  undef        0     0  -
+TIM2_CCR1H                            530F         no  WORD  Internal   ABS    166  private  undef        0     0  -
+TIM2_CCR1L                            5310         no  WORD  Internal   ABS    167  private  undef        0     0  -
+TIM2_CCR2H                            5311         no  WORD  Internal   ABS    168  private  undef        0     0  -
+TIM2_CCR2L                            5312         no  WORD  Internal   ABS    169  private  undef        0     0  -
+TIM2_CCR3H                            5313         no  WORD  Internal   ABS    170  private  undef        0     0  -
+TIM2_CCR3L                            5314         no  WORD  Internal   ABS    171  private  undef        0     0  -
+TIM3_CR1                              5320         no  WORD  Internal   ABS    173  private  undef        0     0  -
+TIM3_IER                              5321         no  WORD  Internal   ABS    174  private  undef        0     0  -
+TIM3_SR1                              5322         no  WORD  Internal   ABS    175  private  undef        0     0  -
+TIM3_SR2                              5323         no  WORD  Internal   ABS    176  private  undef        0     0  -
+TIM3_EGR                              5324         no  WORD  Internal   ABS    177  private  undef        0     0  -
+TIM3_CCMR1                            5325         no  WORD  Internal   ABS    178  private  undef        0     0  -
+TIM3_CCMR2                            5326         no  WORD  Internal   ABS    179  private  undef        0     0  -
+TIM3_CCER1                            5327         no  WORD  Internal   ABS    180  private  undef        0     0  -
+TIM3_CNTRH                            5328         no  WORD  Internal   ABS    181  private  undef        0     0  -
+TIM3_CNTRL                            5329         no  WORD  Internal   ABS    182  private  undef        0     0  -
+TIM3_PSCR                             532A         no  WORD  Internal   ABS    183  private  undef        0     0  -
+TIM3_ARRH                             532B         no  WORD  Internal   ABS    184  private  undef        0     0  -
+TIM3_ARRL                             532C         no  WORD  Internal   ABS    185  private  undef        0     0  -
+TIM3_CCR1H                            532D         no  WORD  Internal   ABS    186  private  undef        0     0  -
+TIM3_CCR1L                            532E         no  WORD  Internal   ABS    187  private  undef        0     0  -
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 21  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+TIM3_CCR2H                            532F         no  WORD  Internal   ABS    188  private  undef        0     0  -
+TIM3_CCR2L                            5330         no  WORD  Internal   ABS    189  private  undef        0     0  -
+TIM4_CR1                              5340         no  WORD  Internal   ABS    191  private  undef        0     0  -
+TIM4_IER                              5341         no  WORD  Internal   ABS    192  private  undef        0     0  -
+TIM4_SR                               5342         no  WORD  Internal   ABS    193  private  undef        0     0  -
+TIM4_EGR                              5343         no  WORD  Internal   ABS    194  private  undef        0     0  -
+TIM4_CNTR                             5344         no  WORD  Internal   ABS    195  private  undef        0     0  -
+TIM4_PSCR                             5345         no  WORD  Internal   ABS    196  private  undef        0     0  -
+TIM4_ARR                              5346         no  WORD  Internal   ABS    197  private  undef        0     0  -
+TIE                                   0006         no  WORD  Internal   ABS    206  private  undef        0     0  -
+TIF                                   0006         no  WORD  Internal   ABS    209  private  undef        0     0  -
+TG                                    0006         no  WORD  Internal   ABS    212  private  undef        0     0  -
+Temp                                  0000         no  WORD  Internal   ABS    251  private  undef        0     0  -
+Temp1                                 0001         no  WORD  Internal   ABS    252  private  undef        0     0  -
+Temp2                                 0002         no  WORD  Internal   ABS    253  private  undef        0     0  -
+Temp3                                 0003         no  WORD  Internal   ABS    254  private  undef        0     0  -
+Temp4                                 0004         no  WORD  Internal   ABS    255  private  undef        0     0  -
+Temp5                                 0005         no  WORD  Internal   ABS    256  private  undef        0     0  -
+Temp6                                 0006         no  WORD  Internal   ABS    257  private  undef        0     0  -
+Temp7                                 000C         no  WORD  Internal   ABS    263  private  undef        0     0  -
+Temp8                                 0017         no  WORD  Internal   ABS    274  private  undef        0     0  -
+Temp9                                 0018         no  WORD  Internal   ABS    275  private  undef        0     0  -
+Temp10                                0019         no  WORD  Internal   ABS    276  private  undef        0     0  -
+Temp11                                001A         no  WORD  Internal   ABS    277  private  undef        0     0  -
+Temp12                                001B         no  WORD  Internal   ABS    278  private  undef        0     0  -
+Timer1                                0212         no  WORD  Internal   rel    622  private  text         5     0  -
+Timer2                                0217         no  WORD  Internal   rel    627  private  text         5     0  -
+Timer3                                021C         no  WORD  Internal   rel    632  private  text         9     0  -
+Timer4                                0225         no  WORD  Internal   rel    637  private  text         5     0  -
+
+UART1_SR                              5230         no  WORD  Internal   ABS     67  private  undef        0     0  -
+UART1_DR                              5231         no  WORD  Internal   ABS     68  private  undef        0     0  -
+UART1_BRR1                            5232         no  WORD  Internal   ABS     69  private  undef        0     0  -
+UART1_BRR2                            5233         no  WORD  Internal   ABS     70  private  undef        0     0  -
+UART1_CR1                             5234         no  WORD  Internal   ABS     71  private  undef        0     0  -
+UART1_CR2                             5235         no  WORD  Internal   ABS     72  private  undef        0     0  -
+UART1_CR3                             5236         no  WORD  Internal   ABS     73  private  undef        0     0  -
+UART1_CR4                             5237         no  WORD  Internal   ABS     74  private  undef        0     0  -
+UART1_CR5                             5238         no  WORD  Internal   ABS     75  private  undef        0     0  -
+UART1_GTR                             5239         no  WORD  Internal   ABS     76  private  undef        0     0  -
+UART1_PSCR                            523A         no  WORD  Internal   ABS     77  private  undef        0     0  -
+UDIS                                  0001         no  WORD  Internal   ABS    200  private  undef        0     0  -
+URS                                   0002         no  WORD  Internal   ABS    201  private  undef        0     0  -
+UIE                                   0000         no  WORD  Internal   ABS    205  private  undef        0     0  -
+UIF                                   0000         no  WORD  Internal   ABS    208  private  undef        0     0  -
+UG                                    0000         no  WORD  Internal   ABS    211  private  undef        0     0  -
+
+WWDG_CR                               50D1         no  WORD  Internal   ABS    108  private  undef        0     0  -
+WWDG_WR                               50D2         no  WORD  Internal   ABS    109  private  undef        0     0  -
+WRect                                 0015         no  WORD  Internal   ABS    272  private  undef        0     0  -
+WaitTransfer                          01F3         no  WORD  Internal   rel    602  private  text         6     0  -
+WaitEndPaintATmega8                   01F9         no  WORD  Internal   rel    607  private  text        15     0  -
+Waiting                               0208         no  WORD  Internal   rel    611  private  text        10     0  -
+
+X_L                                   7F05         no  WORD  Internal   ABS    244  private  undef        0     0  -
+X_H                                   7F04         no  WORD  Internal   ABS    245  private  undef        0     0  -
+XRect                                 0012         no  WORD  Internal   ABS    269  private  undef        0     0  -
+STMicroelectronics assembler v4.52   (C)1987-2012   Mon Jun 04 21:32:51 2012
+Page 22  Assembler
+                                               e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm
+
+
+Y_L                                   7F07         no  WORD  Internal   ABS    246  private  undef        0     0  -
+Y_H                                   7F06         no  WORD  Internal   ABS    247  private  undef        0     0  -
+YRect                                 0013         no  WORD  Internal   ABS    270  private  undef        0     0  -
+
+
+267 labels
+No errors on assembly of 'e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm'

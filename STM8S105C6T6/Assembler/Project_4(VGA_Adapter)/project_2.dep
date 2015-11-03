@@ -1,0 +1,8 @@
+;	STMicroelectronics dependencies file
+
+[Version]
+Keyword=ST7Project
+Number=1.3
+
+[Root.Source File.general.asm.Config.0]
+ExternDep= general.asm STM8S105C6.asm RAMVars.asm

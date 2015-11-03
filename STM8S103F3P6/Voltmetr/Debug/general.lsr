@@ -1,0 +1,1124 @@
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 1  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+   1                         STM8/     
+   2                         
+   0  000000                                 #include "STM8S103F3.asm"
+   1  000000                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   2                                   segment  byte at 4000-407F 'EEPROM'
+   3                         
+   4  004000                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   5                                   segment  byte at 8080-9FFF 'ROM'
+   6                         
+   7  008080                                 WORDS                  ; The following addresses are 16
+                                                                ; bits long
+   8                                   segment  byte at 8000-807F 'INTERRUPT'
+   9                         ;=======Register==============================
+  10  005000                       PORTA     EQU      $5000
+  11  005001                       PINA      EQU      $5001
+  12  005002                       DDRA      EQU      $5002
+  13  005003                       CR1A      EQU      $5003
+  14  005004                       CR2A      EQU      $5004
+  15                         
+  16  005005                       PORTB     EQU      $5005
+  17  005006                       PINB      EQU      $5006
+  18  005007                       DDRB      EQU      $5007
+  19  005008                       CR1B      EQU      $5008
+  20  005009                       CR2B      EQU      $5009
+  21                         
+  22  00500A                       PORTC     EQU      $500A
+  23  00500B                       PINC      EQU      $500B
+  24  00500C                       DDRC      EQU      $500C
+  25  00500D                       CR1C      EQU      $500D
+  26  00500E                       CR2C      EQU      $500E
+  27                         
+  28  00500F                       PORTD     EQU      $500F
+  29  005010                       PIND      EQU      $5010
+  30  005011                       DDRD      EQU      $5011
+  31  005012                       CR1D      EQU      $5012
+  32  005013                       CR2D      EQU      $5013
+  33                         
+  34                         ;==========================
+  35  0050A0                       EXTI_CR1  EQU      $50A0         ; External interrupt control 
+                                                                ;register 1 0x00
+  36  0050A1                       EXTI_CR2  EQU      $50A1         ; External interrupt control 
+                                                                ;register 2 0x00
+  37  0050B3                       RST_SR    EQU      $50B3         ; Reset status register 0xXX
+  38                         ;==========================
+  39  0050C0                       CLK_ICKR  EQU      $50C0         ; Internal clock control 
+                                                                ;register         0x01
+  40  0050C1                       CLK_ECKR  EQU      $50C1         ; External clock control 
+                                                                ;register         0x00
+  41  0050C3                       CLK_CMSR  EQU      $50C3         ; Clock master status register  
+                                                                ;          0xE1
+  42  0050C4                       CLK_SWR   EQU      $50C4         ; Clock master switch register  
+                                                                ;          0xE1
+  43  0050C5                       CLK_SWCR  EQU      $50C5         ; Clock switch control register 
+                                                                ;          0xXX
+  44  0050C6                       CLK_CKDIVR  EQU      $50C6         ; Clock divider register        
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 2  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+                                                                ;          0x18
+  45  0050C7                       CLK_PCKENR1  EQU      $50C7         ; Peripheral clock gating 
+                                                                ;register 1      0xFF
+  46  0050C8                       CLK_CSSR  EQU      $50C8         ; Clock security system register
+                                                                ;          0x00
+  47  0050C9                       CLK_CCOR  EQU      $50C9         ; Configurable clock control 
+                                                                ;register     0x00
+  48  0050CA                       CLK_PCKENR2  EQU      $50CA         ; Peripheral clock gating 
+                                                                ;register 2      0xFF
+  49  0050CB                       CLK_CANCCR  EQU      $50CB         ; CAN clock control register    
+                                                                ;          0x00
+  50  0050CC                       CLK_HSITRIMR  EQU      $50CC         ; HSI clock calibration trimming
+                                                                ; register 0x00
+  51  0050CD                       CLK_SWIMCCR  EQU      $50CD         ; SWIM clock control register   
+                                                                ;          0bXXXX XXX0
+  52                         ;==========================
+  53  005230                       UART1_SR  EQU      $5230         ; UART1 status register       
+                                                                ;0xC0
+  54  005231                       UART1_DR  EQU      $5231         ; UART1 data register         
+                                                                ;0xXX
+  55  005232                       UART1_BRR1  EQU      $5232         ; UART1 baud rate register    
+                                                                ;0x00
+  56  005233                       UART1_BRR2  EQU      $5233         ; UART1 baud rate register    
+                                                                ;0x00
+  57  005234                       UART1_CR1  EQU      $5234         ; UART1 control register 1    
+                                                                ;0x00
+  58  005235                       UART1_CR2  EQU      $5235         ; UART1 control register 2    
+                                                                ;0x00
+  59  005236                       UART1_CR3  EQU      $5236         ; UART1 control register 3    
+                                                                ;0x00
+  60  005237                       UART1_CR4  EQU      $5237         ; UART1 control register 4    
+                                                                ;0x00
+  61  005238                       UART1_CR5  EQU      $5238         ; UART1 control register 5    
+                                                                ;0x00
+  62  005239                       UART1_GTR  EQU      $5239         ; UART1 guard time register   
+                                                                ;0x00
+  63  00523A                       UART1_PSCR  EQU      $523A         ; UART1 prescaler register    
+                                                                ;0x00
+  64                         
+  65  000000                       SBK       EQU      0             ; Send break
+  66  000001                       RWU       EQU      1             ; Receiver wakeup
+  67  000002                       REN       EQU      2             ; Receiver enable
+  68  000003                       TEN       EQU      3             ; Transmitter enable
+  69  000004                       ILIEN     EQU      4             ; IDLE Line interrupt enable
+  70  000005                       RIEN      EQU      5             ; Receiver interrupt enable
+  71  000006                       TCIEN     EQU      6             ; Transmission complete 
+                                                                ;interrupt enable
+  72  000007                       TIEN      EQU      7             ; Transmitter interrupt enable
+  73                         
+  74  000006                       TC        EQU      6             ; Transmission complete
+  75                         ;==========================
+  76  005200                       SPI_CR1   EQU      $5200         ; SPI control register 1        
+                                                                ;  0x00
+  77  005201                       SPI_CR2   EQU      $5201         ; SPI control register 2        
+                                                                ;  0x00
+  78  005202                       SPI_ICR   EQU      $5202         ; SPI interrupt control register
+                                                                ;  0x00
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 3  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+  79  005203                       SPI_SR    EQU      $5203         ; SPI status register           
+                                                                ;  0x02
+  80  005204                       SPI_DR    EQU      $5204         ; SPI data register             
+                                                                ;  0x00
+  81  005205                       SPI_CRCPR  EQU      $5205         ; SPI CRC polynomial register   
+                                                                ;  0x07
+  82  005206                       SPI_RXCRCR  EQU      $5206         ; SPI Rx CRC register           
+                                                                ;  0xFF
+  83  005207                       SPI_TXCRCR  EQU      $5207         ; SPI Tx CRC register           
+                                                                ;  0xFF
+  84                         ;==========================
+  85  00505A                       FLASH_CR1  EQU      $505A         ; Flash control register 1      
+                                                                ;                   0x00
+  86  00505B                       FLASH_CR2  EQU      $505B         ; Flash control register 2      
+                                                                ;                   0x00
+  87  00505C                       FLASH_NCR2  EQU      $505C         ; Flash complementary control 
+                                                                ;register 2           0xFF
+  88  00505D                       FLASH_FPR  EQU      $505D         ; Flash protection register     
+                                                                ;                   0x00
+  89  00505E                       FLASH_NFPR  EQU      $505E         ; Flash complementary protection
+                                                                ; register          0xFF
+  90  00505F                       FLASH_IAPSR  EQU      $505F         ; Flash in-application 
+                                                                ;programming status register 
+                                                                ;0x00
+  91  005062                       FLASH_PUKR  EQU      $5062         ; Flash program memory 
+                                                                ;unprotection register       
+                                                                ;0x00
+  92  005064                       FLASH_DUKR  EQU      $5064         ; Data EEPROM unprotection 
+                                                                ;register                0x00
+  93                         ;==========================
+  94  0050D1                       WWDG_CR   EQU      $50D1         ; WWDG control register         
+                                                                ;             0x7F
+  95  0050D2                       WWDG_WR   EQU      $50D2         ; WWDR window register          
+                                                                ;             0x7F
+  96  0050E0                       IWDG_KR   EQU      $50E0         ; IWDG key register             
+                                                                ;             0xXX
+  97  0050E1                       IWDG_PR   EQU      $50E1         ; IWDG prescaler register       
+                                                                ;             0x00
+  98  0050E2                       IWDG_RLR  EQU      $50E2         ; IWDG reload register          
+                                                                ;             0xFF
+  99  0050F0                       AWU_CSR1  EQU      $50F0         ; AWU control/status register 1 
+                                                                ;             0x00
+ 100  0050F1                       AWU_APR   EQU      $50F1         ; AWU asynchronous prescaler 
+                                                                ;buffer register 0x3F
+ 101  0050F2                       AWU_TBR   EQU      $50F2         ; AWU timebase selection 
+                                                                ;register            0x00
+ 102  0050F3                       BEEP_CSR  EQU      $50F3         ; BEEP control/status register  
+                                                                ;             0x1F
+ 103                         ;==========================
+ 104  005250                       TIM1_CR1  EQU      $5250         ; TIM1 control register 1       
+                                                                ;         0x00
+ 105  005251                       TIM1_CR2  EQU      $5251         ; TIM1 control register 2       
+                                                                ;         0x00
+ 106  005252                       TIM1_SMCR  EQU      $5252         ; TIM1 slave mode control 
+                                                                ;register       0x00
+ 107  005253                       TIM1_ETR  EQU      $5253         ; TIM1 external trigger register
+                                                                ;         0x00
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 4  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 108  005254                       TIM1_IER  EQU      $5254         ; TIM1 interrupt enable register
+                                                                ;         0x00
+ 109  005255                       TIM1_SR1  EQU      $5255         ; TIM1 status register 1        
+                                                                ;         0x00
+ 110  005256                       TIM1_SR2  EQU      $5256         ; TIM1 status register 2        
+                                                                ;         0x00
+ 111  005257                       TIM1_EGR  EQU      $5257         ; TIM1 event generation register
+                                                                ;         0x00
+ 112  005258                       TIM1_CCMR1  EQU      $5258         ; TIM1 capture/compare mode 
+                                                                ;register 1   0x00
+ 113  005259                       TIM1_CCMR2  EQU      $5259         ; TIM1 capture/compare mode 
+                                                                ;register 2   0x00
+ 114  00525A                       TIM1_CCMR3  EQU      $525A         ; TIM1 capture/compare mode 
+                                                                ;register 3   0x00
+ 115  00525B                       TIM1_CCMR4  EQU      $525B         ; TIM1 capture/compare mode 
+                                                                ;register 4   0x00
+ 116  00525C                       TIM1_CCER1  EQU      $525C         ; TIM1 capture/compare enable 
+                                                                ;register 1 0x00
+ 117  00525D                       TIM1_CCER2  EQU      $525D         ; TIM1 capture/compare enable 
+                                                                ;register 2 0x00
+ 118  00525E                       TIM1_CNTRH  EQU      $525E         ; TIM1 counter high             
+                                                                ;         0x00
+ 119  00525F                       TIM1_CNTRL  EQU      $525F         ; TIM1 counter low              
+                                                                ;         0x00
+ 120  005260                       TIM1_PSCRH  EQU      $5260         ; TIM1 prescaler register high  
+                                                                ;         0x00
+ 121  005261                       TIM1_PSCRL  EQU      $5261         ; TIM1 prescaler register low   
+                                                                ;         0x00
+ 122  005262                       TIM1_ARRH  EQU      $5262         ; TIM1 auto-reload register high
+                                                                ;         0xFF
+ 123  005263                       TIM1_ARRL  EQU      $5263         ; TIM1 auto-reload register low 
+                                                                ;         0xFF
+ 124  005264                       TIM1_RCR  EQU      $5264         ; TIM1 repetition counter 
+                                                                ;register       0x00
+ 125  005265                       TIM1_CCR1H  EQU      $5265         ; TIM1 capture/compare register 
+                                                                ;1 high   0x00
+ 126  005266                       TIM1_CCR1L  EQU      $5266         ; TIM1 capture/compare register 
+                                                                ;1 low    0x00
+ 127  005267                       TIM1_CCR2H  EQU      $5267         ; TIM1 capture/compare register 
+                                                                ;2 high   0x00
+ 128  005268                       TIM1_CCR2L  EQU      $5268         ; TIM1 capture/compare register 
+                                                                ;2 low    0x00
+ 129  005269                       TIM1_CCR3H  EQU      $5269         ; TIM1 capture/compare register 
+                                                                ;3 high   0x00
+ 130  00526A                       TIM1_CCR3L  EQU      $526A         ; TIM1 capture/compare register 
+                                                                ;3 low    0x00
+ 131  00526B                       TIM1_CCR4H  EQU      $526B         ; TIM1 capture/compare register 
+                                                                ;4 high   0x00
+ 132  00526C                       TIM1_CCR4L  EQU      $526C         ; TIM1 capture/compare register 
+                                                                ;4 low    0x00
+ 133  00526D                       TIM1_BKR  EQU      $526D         ; TIM1 break register           
+                                                                ;         0x00
+ 134  00526E                       TIM1_DTR  EQU      $526E         ; TIM1 dead-time register       
+                                                                ;         0x00
+ 135  00526F                       TIM1_OISR  EQU      $526F         ; TIM1 output idle state 
+                                                                ;register        0x00
+ 136                         ;==========================
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 5  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 137  005300                       TIM2_CR1  EQU      $5300         ; TIM2 control register 1       
+                                                                ;          0x00
+ 138  005303                       TIM2_IER  EQU      $5303         ; TIM2 Interrupt enable register
+                                                                ;          0x00
+ 139  005304                       TIM2_SR1  EQU      $5304         ; TIM2 status register 1        
+                                                                ;          0x00
+ 140  005305                       TIM2_SR2  EQU      $5305         ; TIM2 status register 2        
+                                                                ;          0x00
+ 141  005306                       TIM2_EGR  EQU      $5306         ; TIM2 event generation register
+                                                                ;          0x00
+ 142  005307                       TIM2_CCMR1  EQU      $5307         ; TIM2 capture/compare mode 
+                                                                ;register 1    0x00
+ 143  005308                       TIM2_CCMR2  EQU      $5308         ; TIM2 capture/compare mode 
+                                                                ;register 2    0x00
+ 144  005309                       TIM2_CCMR3  EQU      $5309         ; TIM2 capture/compare mode 
+                                                                ;register 3    0x00
+ 145  00530A                       TIM2_CCER1  EQU      $530A         ; TIM2 capture/compare enable 
+                                                                ;register 1  0x00
+ 146  00530B                       TIM2_CCER2  EQU      $530B         ; TIM2 capture/compare enable 
+                                                                ;register 2  0x00
+ 147  00530C                       TIM2_CNTRH  EQU      $530C         ; TIM2 counter high             
+                                                                ;          0x00
+ 148  00530D                       TIM2_CNTRL  EQU      $530D         ; TIM2 prescaler register
+ 149  00530E                       TIM2_PSCR  EQU      $530E         ; TIM2 prescaler register
+ 150  00530F                       TIM2_ARRH  EQU      $530F         ; TIM2 auto-reload register high
+                                                                ;          0xFF
+ 151  005310                       TIM2_ARRL  EQU      $5310         ; TIM2 auto-reload register low 
+                                                                ;          0xFF
+ 152  005312                       TIM2_CCR1H  EQU      $5312         ; TIM2 capture/compare register 
+                                                                ;1 high    0x00
+ 153  005312                       TIM2_CCR1L  EQU      $5312         ; TIM2 capture/compare register 
+                                                                ;1 low     0x00
+ 154  005313                       TIM2_CCR2H  EQU      $5313         ; TIM2 capture/compare reg. 2 
+                                                                ;high        0x00
+ 155  005314                       TIM2_CCR2L  EQU      $5314         ; TIM2 capture/compare register 
+                                                                ;2 low     0x00
+ 156  005315                       TIM2_CCR3H  EQU      $5315         ; TIM2 capture/compare register 
+                                                                ;3 high    0x00
+ 157  005316                       TIM2_CCR3L  EQU      $5316         ; TIM2 capture/compare register 
+                                                                ;3 low     0x00
+ 158                         ;==========================
+ 159  005340                       TIM4_CR1  EQU      $5340         ; TIM4 control register 1       
+                                                                ;  0x00
+ 160  005343                       TIM4_IER  EQU      $5343         ; TIM4 interrupt enable register
+                                                                ;  0x00
+ 161  005344                       TIM4_SR   EQU      $5344         ; TIM4 status register          
+                                                                ;  0x00
+ 162  005345                       TIM4_EGR  EQU      $5345         ; TIM4 event generation register
+                                                                ;  0x00
+ 163  005346                       TIM4_CNTR  EQU      $5346         ; TIM4 counter                  
+                                                                ;  0x00
+ 164  005347                       TIM4_PSCR  EQU      $5347         ; TIM4 prescaler register       
+                                                                ;  0x00
+ 165  005348                       TIM4_ARR  EQU      $5348         ; TIM4 auto-reload register     
+                                                                ;  0xFF
+ 166                         
+ 167  000000                       CEN       EQU      0             ; Counter enable
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 6  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 168  000001                       UDIS      EQU      1             ; Update disable
+ 169  000002                       URS       EQU      2             ; Update request source
+ 170  000003                       OPM       EQU      3             ; One pulse mode
+ 171  000007                       ARPE      EQU      7             ; Auto-reload preload enable
+ 172                         
+ 173  000000                       UIE       EQU      0             ; Update interrupt enable
+ 174  000006                       TIE       EQU      6             ; Trigger interrupt enable
+ 175                         
+ 176  000000                       UIF       EQU      0             ; Update interrupt flag
+ 177  000006                       TIF       EQU      6             ; Trigger interrupt flag TIM4 
+                                                                ;this bit is reserved
+ 178                         
+ 179  000000                       UG        EQU      0             ; Update generation
+ 180  000006                       TG        EQU      6             ; Trigger generation
+ 181                         ;==========================
+ 182                         ;ADC_DBxR    $53E0-$53F3     ; ADC data buffer registers    
+                               ;0x00
+ 183  005400                       ADC_CSR   EQU      $5400         ; ADC control/status register   
+                                                                ;             0x00
+ 184  005401                       ADC_CR1   EQU      $5401         ; ADC configuration register 1  
+                                                                ;             0x00
+ 185  005402                       ADC_CR2   EQU      $5402         ; ADC configuration register 2  
+                                                                ;             0x00
+ 186  005403                       ADC_CR3   EQU      $5403         ; ADC configuration register 3  
+                                                                ;             0x00
+ 187  005404                       ADC_DRH   EQU      $5404         ; ADC data register high        
+                                                                ;             0xXX
+ 188  005405                       ADC_DRL   EQU      $5405         ; ADC data register low         
+                                                                ;             0xXX
+ 189  005406                       ADC_TDRH  EQU      $5406         ; ADC Schmitt trigger disable 
+                                                                ;register high  0x00
+ 190  005407                       ADC_TDRL  EQU      $5407         ; ADC Schmitt trigger disable 
+                                                                ;register low   0x00
+ 191  005408                       ADC_HTRH  EQU      $5408         ; ADC high threshold register 
+                                                                ;high           0x03
+ 192  005409                       ADC_HTRL  EQU      $5409         ; ADC high threshold register 
+                                                                ;low            0xFF
+ 193  00540A                       ADC_LTRH  EQU      $540A         ; ADC low threshold register 
+                                                                ;high            0x00
+ 194  00540B                       ADC_LTRL  EQU      $540B         ; ADC low threshold register low
+                                                                ;             0x00
+ 195  00540C                       ADC_AWSRH  EQU      $540C         ; ADC analog watchdog status 
+                                                                ;register high   0x00
+ 196  00540D                       ADC_AWSRL  EQU      $540D         ; ADC analog watchdog status 
+                                                                ;register low    0x00
+ 197  00540E                       ADC_AWCRH  EQU      $540E         ; ADC analog watchdog control 
+                                                                ;register high  0x00
+ 198  00540F                       ADC_AWCRL  EQU      $540F         ; ADC analog watchdog control 
+                                                                ;register low   0x00
+ 199                         ;==========================
+ 200  007F60                       CFG_GCR   EQU      $7F60         ; Global configuration register 
+                                                                ;          0x00
+ 201  007F70                       ITC_SPR1  EQU      $7F70         ; Interrupt software priority 
+                                                                ;register 1  0xFF
+ 202  007F71                       ITC_SPR2  EQU      $7F71         ; Interrupt software priority 
+                                                                ;register 2  0xFF
+ 203  007F72                       ITC_SPR3  EQU      $7F72         ; Interrupt software priority 
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 7  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+                                                                ;register 3  0xFF
+ 204  007F73                       ITC_SPR4  EQU      $7F73         ; Interrupt software priority 
+                                                                ;register 4  0xFF
+ 205  007F74                       ITC_SPR5  EQU      $7F74         ; Interrupt software priority 
+                                                                ;register 5  0xFF
+ 206  007F75                       ITC_SPR6  EQU      $7F75         ; Interrupt software priority 
+                                                                ;register 6  0xFF
+ 207  007F76                       ITC_SPR7  EQU      $7F76         ; Interrupt software priority 
+                                                                ;register 7  0xFF
+ 208  007F77                       ITC_SPR8  EQU      $7F77         ; Interrupt software priority 
+                                                                ;register 8  0xFF
+ 209  007F80                       SWIM_CSR  EQU      $7F80         ; SWIM control status register  
+                                                                ;          0x00
+ 210                         ;==========================
+ 211  007F0A                       CCR       EQU      $7F0A         ;
+ 212  007F05                       X_L       EQU      $7F05
+ 213  007F04                       X_H       EQU      $7F04
+ 214  007F07                       Y_L       EQU      $7F07
+ 215  007F06                       Y_H       EQU      $7F06
+ 216  007F00                       ACC       EQU      $7F00
+ 217                         ;=======end===================================================
+                               ;=======
+ 218                         
+ 219                                   SEGMENT  'ROM'
+ 220                                   
+ 221                         NoneInterrupt:  
+ 222  000000   80                            IRET     
+ 223                                   
+ 224                         InitMemory:  
+ 225                         ;Clear memory
+ 226  000001   AE0200                        LDW      X,#$0200        
+ 227  000004   94                            LDW      SP,X
+ 228  000005   AE0000                        LDW      X,#$0000
+ 229                         ClearRam0:  
+ 230  000008   7F                            CLR      (X)
+ 231  000009   5C                            INCW     X
+ 232  00000A   A303FF                        CPW      X,#$03FF    
+ 233  00000D R 23F9                          JRULE    ClearRam0
+ 234                         
+ 235  00000F R CD0000                        call     SystemStart
+ 236                         GeneralCycle:  
+ 237  000012   8F                            WFI      
+ 238  000013 R CC0000                        JP       GeneralCycle 
+ 239                                   
+ 240                         END       
+<END_OF_INCLUSION>
+   0  000016                                 #include "RAMVars.asm"
+   1                         ;=======RAMMemory($0000-$07FF)================
+   2  000000                       Temp      EQU      $0000
+   3  000001                       Temp1     EQU      $0001
+   4  000002                       Temp2     EQU      $0002
+   5  000003                       Temp3     EQU      $0003
+   6  000004                       Temp4     EQU      $0004
+   7  000005                       Temp5     EQU      $0005
+   8  000016                       DataL     EQU      $0016
+   9  000017                       DataH     EQU      $0017
+  10  000008                       Temp6     EQU      $0008
+  11  000009                       Digit1    EQU      $0009
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 8  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+  12  00000A                       Digit2    EQU      $000A
+  13  00000B                       Digit3    EQU      $000B
+  14  00000C                       Voltage   EQU      $000C
+  15  00001C                       BufferL   EQU      $001C
+  16  00002C                       Temp96    EQU      $002C
+  17  00003C                       Temp56    EQU      $003C
+  18                         
+  19                         ;=============================================
+  20                         
+<END_OF_INCLUSION>
+   5                                   
+   6                         ;=============================================================
+                               ;=========
+   7                                   SEGMENT  'INTERRUPT'
+   8  000000 R AC000000                      JPF      InitMemory    ; $8000    RESET Reset
+   9  000004 R AC000000                      JPF      NoneInterrupt  ; $8004    TRAP  Software 
+                                                                ;interrupt
+  10  000008 R AC000000                      JPF      NoneInterrupt  ; $8008 0  TLI   External top 
+                                                                ;level interrupt
+  11  00000C R AC000000                      JPF      NoneInterrupt  ; $800C 1  AWU   Auto wake up 
+                                                                ;from HALT
+  12  000010 R AC000000                      JPF      NoneInterrupt  ; $8010 2  CLK   Clock 
+                                                                ;controller
+  13  000014 R AC000000                      JPF      NoneInterrupt  ; $8014 3  EXTI0 Port A external
+                                                                ; interrupts
+  14  000018 R AC000000                      JPF      NoneInterrupt     ; $8018 4  EXTI1 Port B external
+                                                                ; interrupts
+  15  00001C R AC000000                      JPF      NoneInterrupt   ; $801C 5  EXTI2 Port C external
+                                                                ; interrupts
+  16  000020 R AC000000                      JPF      NoneInterrupt  ; $8020 6  EXTI3 Port D external
+                                                                ; interrupts
+  17  000024 R AC000000                      JPF      NoneInterrupt  ; $8024 7  EXTI4 Port E external
+                                                                ; interrupts
+  18  000028 R AC000000                      JPF      NoneInterrupt  ; $8028 8  Reserved
+  19  00002C R AC000000                      JPF      NoneInterrupt  ; $802C 9  Reserved
+  20  000030 R AC000000                      JPF      NoneInterrupt  ; $8030 10 SPI  End of transfer
+  21  000034 R AC000000                      JPF      Timer1        ; $8034 11 TIM1 TIM1 update/ 
+                                                                ;overflow/ underflow/trigger/ 
+                                                                ;break
+  22  000038 R AC000000                      JPF      NoneInterrupt  ; $8038 12 TIM1 TIM1 capture/ 
+                                                                ;compare
+  23  00003C R AC000000                      JPF      Timer2        ; $803C 13 TIM2 TIM2 update/ 
+                                                                ;overflow
+  24  000040 R AC000000                      JPF      NoneInterrupt  ; $8040 14 TIM2 TIM2 capture/ 
+                                                                ;compare
+  25  000044 R AC000000                      JPF      NoneInterrupt  ; $8044 15 Reserved
+  26  000048 R AC000000                      JPF      NoneInterrupt  ; $8048 16 Reserved
+  27  00004C R AC000000                      JPF      NoneInterrupt  ; $804C 17 UART1 Tx complete
+  28  000050 R AC000000                      JPF      NoneInterrupt  ; $8050 18 UART1 Receive 
+                                                                ;register DATA FULL
+  29  000054 R AC000000                      JPF      NoneInterrupt  ; $8054 19 I2C interrupt
+  30  000058 R AC000000                      JPF      NoneInterrupt  ; $806C 20 Reserved
+  31  00005C R AC000000                      JPF      NoneInterrupt  ; $8070 21 Reserved
+  32  000060 R AC000000                      JPF      NoneInterrupt  ; $8060 22 ADC1 ADC1 end of 
+                                                                ;conversion/ analog watchdog 
+                                                                ;interrupt
+  33  000064 R AC000000                      JPF      Timer4        ; $8064 23 TIM4 TIM4 update/ 
+                                                                ;overflow
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 9  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+  34  000068 R AC000000                      JPF      NoneInterrupt  ; $8068 24 Flash EOP/WR_PG_DIS
+  35  00006C R AC000000                      JPF      NoneInterrupt  ; $806C 25 Reserved
+  36  000070 R AC000000                      JPF      NoneInterrupt  ; $8070 26 Reserved
+  37  000074 R AC000000                      JPF      NoneInterrupt  ; $8074 27 Reserved
+  38  000078 R AC000000                      JPF      NoneInterrupt  ; $8078 28 Reserved
+  39  00007C R AC000000                      JPF      NoneInterrupt  ; $807C 29 Reserved
+  40                                   
+  41                         ;=============================================================
+                               ;=========	
+  42                                   SEGMENT  'ROM'
+  43                         ;**************************
+  44                         InitPortsIO.w:                   ;		*
+  45                         ;=============****321*    *
+  46  000000   350E5002                      MOV      DDRA, #%00001110  ;   *
+  47  000004   350E5003                      MOV      CR1A, #%00001110  ;   *
+  48  000008   35025004                      MOV      CR2A, #%00000010  ;   *
+  49  00000C   35065000                      MOV      PORTA,#%00000110  ;   *
+  50                         ;=============**54****    *
+  51  000010   35205007                      MOV      DDRB, #%00100000  ;   *
+  52  000014   35205008                      MOV      CR1B, #%00100000  ;   *
+  53  000018   35205005                      MOV      PORTB,#%00100000  ;   *
+  54                         ;=============76543***    *
+  55  00001C   35A8500C                      MOV      DDRC, #%10101000  ;   *
+  56  000020   35A8500D                      MOV      CR1C, #%10101000  ;   *
+  57  000024   35A8500A                      MOV      PORTC,#%10101000  ;   *
+  58                         ;=============7654321*    *
+  59  000028   35785011                      MOV      DDRD, #%01111000  ;   *
+  60  00002C   35785012                      MOV      CR1D, #%01111000  ;   *
+  61  000030   3518500F                      MOV      PORTD,#%00011000  ;   *
+  62  000034   81                            RET                    ;   *
+  63                         ;***************************
+  64                         InitADC:  
+  65  000035   721650CA                      BSET     CLK_PCKENR2,#3
+  66                                   
+  67  000039   35725401                      MOV      ADC_CR1,#%01110010
+  68  00003D   35085402                      MOV      ADC_CR2,#%00001000
+  69  000041   35085407                      MOV      ADC_TDRL,#%00001000
+  70  000045   72105401                      BSET     ADC_CR1,#0
+  71  000049   81                            RET      
+  72                         ;*************************************************************
+                               ;*************************
+  73                         InitTimers.w:  
+  74                         ;**TIMER1******************
+  75                                                          ;MOV TIM1_PSCRH,#3
+  76                                                          ;MOV TIM1_PSCRL,#232
+  77                                                          ;MOV TIM1_ARRH, #$1E
+  78                                                          ;MOV TIM1_ARRL, #$00
+  79                                                          ;MOV TIM1_CR1,  #%10000000
+  80                                                          ;MOV TIM1_CR2,	 #%00100000
+  81                                                          ;MOV TIM1_IER,  #%00000001
+  82                                                          ;MOV ITC_SPR3,  #%11000000
+  83                         ;**TIMER2******************
+  84                                                          ;Инициализация таймеров
+  85  00004A   3503530E                      MOV      TIM2_PSCR, #3
+  86  00004E   3501530F                      MOV      TIM2_ARRH, #1
+  87  000052   35FF5310                      MOV      TIM2_ARRL, #255
+  88  000056   35815300                      MOV      TIM2_CR1,  #%10000001
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 10  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+  89  00005A   35015303                      MOV      TIM2_IER,  #%00000001
+  90                         ;**TIMER4******************
+  91  00005E   35075347                      MOV      TIM4_PSCR, #7
+  92  000062   35325348                      MOV      TIM4_ARR,  #50
+  93  000066   35815340                      MOV      TIM4_CR1,  #%10000001
+  94  00006A   35015343                      MOV      TIM4_IER,  #%00000001
+  95  00006E   81                            RET      
+  96                         ;*************************************************************
+                               ;*************************
+  97                         Timer1.w:  
+  98  00006F   72115255                      BRES     TIM1_SR1,#UIF
+  99                                   
+ 100  000073   80                            IRET     
+ 101                         
+ 102                         ;#######
+ 103                         Mul16x16:  
+ 104  000074   89                            PUSHW    X
+ 105  000075   5E                            SWAPW    X
+ 106  000076   B604                          LD       A,Temp4       ;L
+ 107  000078   42                            MUL      X, A
+ 108  000079   89                            PUSHW    X
+ 109  00007A   1E03                          LDW      X,($3,SP)
+ 110  00007C   B604                          LD       A,Temp4       ;L
+ 111  00007E   42                            MUL      X,A
+ 112  00007F   72FB01                        ADDW     X,($1,SP)
+ 113  000082   4F                            CLR      A
+ 114  000083   02                            RLWA     X,A
+ 115  000084   89                            PUSHW    X
+ 116  000085   1E05                          LDW      X,($5,SP)
+ 117  000087   B605                          LD       A,Temp5       ;H
+ 118  000089   42                            MUL      X,A
+ 119  00008A   72FB01                        ADDW     X,($1,SP)
+ 120  00008D   5B06                          ADDW     SP,#$06
+ 121  00008F   81                            RET      
+ 122                                   
+ 123                         Timer2.w:  
+ 124  000090   72115304                      BRES     TIM2_SR1,#UIF  
+ 125  000094   35035400                      MOV      ADC_CSR,#%00000011
+ 126  000098   72105401                      BSET     ADC_CR1,#0
+ 127                                                          ;MOV DataL,ADC_DRL
+ 128                                                          ;MOV DataH,ADC_DRH
+ 129  00009C   CE5404                        LDW      X,{ADC_DRL-1}
+ 130                                                          ;LDW DataL,X
+ 131                                                          ;IRET
+ 132                                   
+ 133  00009F   BF2C                          LDW      Temp96,X
+ 134  0000A1   90BE1C                        LDW      Y,BufferL
+ 135  0000A4   72B9002C                      ADDW     Y,Temp96
+ 136  0000A8   90BF1C                        LDW      BufferL,Y
+ 137  0000AB   3C3C                          INC      Temp56
+ 138  0000AD   B63C                          LD       A,Temp56
+ 139  0000AF   A132                          CP       A,#50
+ 140  0000B1 R 2701                          JREQ     RoundData
+ 141  0000B3   80                            IRET     
+ 142                         RoundData:  
+ 143  0000B4   BE1C                          LDW      X,BufferL
+ 144  0000B6   A632                          LD       A,#50
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 11  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 145  0000B8   62                            DIV      X,A
+ 146  0000B9   BF16                          LDW      DataL,X
+ 147  0000BB   3F3C                          CLR      Temp56
+ 148  0000BD   3F1C                          CLR      BufferL
+ 149  0000BF   3F1D                          CLR      {BufferL+1}
+ 150  0000C1   80                            IRET     
+ 151                         ;#######
+ 152                         
+ 153                         Timer4.w:  
+ 154  0000C2   72115344                      BRES     TIM4_SR,#UIF
+ 155  0000C6   35035400                      MOV      ADC_CSR,#%00000011
+ 156  0000CA   72105401                      BSET     ADC_CR1,#0
+ 157                                                          ;MOV DataL,ADC_DRL
+ 158                                                          ;MOV DataH,ADC_DRH
+ 159                                                          ;LDW X,{ADC_DRL-1}
+ 160  0000CE   BE16                          LDW      X,DataL
+ 161                         
+ 162                                                          ;---------------Convert Data ADC
+                                                                ; to Voltage
+ 163  0000D0   90AE05D7                      LDW      Y,#1495       ;R1
+ 164  0000D4   A61D                          LD       A,#29         ;R2/10
+ 165  0000D6   9062                          DIV      Y,A
+ 166                                   
+ 167  0000D8   72A9000A                      ADDW     Y,#10
+ 168                                   
+ 169  0000DC   51                            EXGW     X,Y
+ 170  0000DD   9089                          PUSHW    Y             
+ 171  0000DF   90AE01F9                      LDW      Y,#505        ;Vcc/10
+ 172  0000E3   90BF04                        LDW      Temp4,Y
+ 173  0000E6   9085                          POPW     Y
+ 174  0000E8 R CD0000                        call     Mul16x16
+ 175                                   
+ 176  0000EB   9089                          PUSHW    Y
+ 177  0000ED   90AE0400                      LDW      Y,#1024
+ 178  0000F1   65                            DIVW     X,Y
+ 179  0000F2   9085                          POPW     Y
+ 180                                   
+ 181  0000F4   90BF04                        LDW      Temp4,Y
+ 182  0000F7 R CD0000                        call     Mul16x16
+ 183                                   
+ 184  0000FA   9093                          LDW      Y,X
+ 185  0000FC   9089                          PUSHW    Y
+ 186  0000FE   90AE0064                      LDW      Y,#100
+ 187  000102   65                            DIVW     X,Y
+ 188                                   
+ 189  000103   9085                          POPW     Y
+ 190  000105   89                            PUSHW    X
+ 191  000106   AE03E8                        LDW      X,#1000
+ 192  000109   51                            EXGW     X,Y
+ 193  00010A   65                            DIVW     X,Y
+ 194  00010B   51                            EXGW     X,Y
+ 195  00010C   90AE0064                      LDW      Y,#100
+ 196  000110   65                            DIVW     X,Y
+ 197  000111   AE000A                        LDW      X,#10
+ 198  000114   51                            EXGW     X,Y
+ 199  000115   65                            DIVW     X,Y
+ 200  000116   51                            EXGW     X,Y
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 12  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 201  000117   9F                            LD       A,XL
+ 202  000118   A105                          CP       A,#5
+ 203  00011A R 2508                          JRULT    SkipRoundVoltage  
+ 204  00011C   85                            POPW     X             
+ 205  00011D   5C                            INCW     X
+ 206  00011E   BF0C                          LDW      Voltage,X
+ 207  000120 R CD0000                        call     ShowOnDisplayDigit
+ 208  000123   80                            IRET     
+ 209                         SkipRoundVoltage:  
+ 210  000124   85                            POPW     X             
+ 211  000125   BF0C                          LDW      Voltage,X     
+ 212  000127 R CD0000                        call     ShowOnDisplayDigit
+ 213                                   
+ 214                         
+ 215  00012A   80                            IRET     
+ 216                         ;*************************************************************
+                               ;*************************
+ 217                         ;*************************************************************
+                               ;*************************
+ 218                         SystemStart:  
+ 219  00012B R CD0000                        call     InitTimers
+ 220  00012E R CD0000                        call     InitPortsIO
+ 221  000131 R CD0000                        call     InitADC
+ 222  000134   9A                            RIM      
+ 223                                   
+ 224                         Main.W:   
+ 225                         
+ 226  000135 R CC0000                        JP       Main
+ 227                         
+ 228                         ;==============================	
+ 229                         ShowOnDisplayDigit:  
+ 230                                                          ;Convert int to string
+ 231  000138   BE0C                          LDW      X,Voltage
+ 232  00013A   A303E7                        CPW      X,#999
+ 233  00013D R 2D05                          JRSLE    SkipOverVal
+ 234  00013F   AE03E7                        LDW      X,#999
+ 235  000142   BF0C                          LDW      Voltage,X
+ 236                         SkipOverVal:  
+ 237  000144   A664                          LD       A,#100
+ 238  000146   62                            DIV      X,A
+ 239  000147   5E                            SWAPW    X
+ 240  000148   BF09                          LDW      {Digit1+0},X
+ 241  00014A   5F                            CLRW     X
+ 242  00014B   97                            LD       XL,A
+ 243  00014C   A60A                          LD       A,#10
+ 244  00014E   62                            DIV      X,A
+ 245  00014F   5E                            SWAPW    X
+ 246  000150   BF0A                          LDW      {Digit2+0},X
+ 247  000152   B70B                          LD       Digit3,A
+ 248  000154   B609                          LD       A,Digit1
+ 249  000156   A100                          CP       A,#0
+ 250  000158 R 2604                          JRNE     SkipDelZero
+ 251  00015A   350A0009                      MOV      Digit1,#10
+ 252                         SkipDelZero:  
+ 253                                                          ;Start show dynamic indication
+ 254  00015E   3C00                          INC      Temp
+ 255  000160   B600                          LD       A,Temp
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 13  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 256  000162   A102                          CP       A,#$02
+ 257  000164 R 2724                          JREQ     Show3
+ 258  000166   A101                          CP       A,#$01
+ 259  000168 R 270E                          JREQ     Show2         
+ 260                                   
+ 261  00016A   72175000                      BRES     PORTA,#3
+ 262  00016E   B60B                          LD       A,Digit3
+ 263  000170 R CD0000                        call     DecoderDigits
+ 264  000173   721A500F                      BSET     PORTD,#5
+ 265  000177   81                            RET      
+ 266                         Show2:    
+ 267  000178   721B500F                      BRES     PORTD,#5
+ 268  00017C   B60A                          LD       A,Digit2
+ 269  00017E R CD0000                        call     DecoderDigits
+ 270  000181   721C500F                      BSET     PORTD,#6
+ 271  000185   721B500A                      BRES     PORTC,#5      ;Set Point
+ 272  000189   81                            RET      
+ 273                         Show3:    
+ 274  00018A   721D500F                      BRES     PORTD,#6
+ 275  00018E   B609                          LD       A,Digit1
+ 276  000190 R CD0000                        call     DecoderDigits
+ 277  000193   72165000                      BSET     PORTA,#3
+ 278  000197   35FF0000                      MOV      Temp,#$FF
+ 279  00019B   81                            RET      
+ 280                         ;==============================	
+ 281                         DecoderDigits:  
+ 282                                                          ;This function convert digit to 
+                                                                ;state on pins ports I/O
+ 283  00019C   3B0000                        PUSH     $0000
+ 284  00019F   3B0001                        PUSH     $0001
+ 285  0001A2   3F00                          CLR      $0000
+ 286  0001A4   5F                            CLRW     X
+ 287  0001A5   97                            LD       XL,A
+ 288  0001A6   A611                          LD       A,#$11
+ 289  0001A8   42                            MUL      X,A
+ 290  0001A9   9F                            LD       A,XL
+ 291  0001AA   B701                          LD       $0001,A
+ 292  0001AC R AE0000                        LDW      X,#OutPortDigit
+ 293  0001AF   72BB0000                      ADDW     X,$0000
+ 294  0001B3   320001                        POP      $0001
+ 295  0001B6   320000                        POP      $0000
+ 296  0001B9   FC                            JP       (X)
+ 297                         OutPortDigit:  
+ 298                                                          ;==================
+ 299                                                          ;0
+ 300  0001BA   35005000                      MOV      PORTA,#%00000000
+ 301  0001BE   3520500A                      MOV      PORTC,#%00100000
+ 302  0001C2   3508500F                      MOV      PORTD,#%00001000
+ 303  0001C6   35005005                      MOV      PORTB,#%00000000
+ 304  0001CA   81                            RET      
+ 305                                                          ;1
+ 306  0001CB   35065000                      MOV      PORTA,#%00000110
+ 307  0001CF   3528500A                      MOV      PORTC,#%00101000
+ 308  0001D3   3508500F                      MOV      PORTD,#%00001000
+ 309  0001D7   35205005                      MOV      PORTB,#%00100000
+ 310  0001DB   81                            RET      
+ 311                                                          ;2
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 14  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+ 312  0001DC   35025000                      MOV      PORTA,#%00000010
+ 313  0001E0   35A0500A                      MOV      PORTC,#%10100000
+ 314  0001E4   3500500F                      MOV      PORTD,#%00000000
+ 315  0001E8   35005005                      MOV      PORTB,#%00000000
+ 316  0001EC   81                            RET      
+ 317                                                          ;3
+ 318  0001ED   35025000                      MOV      PORTA,#%00000010
+ 319  0001F1   3520500A                      MOV      PORTC,#%00100000
+ 320  0001F5   3500500F                      MOV      PORTD,#%00000000
+ 321  0001F9   35205005                      MOV      PORTB,#%00100000
+ 322  0001FD   81                            RET      
+ 323                                                          ;4
+ 324  0001FE   35045000                      MOV      PORTA,#%00000100
+ 325  000202   3528500A                      MOV      PORTC,#%00101000
+ 326  000206   3500500F                      MOV      PORTD,#%00000000
+ 327  00020A   35205005                      MOV      PORTB,#%00100000
+ 328  00020E   81                            RET      
+ 329                                                          ;5
+ 330  00020F   35005000                      MOV      PORTA,#%00000000
+ 331  000213   3520500A                      MOV      PORTC,#%00100000
+ 332  000217   3510500F                      MOV      PORTD,#%00010000
+ 333  00021B   35205005                      MOV      PORTB,#%00100000
+ 334  00021F   81                            RET      
+ 335                                                          ;6
+ 336  000220   35005000                      MOV      PORTA,#%00000000
+ 337  000224   3520500A                      MOV      PORTC,#%00100000
+ 338  000228   3510500F                      MOV      PORTD,#%00010000
+ 339  00022C   35005005                      MOV      PORTB,#%00000000
+ 340  000230   81                            RET      
+ 341                                                          ;7
+ 342  000231   35025000                      MOV      PORTA,#%00000010
+ 343  000235   3528500A                      MOV      PORTC,#%00101000
+ 344  000239   3508500F                      MOV      PORTD,#%00001000
+ 345  00023D   35205005                      MOV      PORTB,#%00100000
+ 346  000241   81                            RET      
+ 347                                                          ;8
+ 348  000242   35005000                      MOV      PORTA,#%00000000
+ 349  000246   3520500A                      MOV      PORTC,#%00100000
+ 350  00024A   3500500F                      MOV      PORTD,#%00000000
+ 351  00024E   35005005                      MOV      PORTB,#%00000000
+ 352  000252   81                            RET      
+ 353                                                          ;9
+ 354  000253   35005000                      MOV      PORTA,#%00000000
+ 355  000257   3520500A                      MOV      PORTC,#%00100000
+ 356  00025B   3500500F                      MOV      PORTD,#%00000000
+ 357  00025F   35205005                      MOV      PORTB,#%00100000
+ 358  000263   81                            RET      
+ 359                                                          ;
+ 360  000264   35065000                      MOV      PORTA,#%00000110
+ 361  000268   35A8500A                      MOV      PORTC,#%10101000
+ 362  00026C   3518500F                      MOV      PORTD,#%00011000
+ 363  000270   35205005                      MOV      PORTB,#%00100000
+ 364  000274   81                            RET      
+ 365                         ;==============================
+ 366                         ;*************************************************************
+                               ;*************************
+ 367  000275                                 END      
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 15  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+Symbol Name                       Value     Call       Type  Scope      Rel.  Line  Privacy  Segment   Size  Bytes File
+
+AWU_CSR1                              50F0         no  WORD  Internal   ABS     99  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+AWU_APR                               50F1         no  WORD  Internal   ABS    100  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+AWU_TBR                               50F2         no  WORD  Internal   ABS    101  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ARPE                                  0007         no  WORD  Internal   ABS    171  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_CSR                               5400         no  WORD  Internal   ABS    183  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_CR1                               5401         no  WORD  Internal   ABS    184  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_CR2                               5402         no  WORD  Internal   ABS    185  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_CR3                               5403         no  WORD  Internal   ABS    186  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_DRH                               5404         no  WORD  Internal   ABS    187  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_DRL                               5405         no  WORD  Internal   ABS    188  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_TDRH                              5406         no  WORD  Internal   ABS    189  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_TDRL                              5407         no  WORD  Internal   ABS    190  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_HTRH                              5408         no  WORD  Internal   ABS    191  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_HTRL                              5409         no  WORD  Internal   ABS    192  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_LTRH                              540A         no  WORD  Internal   ABS    193  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_LTRL                              540B         no  WORD  Internal   ABS    194  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_AWSRH                             540C         no  WORD  Internal   ABS    195  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_AWSRL                             540D         no  WORD  Internal   ABS    196  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_AWCRH                             540E         no  WORD  Internal   ABS    197  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ADC_AWCRL                             540F         no  WORD  Internal   ABS    198  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ACC                                   7F00         no  WORD  Internal   ABS    216  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+BEEP_CSR                              50F3         no  WORD  Internal   ABS    102  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+BufferL                               001C         no  WORD  Internal   ABS     15  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+
+CR1A                                  5003         no  WORD  Internal   ABS     13  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR2A                                  5004         no  WORD  Internal   ABS     14  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR1B                                  5008         no  WORD  Internal   ABS     19  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR2B                                  5009         no  WORD  Internal   ABS     20  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR1C                                  500D         no  WORD  Internal   ABS     25  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR2C                                  500E         no  WORD  Internal   ABS     26  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR1D                                  5012         no  WORD  Internal   ABS     31  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CR2D                                  5013         no  WORD  Internal   ABS     32  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_ICKR                              50C0         no  WORD  Internal   ABS     39  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_ECKR                              50C1         no  WORD  Internal   ABS     40  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_CMSR                              50C3         no  WORD  Internal   ABS     41  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_SWR                               50C4         no  WORD  Internal   ABS     42  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_SWCR                              50C5         no  WORD  Internal   ABS     43  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_CKDIVR                            50C6         no  WORD  Internal   ABS     44  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_PCKENR1                           50C7         no  WORD  Internal   ABS     45  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_CSSR                              50C8         no  WORD  Internal   ABS     46  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_CCOR                              50C9         no  WORD  Internal   ABS     47  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_PCKENR2                           50CA         no  WORD  Internal   ABS     48  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_CANCCR                            50CB         no  WORD  Internal   ABS     49  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_HSITRIMR                          50CC         no  WORD  Internal   ABS     50  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CLK_SWIMCCR                           50CD         no  WORD  Internal   ABS     51  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CEN                                   0000         no  WORD  Internal   ABS    167  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CFG_GCR                               7F60         no  WORD  Internal   ABS    200  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+CCR                                   7F0A         no  WORD  Internal   ABS    211  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ClearRam0                             0008         no  WORD  Internal   rel    229  private  text        10     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+DDRA                                  5002         no  WORD  Internal   ABS     12  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+DDRB                                  5007         no  WORD  Internal   ABS     18  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+DDRC                                  500C         no  WORD  Internal   ABS     24  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+DDRD                                  5011         no  WORD  Internal   ABS     30  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 16  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+DataL                                 0016         no  WORD  Internal   ABS      8  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+DataH                                 0017         no  WORD  Internal   ABS      9  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Digit1                                0009         no  WORD  Internal   ABS     11  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Digit2                                000A         no  WORD  Internal   ABS     12  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Digit3                                000B         no  WORD  Internal   ABS     13  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+DecoderDigits                         019C         no  WORD  Internal   rel    281  private  text        30     0  -
+
+EXTI_CR1                              50A0         no  WORD  Internal   ABS     35  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+EXTI_CR2                              50A1         no  WORD  Internal   ABS     36  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+END                                   0016         no  WORD  Internal   rel    240  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+FLASH_CR1                             505A         no  WORD  Internal   ABS     85  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_CR2                             505B         no  WORD  Internal   ABS     86  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_NCR2                            505C         no  WORD  Internal   ABS     87  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_FPR                             505D         no  WORD  Internal   ABS     88  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_NFPR                            505E         no  WORD  Internal   ABS     89  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_IAPSR                           505F         no  WORD  Internal   ABS     90  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_PUKR                            5062         no  WORD  Internal   ABS     91  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+FLASH_DUKR                            5064         no  WORD  Internal   ABS     92  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+GeneralCycle                          0012         no  WORD  Internal   rel    236  private  text         4     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+ILIEN                                 0004         no  WORD  Internal   ABS     69  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+IWDG_KR                               50E0         no  WORD  Internal   ABS     96  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+IWDG_PR                               50E1         no  WORD  Internal   ABS     97  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+IWDG_RLR                              50E2         no  WORD  Internal   ABS     98  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR1                              7F70         no  WORD  Internal   ABS    201  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR2                              7F71         no  WORD  Internal   ABS    202  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR3                              7F72         no  WORD  Internal   ABS    203  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR4                              7F73         no  WORD  Internal   ABS    204  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR5                              7F74         no  WORD  Internal   ABS    205  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR6                              7F75         no  WORD  Internal   ABS    206  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR7                              7F76         no  WORD  Internal   ABS    207  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+ITC_SPR8                              7F77         no  WORD  Internal   ABS    208  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+InitMemory                            0001         no  WORD  Internal   rel    224  private  text         7     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+InitPortsIO                           0000         no  WORD  Internal   rel     44  private  text        53     0  -
+InitADC                               0035         no  WORD  Internal   rel     64  private  text        21     0  -
+InitTimers                            004A         no  WORD  Internal   rel     73  private  text        37     0  -
+
+Mul16x16                              0074         no  WORD  Internal   rel    103  private  text        28     0  -
+Main                                  0135         no  WORD  Internal   rel    224  private  text         3     0  -
+
+NoneInterrupt                         0000         no  WORD  Internal   rel    221  private  text         1     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+OPM                                   0003         no  WORD  Internal   ABS    170  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+OutPortDigit                          01BA         no  WORD  Internal   rel    297  private  text       187     0  -
+
+PORTA                                 5000         no  WORD  Internal   ABS     10  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PINA                                  5001         no  WORD  Internal   ABS     11  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PORTB                                 5005         no  WORD  Internal   ABS     16  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PINB                                  5006         no  WORD  Internal   ABS     17  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PORTC                                 500A         no  WORD  Internal   ABS     22  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PINC                                  500B         no  WORD  Internal   ABS     23  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PORTD                                 500F         no  WORD  Internal   ABS     28  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+PIND                                  5010         no  WORD  Internal   ABS     29  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+RST_SR                                50B3         no  WORD  Internal   ABS     37  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 17  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+RWU                                   0001         no  WORD  Internal   ABS     66  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+REN                                   0002         no  WORD  Internal   ABS     67  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+RIEN                                  0005         no  WORD  Internal   ABS     70  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+RoundData                             00B4         no  WORD  Internal   rel    142  private  text        14     0  -
+
+SBK                                   0000         no  WORD  Internal   ABS     65  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_CR1                               5200         no  WORD  Internal   ABS     76  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_CR2                               5201         no  WORD  Internal   ABS     77  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_ICR                               5202         no  WORD  Internal   ABS     78  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_SR                                5203         no  WORD  Internal   ABS     79  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_DR                                5204         no  WORD  Internal   ABS     80  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_CRCPR                             5205         no  WORD  Internal   ABS     81  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_RXCRCR                            5206         no  WORD  Internal   ABS     82  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SPI_TXCRCR                            5207         no  WORD  Internal   ABS     83  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SWIM_CSR                              7F80         no  WORD  Internal   ABS    209  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+SkipRoundVoltage                      0124         no  WORD  Internal   rel    209  private  text         7     0  -
+SystemStart                           012B         no  WORD  Internal   rel    218  private  text        10     0  -
+ShowOnDisplayDigit                    0138         no  WORD  Internal   rel    229  private  text        12     0  -
+SkipOverVal                           0144         no  WORD  Internal   rel    236  private  text        26     0  -
+SkipDelZero                           015E         no  WORD  Internal   rel    252  private  text        26     0  -
+Show2                                 0178         no  WORD  Internal   rel    266  private  text        18     0  -
+Show3                                 018A         no  WORD  Internal   rel    273  private  text        18     0  -
+
+TEN                                   0003         no  WORD  Internal   ABS     68  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TCIEN                                 0006         no  WORD  Internal   ABS     71  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIEN                                  0007         no  WORD  Internal   ABS     72  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TC                                    0006         no  WORD  Internal   ABS     74  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CR1                              5250         no  WORD  Internal   ABS    104  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CR2                              5251         no  WORD  Internal   ABS    105  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_SMCR                             5252         no  WORD  Internal   ABS    106  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_ETR                              5253         no  WORD  Internal   ABS    107  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_IER                              5254         no  WORD  Internal   ABS    108  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_SR1                              5255         no  WORD  Internal   ABS    109  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_SR2                              5256         no  WORD  Internal   ABS    110  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_EGR                              5257         no  WORD  Internal   ABS    111  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCMR1                            5258         no  WORD  Internal   ABS    112  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCMR2                            5259         no  WORD  Internal   ABS    113  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCMR3                            525A         no  WORD  Internal   ABS    114  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCMR4                            525B         no  WORD  Internal   ABS    115  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCER1                            525C         no  WORD  Internal   ABS    116  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCER2                            525D         no  WORD  Internal   ABS    117  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CNTRH                            525E         no  WORD  Internal   ABS    118  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CNTRL                            525F         no  WORD  Internal   ABS    119  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_PSCRH                            5260         no  WORD  Internal   ABS    120  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_PSCRL                            5261         no  WORD  Internal   ABS    121  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_ARRH                             5262         no  WORD  Internal   ABS    122  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_ARRL                             5263         no  WORD  Internal   ABS    123  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_RCR                              5264         no  WORD  Internal   ABS    124  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR1H                            5265         no  WORD  Internal   ABS    125  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR1L                            5266         no  WORD  Internal   ABS    126  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR2H                            5267         no  WORD  Internal   ABS    127  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR2L                            5268         no  WORD  Internal   ABS    128  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR3H                            5269         no  WORD  Internal   ABS    129  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR3L                            526A         no  WORD  Internal   ABS    130  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR4H                            526B         no  WORD  Internal   ABS    131  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_CCR4L                            526C         no  WORD  Internal   ABS    132  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_BKR                              526D         no  WORD  Internal   ABS    133  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 18  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+TIM1_DTR                              526E         no  WORD  Internal   ABS    134  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM1_OISR                             526F         no  WORD  Internal   ABS    135  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CR1                              5300         no  WORD  Internal   ABS    137  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_IER                              5303         no  WORD  Internal   ABS    138  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_SR1                              5304         no  WORD  Internal   ABS    139  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_SR2                              5305         no  WORD  Internal   ABS    140  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_EGR                              5306         no  WORD  Internal   ABS    141  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCMR1                            5307         no  WORD  Internal   ABS    142  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCMR2                            5308         no  WORD  Internal   ABS    143  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCMR3                            5309         no  WORD  Internal   ABS    144  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCER1                            530A         no  WORD  Internal   ABS    145  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCER2                            530B         no  WORD  Internal   ABS    146  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CNTRH                            530C         no  WORD  Internal   ABS    147  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CNTRL                            530D         no  WORD  Internal   ABS    148  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_PSCR                             530E         no  WORD  Internal   ABS    149  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_ARRH                             530F         no  WORD  Internal   ABS    150  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_ARRL                             5310         no  WORD  Internal   ABS    151  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR1H                            5312         no  WORD  Internal   ABS    152  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR1L                            5312         no  WORD  Internal   ABS    153  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR2H                            5313         no  WORD  Internal   ABS    154  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR2L                            5314         no  WORD  Internal   ABS    155  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR3H                            5315         no  WORD  Internal   ABS    156  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM2_CCR3L                            5316         no  WORD  Internal   ABS    157  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_CR1                              5340         no  WORD  Internal   ABS    159  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_IER                              5343         no  WORD  Internal   ABS    160  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_SR                               5344         no  WORD  Internal   ABS    161  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_EGR                              5345         no  WORD  Internal   ABS    162  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_CNTR                             5346         no  WORD  Internal   ABS    163  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_PSCR                             5347         no  WORD  Internal   ABS    164  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIM4_ARR                              5348         no  WORD  Internal   ABS    165  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIE                                   0006         no  WORD  Internal   ABS    174  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TIF                                   0006         no  WORD  Internal   ABS    177  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+TG                                    0006         no  WORD  Internal   ABS    180  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+Temp                                  0000         no  WORD  Internal   ABS      2  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp1                                 0001         no  WORD  Internal   ABS      3  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp2                                 0002         no  WORD  Internal   ABS      4  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp3                                 0003         no  WORD  Internal   ABS      5  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp4                                 0004         no  WORD  Internal   ABS      6  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp5                                 0005         no  WORD  Internal   ABS      7  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp6                                 0008         no  WORD  Internal   ABS     10  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp96                                002C         no  WORD  Internal   ABS     16  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Temp56                                003C         no  WORD  Internal   ABS     17  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+Timer1                                006F         no  WORD  Internal   rel     97  private  text         5     0  -
+Timer2                                0090         no  WORD  Internal   rel    123  private  text        36     0  -
+Timer4                                00C2         no  WORD  Internal   rel    153  private  text        98     0  -
+
+UART1_SR                              5230         no  WORD  Internal   ABS     53  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_DR                              5231         no  WORD  Internal   ABS     54  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_BRR1                            5232         no  WORD  Internal   ABS     55  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_BRR2                            5233         no  WORD  Internal   ABS     56  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_CR1                             5234         no  WORD  Internal   ABS     57  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_CR2                             5235         no  WORD  Internal   ABS     58  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_CR3                             5236         no  WORD  Internal   ABS     59  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_CR4                             5237         no  WORD  Internal   ABS     60  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_CR5                             5238         no  WORD  Internal   ABS     61  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_GTR                             5239         no  WORD  Internal   ABS     62  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UART1_PSCR                            523A         no  WORD  Internal   ABS     63  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+STMicroelectronics assembler v4.52   (C)1987-2014   Sun Aug 24 12:05:29 2014
+Page 19  Assembler
+                                               c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm
+
+UDIS                                  0001         no  WORD  Internal   ABS    168  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+URS                                   0002         no  WORD  Internal   ABS    169  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UIE                                   0000         no  WORD  Internal   ABS    173  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UIF                                   0000         no  WORD  Internal   ABS    176  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+UG                                    0000         no  WORD  Internal   ABS    179  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+Voltage                               000C         no  WORD  Internal   ABS     14  private  text         0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\ramvars.asm
+
+WWDG_CR                               50D1         no  WORD  Internal   ABS     94  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+WWDG_WR                               50D2         no  WORD  Internal   ABS     95  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+X_L                                   7F05         no  WORD  Internal   ABS    212  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+X_H                                   7F04         no  WORD  Internal   ABS    213  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+Y_L                                   7F07         no  WORD  Internal   ABS    214  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+Y_H                                   7F06         no  WORD  Internal   ABS    215  private  undef        0     0  c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\stm8s103f3.asm
+
+
+223 labels
+No errors on assembly of 'c:\users\edgaradmin\yandexdisk\projects stvd\voltmetr\general.asm'

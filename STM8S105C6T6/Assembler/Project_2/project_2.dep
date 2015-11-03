@@ -1,0 +1,11 @@
+;	STMicroelectronics dependencies file
+
+[Version]
+Keyword=ST7Project
+Number=1.3
+
+[Root.Source File.general.asm.Config.0]
+ExternDep= general.asm STM8S105C6.asm RAMVars.asm MatrixKeyboard.asm LCDNokia.asm Font6x8.asm BasicMath.asm AnalogClock.asm
+
+[Root.Source File.general.asm.Config.1]
+ExternDep= general.asm STM8S105C6.asm RAMVars.asm MatrixKeyboard.asm LCDNokia.asm Font6x8.asm BasicMath.asm AnalogClock.asm

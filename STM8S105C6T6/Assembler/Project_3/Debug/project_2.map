@@ -1,0 +1,24 @@
+
+Segment List
+------------
+
+e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm[5]  315-  655      8080 -     8306                 'ROM'  [text]
+e:\stm8s_project\stm8s105c6t6\assembler\project_2\main.asm[4]  281-  314      8000 -     807F                 'INTERRUPT'  [data]
+
+
+Class List
+----------
+
+0 '      EEPROM'   byte from     4000 to     3FFF (lim     43FF) =  0% V
+0 '         ROM'   byte from     8080 to     8306 (lim     FFFF) =  1% C
+0 '   INTERRUPT'   byte from     8000 to     807F (lim     807F) =100% S
+
+
+
+External Label list
+-------------------
+
+Symbol Name                       Value     Scope  Def(line)
+
+
+0 labels

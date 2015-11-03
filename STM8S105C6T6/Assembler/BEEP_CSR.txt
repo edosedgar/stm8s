@@ -1,0 +1,35 @@
+Timer4.w:   
+	BRES TIM4_SR,#UIF
+	MOV Temp1,BEEPSEL
+	MOV Temp3,BEEPDIV
+	SLL Temp1
+	SLL Temp1
+	SLL Temp1
+	SLL Temp1
+	SLL Temp1
+	SLL Temp1
+	LD A,#%00100000
+	ADD A,Temp1
+	ADD A,Temp3
+	CP A,BEEP_CSR
+	JREQ TimerExit
+	LD BEEP_CSR,A
+TimerExit.w:
+	IRET
+ConfigBEEP:
+	MOV Temp, BEEPSEL   ;2 BIT
+	MOV Temp1,BEEPDIV   ;5 BIT
+	SLL Temp
+	SLL Temp
+	SLL Temp
+	SLL Temp
+	SLL Temp
+	SLL Temp
+	LD A, Temp
+	ADD A,Temp1
+	ADD A,BEEP_CSR
+	CP A,BEEP_CSR
+	JREQ SkipConfig
+	LD BEEP_CSR,A
+SkipConfig:
+	RET
